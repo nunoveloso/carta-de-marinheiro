@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Compass, Ship, Navigation, Volume2, Info, Layers, Flag } from 'lucide-react';
+import { Compass, Ship, Navigation, Volume2, Layers, Flag } from 'lucide-react';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
+import { BoatAnatomyGuide } from './BoatAnatomyGuide';
 
 export const VisualGuideView: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'barco' | 'luzes' | 'iala' | 'sons' | 'baloes' | 'bandeiras'>('barco');
-  const [selectedBoatPart, setSelectedBoatPart] = useState<string>('eb');
 
   // Web Audio ship horn beeper
   const playSoundSignal = (pattern: number[]) => {
@@ -128,164 +128,9 @@ export const VisualGuideView: React.FC = () => {
         </button>
       </div>
 
-      {/* SECTION 1: PARTES DO BARCO */}
+      {/* SECTION 1: PARTES DO BARCO (MUSEUM INTERACTIVE EXHIBIT) */}
       {activeSection === 'barco' && (
-        <div className="space-y-6">
-          <div className="rounded-3xl border border-[#ded5c2] bg-[#fdfcf9] p-6 sm:p-8 shadow-sm">
-            <h3 className="font-maritime text-2xl font-bold text-[#112338] mb-2 flex items-center gap-2">
-              <Ship className="w-5 h-5 text-[#a16207]" />
-              Esquema Interativo da Embarcação
-            </h3>
-            <p className="text-xs sm:text-sm text-[#64748b] mb-6">
-              Toque nas diferentes zonas do casco para ver a definição e a regra para o exame:
-            </p>
-
-            {/* Interactive SVG Diagram */}
-            <div className="relative mx-auto max-w-lg rounded-2xl bg-[#f7f4ea] p-6 border border-[#ded5c2] text-center shadow-inner">
-              <svg viewBox="0 0 400 240" className="w-full h-auto drop-shadow-sm">
-                {/* Hull shape */}
-                <path
-                  d="M 60 120 C 60 70, 160 50, 320 80 C 370 120, 370 120, 320 160 C 160 190, 60 170, 60 120 Z"
-                  fill="#fdfbf7"
-                  stroke="#112338"
-                  strokeWidth="3.5"
-                />
-
-                {/* Centerline */}
-                <line x1="60" y1="120" x2="350" y2="120" stroke="#94a3b8" strokeDasharray="4 4" strokeWidth="2" />
-
-                {/* Bow / Proa Button (Right) */}
-                <circle
-                  cx="330"
-                  cy="120"
-                  r="20"
-                  className="cursor-pointer transition hover:scale-110"
-                  fill={selectedBoatPart === 'proa' ? '#112338' : '#1e3a5f'}
-                  onClick={() => setSelectedBoatPart('proa')}
-                />
-                <text x="330" y="124" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle" pointerEvents="none">
-                  PROA
-                </text>
-
-                {/* Stern / Popa Button (Left) */}
-                <circle
-                  cx="80"
-                  cy="120"
-                  r="20"
-                  className="cursor-pointer transition hover:scale-110"
-                  fill={selectedBoatPart === 'popa' ? '#112338' : '#1e3a5f'}
-                  onClick={() => setSelectedBoatPart('popa')}
-                />
-                <text x="80" y="124" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle" pointerEvents="none">
-                  POPA
-                </text>
-
-                {/* Starboard / Estibordo (Top, looking to bow right) */}
-                <g className="cursor-pointer" onClick={() => setSelectedBoatPart('eb')}>
-                  <rect
-                    x="175"
-                    y="50"
-                    width="80"
-                    height="26"
-                    rx="8"
-                    fill={selectedBoatPart === 'eb' ? '#15803d' : '#166534'}
-                  />
-                  <text x="215" y="67" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle">
-                    ESTIBORDO (EB)
-                  </text>
-                </g>
-
-                {/* Port / Bombordo (Bottom, looking to bow left) */}
-                <g className="cursor-pointer" onClick={() => setSelectedBoatPart('bb')}>
-                  <rect
-                    x="175"
-                    y="164"
-                    width="80"
-                    height="26"
-                    rx="8"
-                    fill={selectedBoatPart === 'bb' ? '#b91c1c' : '#991b1b'}
-                  />
-                  <text x="215" y="181" fill="#ffffff" fontSize="9" fontWeight="bold" textAnchor="middle">
-                    BOMBORDO (BB)
-                  </text>
-                </g>
-
-                {/* Midships / Meia-nau */}
-                <circle
-                  cx="215"
-                  cy="120"
-                  r="14"
-                  className="cursor-pointer"
-                  fill={selectedBoatPart === 'meia' ? '#b45309' : '#d97706'}
-                  onClick={() => setSelectedBoatPart('meia')}
-                />
-                <text x="215" y="124" fill="#ffffff" fontSize="8" fontWeight="bold" textAnchor="middle" pointerEvents="none">
-                  1/2
-                </text>
-              </svg>
-            </div>
-
-            {/* Selected boat part explanation card */}
-            <div className="mt-6 rounded-2xl bg-white p-5 border border-[#ded5c2] shadow-2xs">
-              {selectedBoatPart === 'eb' && (
-                <div>
-                  <div className="flex items-center gap-2 text-[#15803d] font-bold text-base mb-1 font-maritime text-xl">
-                    <span className="h-3 w-3 rounded-full bg-[#15803d]" />
-                    Estibordo (EB) — Bordo Direito
-                  </div>
-                  <p className="text-sm text-[#334155] leading-relaxed">
-                    O lado direito da embarcação para quem olha para a proa. À noite é assinalado pela luz verde com setor de 112,5 graus.
-                  </p>
-                  <p className="mt-2.5 text-xs text-[#854d0e] bg-[#fefce8] p-3 rounded-xl border border-[#fef08a]">
-                    <strong>Regra RIPAM de Exame:</strong> Em rumos cruzados, a embarcação que avista a outra pelo seu estibordo DEVE ceder a passagem!
-                  </p>
-                </div>
-              )}
-
-              {selectedBoatPart === 'bb' && (
-                <div>
-                  <div className="flex items-center gap-2 text-[#b91c1c] font-bold text-base mb-1 font-maritime text-xl">
-                    <span className="h-3 w-3 rounded-full bg-[#b91c1c]" />
-                    Bombordo (BB) — Bordo Esquerdo
-                  </div>
-                  <p className="text-sm text-[#334155] leading-relaxed">
-                    O lado esquerdo da embarcação para quem olha para a proa. À noite é assinalado pela luz vermelha com setor de 112,5 graus.
-                  </p>
-                  <p className="mt-2.5 text-xs text-[#1e3a5f] bg-[#f0f4f8] p-3 rounded-xl border border-[#d2deeb]">
-                    <strong>Mnemónica de Exame:</strong> "Bom-bor-do" tem R (veRmelho). Ao entrar na barra em Portugal, boias vermelhas ficam a Bombordo!
-                  </p>
-                </div>
-              )}
-
-              {selectedBoatPart === 'proa' && (
-                <div>
-                  <div className="text-[#112338] font-bold text-base mb-1 font-maritime text-xl">Proa (Vante)</div>
-                  <p className="text-sm text-[#334155] leading-relaxed">
-                    Extremidade anterior do barco. A navegação orienta-se pela proa. Em situação de colisão com proa com proa (roda a roda), ambas as embarcações guinam para estibordo.
-                  </p>
-                </div>
-              )}
-
-              {selectedBoatPart === 'popa' && (
-                <div>
-                  <div className="text-[#112338] font-bold text-base mb-1 font-maritime text-xl">Popa (Ré)</div>
-                  <p className="text-sm text-[#334155] leading-relaxed">
-                    Extremidade posterior do barco. Aqui exibe-se a luz de alcance (luz branca fixa de 135 graus) e o pavilhão nacional.
-                  </p>
-                </div>
-              )}
-
-              {selectedBoatPart === 'meia' && (
-                <div>
-                  <div className="text-[#b45309] font-bold text-base mb-1 font-maritime text-xl">Meia-Nau</div>
-                  <p className="text-sm text-[#334155] leading-relaxed">
-                    A secção média equidistante da proa e da popa. É a meia-nau que se mede a Boca máxima, o Calado e o Bordo Livre da embarcação.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <BoatAnatomyGuide />
       )}
 
       {/* SECTION 2: SETORES DE LUZES (RIPAM) */}
