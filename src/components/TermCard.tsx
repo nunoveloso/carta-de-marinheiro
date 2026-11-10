@@ -3,6 +3,7 @@ import { Star, Volume2, VolumeX, FileText, ChevronRight, AlertCircle, Compass } 
 import { NauticalTerm, TermImportance } from '../types/glossary';
 import { CATEGORIES } from '../data/initialTerms';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
+import { GlossaryText } from './GlossaryText';
 
 interface TermCardProps {
   term: NauticalTerm;
@@ -133,7 +134,12 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Definition excerpt */}
         <p className="mt-2.5 text-xs sm:text-sm text-[#334155] line-clamp-3 leading-relaxed">
-          {term.definition}
+          <GlossaryText
+            text={term.definition}
+            allTerms={allTerms || []}
+            currentTermId={term.id}
+            onSelectTerm={onSelectTerm}
+          />
         </p>
 
         {/* Importante para o Exame Section */}

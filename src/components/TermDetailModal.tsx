@@ -4,6 +4,7 @@ import { NauticalTerm } from '../types/glossary';
 import { CATEGORIES } from '../data/initialTerms';
 import { User as FirebaseUser } from 'firebase/auth';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
+import { GlossaryText } from './GlossaryText';
 
 interface TermDetailModalProps {
   term: NauticalTerm | null;
@@ -192,11 +193,6 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                   </span>
                 </>
               )}
-              {term.page && (
-                <span className="text-[#64748b] ml-1 text-[11px] font-semibold">
-                  Manual pág. {term.page}
-                </span>
-              )}
             </div>
           )}
 
@@ -217,7 +213,12 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
               Definição Oficial no Manual do Marinheiro
             </h4>
             <div className="text-sm sm:text-base text-[#1e293b] leading-relaxed rounded-2xl bg-white p-4.5 border border-[#e5decb] shadow-2xs">
-              {term.definition}
+              <GlossaryText
+                text={term.definition}
+                allTerms={allTerms}
+                currentTermId={term.id}
+                onSelectTerm={onSelectTerm}
+              />
             </div>
           </div>
 
@@ -268,7 +269,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                     <button
                       key={related.id}
                       onClick={() => onSelectTerm(related)}
-                      className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs font-medium text-[#1e293b] hover:border-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
+                      className="cursor-pointer rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs font-medium text-[#1e293b] hover:border-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
                     >
                       {related.term} →
                     </button>
