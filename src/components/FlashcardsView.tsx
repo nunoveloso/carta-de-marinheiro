@@ -236,12 +236,22 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
         >
           {/* Front Side */}
           <div className="absolute inset-0 backface-hidden flex flex-col justify-between rounded-3xl border border-[#ded5c2] bg-[#fdfcf9] p-8 text-center shadow-xs">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-[#112338]">
-                {categoryMeta.name}
-              </span>
+            <div className="flex items-center justify-between text-xs gap-2">
+              <div className="flex items-center gap-1.5 flex-wrap text-left">
+                <span className="font-semibold text-[#112338]">
+                  {categoryMeta.name}
+                </span>
+                {currentTerm.section && (
+                  <>
+                    <span className="text-[#94a3b8]">›</span>
+                    <span className="text-[#64748b] font-medium text-[11px] truncate max-w-[220px]" title={currentTerm.section}>
+                      {currentTerm.section}
+                    </span>
+                  </>
+                )}
+              </div>
               {isCurrentMastered && (
-                <span className="flex items-center gap-1 text-[#15803d] font-semibold">
+                <span className="flex items-center gap-1 text-[#15803d] font-semibold shrink-0">
                   <CheckCircle2 className="w-4 h-4" /> Dominado
                 </span>
               )}
@@ -271,10 +281,17 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
           <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col justify-between rounded-3xl border border-[#ded5c2] bg-white p-7 text-left overflow-y-auto shadow-xs">
             <div>
               <div className="flex items-center justify-between pb-3 border-b border-[#ded5c2]">
-                <span className="text-xs font-bold text-[#112338] uppercase tracking-wider">
-                  Resposta / Definição
-                </span>
-                <span className="text-xs text-[#94a3b8]">Toque para voltar</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs font-bold text-[#112338] uppercase tracking-wider">
+                    Definição Oficial
+                  </span>
+                  {currentTerm.section && (
+                    <span className="text-[11px] text-[#64748b]">
+                      • {currentTerm.section}{currentTerm.subsection ? ` › ${currentTerm.subsection}` : ''}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs text-[#94a3b8] shrink-0">Toque para voltar</span>
               </div>
 
               <h4 className="mt-3 font-maritime text-2xl font-bold text-[#112338]">{currentTerm.term}</h4>
@@ -291,8 +308,25 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
 
               {currentTerm.examTip && (
                 <div className="mt-3 rounded-xl bg-[#fefce8] p-3.5 border border-[#fef08a] text-xs text-[#854d0e]">
-                  <strong className="text-[#92400e] block mb-0.5">Dica de Exame:</strong>
+                  <strong className="text-[#92400e] block mb-0.5">Importante para o Exame:</strong>
                   {currentTerm.examTip}
+                </div>
+              )}
+
+              {currentTerm.relatedTerms && currentTerm.relatedTerms.length > 0 && (
+                <div className="mt-3 pt-2 border-t border-[#f0ebd9] flex items-center gap-1.5 flex-wrap text-xs">
+                  <span className="text-[11px] font-semibold text-[#64748b]">Termos Relacionados:</span>
+                  {currentTerm.relatedTerms.slice(0, 3).map((rId) => {
+                    const match = terms.find((t) => t.id === rId);
+                    return (
+                      <span
+                        key={rId}
+                        className="rounded-lg bg-[#f4efe4] border border-[#ded5c2] px-2 py-0.5 text-[11px] font-medium text-[#112338]"
+                      >
+                        {match ? match.term : rId.replace(/-/g, ' ')}
+                      </span>
+                    );
+                  })}
                 </div>
               )}
             </div>

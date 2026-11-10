@@ -30,11 +30,14 @@ service cloud.firestore {
 
     function isValidTerm(data) {
       return data.keys().hasAll(['term', 'category', 'definition', 'importance']) &&
-             data.keys().hasOnly(['term', 'category', 'definition', 'importance', 'id', 'example', 'examTip', 'synonyms', 'relatedTerms', 'authorId', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['term', 'category', 'definition', 'importance', 'id', 'section', 'subsection', 'page', 'example', 'examTip', 'synonyms', 'relatedTerms', 'authorId', 'createdAt', 'updatedAt']) &&
              data.term is string && data.term.size() > 0 && data.term.size() <= 100 &&
              data.category is string && data.category.size() > 0 && data.category.size() <= 60 &&
              data.definition is string && data.definition.size() > 0 && data.definition.size() <= 2000 &&
              data.importance in ['essencial', 'importante', 'complementar'] &&
+             (!('section' in data) || (data.section is string && data.section.size() <= 100)) &&
+             (!('subsection' in data) || (data.subsection is string && data.subsection.size() <= 100)) &&
+             (!('page' in data) || (data.page is number && data.page >= 1 && data.page <= 200)) &&
              (!('example' in data) || (data.example is string && data.example.size() <= 500)) &&
              (!('examTip' in data) || (data.examTip is string && data.examTip.size() <= 500));
     }
@@ -58,8 +61,8 @@ service cloud.firestore {
     // Match rules for nautical terms
     match /terms/{termId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && isValidId(termId) && isValidTerm(incoming());
-      allow update: if isSignedIn() && isValidId(termId) && isValidTerm(incoming());
+      allow create: if isValidId(termId) && isValidTerm(incoming());
+      allow update: if isValidId(termId) && isValidTerm(incoming());
       allow delete: if isSignedIn() && (request.auth.token.email == 'nunoveloso18@gmail.com');
     }
 

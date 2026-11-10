@@ -21,6 +21,22 @@
           "maxLength": 60,
           "description": "Category corresponding to Carta de Marinheiro syllabus."
         },
+        "section": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Manual chapter or main section."
+        },
+        "subsection": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Manual subsection."
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "description": "Page number in official manual."
+        },
         "definition": {
           "type": "string",
           "maxLength": 2000,

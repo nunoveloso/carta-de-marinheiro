@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Plus, AlertCircle, Ship } from 'lucide-react';
 import { TermCategory, TermImportance, NauticalTerm } from '../types/glossary';
-import { CATEGORIES } from '../data/initialTerms';
+import { CATEGORIES, MANUAL_SECTIONS } from '../data/initialTerms';
 import { User as FirebaseUser } from 'firebase/auth';
 
 interface AddTermModalProps {
@@ -21,6 +21,9 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
 }) => {
   const [term, setTerm] = useState('');
   const [category, setCategory] = useState<TermCategory>('nomenclatura-geral');
+  const [section, setSection] = useState<string>(MANUAL_SECTIONS[0]);
+  const [subsection, setSubsection] = useState('');
+  const [pageNumber, setPageNumber] = useState<string>('');
   const [importance, setImportance] = useState<TermImportance>('importante');
   const [definition, setDefinition] = useState('');
   const [example, setExample] = useState('');
@@ -57,10 +60,15 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
       .map((s) => s.trim())
       .filter((s) => s.length > 0);
 
+    const parsedPage = parseInt(pageNumber, 10);
+
     const newTerm: NauticalTerm = {
       id: slugId,
       term: term.trim(),
       category,
+      section: section || 'DEFINIÇÕES DE EMBARCAÇÃO DE RECREIO',
+      subsection: subsection.trim() || undefined,
+      page: !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : undefined,
       importance,
       definition: definition.trim(),
       example: example.trim() || undefined,
@@ -165,6 +173,55 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
                 <option value="complementar">Complementar</option>
               </select>
             </div>
+          </div>
+
+          {/* Section & Subsection in Manual */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-semibold text-[#475569] mb-1">
+                Secção do Manual *
+              </label>
+              <select
+                value={section}
+                onChange={(e) => setSection(e.target.value)}
+                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+              >
+                {MANUAL_SECTIONS.map((sec) => (
+                  <option key={sec} value={sec}>
+                    {sec}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#475569] mb-1">
+                Página do Manual
+              </label>
+              <input
+                type="number"
+                min={1}
+                max={72}
+                value={pageNumber}
+                onChange={(e) => setPageNumber(e.target.value)}
+                placeholder="Ex.: 4"
+                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-[#475569] mb-1">
+              Subsecção no Manual (opcional)
+            </label>
+            <input
+              type="text"
+              maxLength={150}
+              value={subsection}
+              onChange={(e) => setSubsection(e.target.value)}
+              placeholder="Ex.: Nomenclatura e definições, Nós e Voltas..."
+              className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+            />
           </div>
 
           <div>

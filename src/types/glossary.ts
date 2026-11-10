@@ -23,6 +23,9 @@ export interface NauticalTerm {
   id: string;
   term: string;
   category: TermCategory;
+  section: string;
+  subsection?: string;
+  page?: number;
   definition: string;
   example?: string;
   examTip?: string;

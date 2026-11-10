@@ -3,6 +3,10 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updateProfile,
   signOut,
 } from 'firebase/auth';
 import {
@@ -92,6 +96,54 @@ export async function signInWithGoogle() {
     console.error('Error signing in with Google:', err);
     throw err;
   }
+}
+
+// Email & Password Sign-In
+export async function signInWithEmail(email: string, password: string) {
+  const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
+  return userCredential.user;
+}
+
+// Email & Password Registration
+export async function registerWithEmail(email: string, password: string, displayName?: string) {
+  const userCredential = await createUserWithEmailAndPassword(auth, email.trim(), password);
+  if (displayName && displayName.trim()) {
+    await updateProfile(userCredential.user, {
+      displayName: displayName.trim(),
+    });
+  }
+  return userCredential.user;
+}
+
+// Password reset
+export async function sendResetPassword(email: string) {
+  await sendPasswordResetEmail(auth, email.trim());
+}
+
+// Translate Firebase Auth error codes into Portuguese
+export function formatAuthError(err: unknown): string {
+  if (err && typeof err === 'object' && 'code' in err) {
+    const code = (err as { code: string }).code;
+    switch (code) {
+      case 'auth/invalid-credential':
+      case 'auth/wrong-password':
+      case 'auth/user-not-found':
+        return 'E-mail ou palavra-passe incorretos.';
+      case 'auth/email-already-in-use':
+        return 'Já existe uma conta registada com este endereço de e-mail.';
+      case 'auth/weak-password':
+        return 'A palavra-passe deve ter pelo menos 6 carateres.';
+      case 'auth/invalid-email':
+        return 'Endereço de e-mail inválido.';
+      case 'auth/too-many-requests':
+        return 'Demasiadas tentativas falhadas. Por favor, tente mais tarde.';
+      case 'auth/popup-closed-by-user':
+        return 'A janela de autenticação foi fechada antes de concluir.';
+      default:
+        break;
+    }
+  }
+  return err instanceof Error ? err.message : 'Ocorreu um erro na autenticação.';
 }
 
 export async function logOut() {

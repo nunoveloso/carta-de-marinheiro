@@ -3,6 +3,7 @@ import { X, Star, Volume2, VolumeX, Lightbulb, Compass, FileText, Check, AlertCi
 import { NauticalTerm } from '../types/glossary';
 import { CATEGORIES } from '../data/initialTerms';
 import { User as FirebaseUser } from 'firebase/auth';
+import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 
 interface TermDetailModalProps {
   term: NauticalTerm | null;
@@ -41,10 +42,16 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
   // Close on Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        stopSpeaking();
+        onClose();
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      stopSpeaking();
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
   if (!term) return null;
@@ -52,29 +59,18 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
   const categoryMeta = CATEGORIES.find((c) => c.id === term.category) || CATEGORIES[0];
 
   const handleSpeak = () => {
-    if (!('speechSynthesis' in window)) return;
-
     if (isSpeaking) {
-      window.speechSynthesis.cancel();
+      stopSpeaking();
       setIsSpeaking(false);
       return;
     }
 
-    window.speechSynthesis.cancel();
-    const textToRead = `${term.term}. ${term.definition}. ${term.examTip ? `Dica de exame: ${term.examTip}` : ''}`;
-    const utterance = new SpeechSynthesisUtterance(textToRead);
-    utterance.lang = 'pt-PT';
-    utterance.rate = 0.95;
-
-    const voices = window.speechSynthesis.getVoices();
-    const ptVoice = voices.find((v) => v.lang.startsWith('pt'));
-    if (ptVoice) utterance.voice = ptVoice;
-
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
     setIsSpeaking(true);
-    window.speechSynthesis.speak(utterance);
+    speakNauticalTerm(
+      term.term,
+      () => setIsSpeaking(false),
+      () => setIsSpeaking(false)
+    );
   };
 
   const handleSaveNoteSubmit = async (e: React.FormEvent) => {
@@ -152,7 +148,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                     ? 'bg-[#112338] text-[#fbf8f2]'
                     : 'text-[#64748b] hover:text-[#112338] hover:bg-[#eae3d2]'
                 }`}
-                title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia e definição'}
+                title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
               >
                 {isSpeaking ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
@@ -183,8 +179,29 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
             {term.term}
           </h2>
 
+          {term.section && (
+            <div className="mt-2 flex items-center gap-2 text-xs font-medium text-[#854d0e] flex-wrap">
+              <span className="rounded-lg bg-[#ede6d8] px-2.5 py-1 font-semibold border border-[#d8cdb8] text-[#112338]">
+                {term.section}
+              </span>
+              {term.subsection && (
+                <>
+                  <span className="text-[#94a3b8]">›</span>
+                  <span className="rounded-lg bg-[#ede6d8] px-2.5 py-1 font-medium border border-[#d8cdb8] text-[#475569]">
+                    {term.subsection}
+                  </span>
+                </>
+              )}
+              {term.page && (
+                <span className="text-[#64748b] ml-1 text-[11px] font-semibold">
+                  Manual pág. {term.page}
+                </span>
+              )}
+            </div>
+          )}
+
           {term.synonyms && term.synonyms.length > 0 && (
-            <p className="mt-1 text-xs sm:text-sm text-[#475569] italic">
+            <p className="mt-1.5 text-xs sm:text-sm text-[#475569] italic">
               Outras designações: {term.synonyms.join(' • ')}
             </p>
           )}
@@ -195,9 +212,9 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
           
           {/* Official Definition */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-2 flex items-center gap-1.5">
+            <h4 className="text-xs font-semibold text-[#64748b] mb-2 flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-[#112338]" />
-              Definição Oficial (Programa DGRM)
+              Definição Oficial no Manual do Marinheiro
             </h4>
             <div className="text-sm sm:text-base text-[#1e293b] leading-relaxed rounded-2xl bg-white p-4.5 border border-[#e5decb] shadow-2xs">
               {term.definition}
@@ -207,7 +224,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
           {/* Practical Onboard Example */}
           {term.example && (
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-2 flex items-center gap-1.5">
+              <h4 className="text-xs font-semibold text-[#64748b] mb-2 flex items-center gap-1.5">
                 <Lightbulb className="w-3.5 h-3.5 text-[#a16207]" />
                 Aplicação Prática a Bordo
               </h4>
@@ -226,7 +243,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[#92400e]">
-                    Dica Crucial para o Exame de Carta de Marinheiro
+                    Importante para o Exame
                   </h4>
                   <p className="mt-1 text-xs sm:text-sm text-[#854d0e] leading-relaxed">
                     {term.examTip}
@@ -239,8 +256,9 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
           {/* Related Terms */}
           {term.relatedTerms && term.relatedTerms.length > 0 && (
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-2">
-                Termos Náuticos Relacionados
+              <h4 className="text-xs font-semibold text-[#64748b] mb-2 flex items-center gap-1.5">
+                <Compass className="w-3.5 h-3.5 text-[#112338]" />
+                Termos Relacionados
               </h4>
               <div className="flex flex-wrap gap-2">
                 {term.relatedTerms.map((relatedId) => {
@@ -263,7 +281,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
           {/* Personal Study Notes (Synced to Cloud Firestore) */}
           <div className="pt-4 border-t border-[#ded5c2]">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] flex items-center gap-1.5">
+              <h4 className="text-xs font-semibold text-[#64748b] flex items-center gap-1.5">
                 <FileText className="w-3.5 h-3.5 text-[#112338]" />
                 Minhas Notas de Estudo (Cloud Firestore)
               </h4>

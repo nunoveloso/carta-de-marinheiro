@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Star, Volume2, VolumeX, FileText, ChevronRight, AlertCircle, Compass } from 'lucide-react';
 import { NauticalTerm, TermImportance } from '../types/glossary';
 import { CATEGORIES } from '../data/initialTerms';
+import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 
 interface TermCardProps {
   term: NauticalTerm;
@@ -9,6 +10,7 @@ interface TermCardProps {
   hasNote: boolean;
   onToggleBookmark: (termId: string) => void;
   onSelectTerm: (term: NauticalTerm) => void;
+  allTerms?: NauticalTerm[];
 }
 
 const IMPORTANCE_CONFIG: Record<
@@ -35,6 +37,7 @@ export const TermCard: React.FC<TermCardProps> = ({
   hasNote,
   onToggleBookmark,
   onSelectTerm,
+  allTerms,
 }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -44,34 +47,18 @@ export const TermCard: React.FC<TermCardProps> = ({
   const handleSpeak = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (!('speechSynthesis' in window)) {
-      alert('A síntese de voz não é suportada neste navegador.');
-      return;
-    }
-
     if (isSpeaking) {
-      window.speechSynthesis.cancel();
+      stopSpeaking();
       setIsSpeaking(false);
       return;
     }
 
-    window.speechSynthesis.cancel();
-    const textToRead = `${term.term}. ${term.definition}`;
-    const utterance = new SpeechSynthesisUtterance(textToRead);
-    utterance.lang = 'pt-PT';
-    utterance.rate = 0.95;
-
-    const voices = window.speechSynthesis.getVoices();
-    const ptVoice = voices.find((v) => v.lang.startsWith('pt'));
-    if (ptVoice) {
-      utterance.voice = ptVoice;
-    }
-
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
     setIsSpeaking(true);
-    window.speechSynthesis.speak(utterance);
+    speakNauticalTerm(
+      term.term,
+      () => setIsSpeaking(false),
+      () => setIsSpeaking(false)
+    );
   };
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
@@ -103,7 +90,7 @@ export const TermCard: React.FC<TermCardProps> = ({
                   ? 'bg-[#f4efe4] text-[#112338]'
                   : 'text-[#94a3b8] hover:text-[#112338] hover:bg-[#f4efe4]'
               }`}
-              title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia e definição'}
+              title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
               aria-label="Ouvir termo"
             >
               {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -125,6 +112,13 @@ export const TermCard: React.FC<TermCardProps> = ({
           </div>
         </div>
 
+        {/* Manual Section & Subsection tag */}
+        {term.section && (
+          <div className="text-[10px] font-semibold text-[#854d0e] tracking-wide mb-1 flex items-center gap-1">
+            <span className="truncate max-w-[280px]">{term.section}{term.subsection ? ` › ${term.subsection}` : ''}</span>
+          </div>
+        )}
+
         {/* Term Title in Classic Maritime Serif */}
         <h3 className="font-maritime text-2xl font-bold text-[#112338] tracking-tight group-hover:text-[#1d4e6d] transition-colors leading-tight">
           {term.term}
@@ -141,6 +135,46 @@ export const TermCard: React.FC<TermCardProps> = ({
         <p className="mt-2.5 text-xs sm:text-sm text-[#334155] line-clamp-3 leading-relaxed">
           {term.definition}
         </p>
+
+        {/* Importante para o Exame Section */}
+        {term.examTip && (
+          <div className="mt-3 rounded-xl bg-[#fefce8] p-3 border border-[#fef08a] text-xs text-[#854d0e]">
+            <div className="flex items-center gap-1.5 font-bold text-[#92400e] text-[11px] mb-1">
+              <AlertCircle className="w-3.5 h-3.5 text-[#b45309] shrink-0" />
+              <span>Importante para o Exame:</span>
+            </div>
+            <p className="text-[12px] text-[#854d0e] leading-snug line-clamp-2">
+              {term.examTip}
+            </p>
+          </div>
+        )}
+
+        {/* Termos Relacionados Section */}
+        {term.relatedTerms && term.relatedTerms.length > 0 && (
+          <div className="mt-3 pt-2.5 border-t border-[#f0ebd9] flex items-center gap-1.5 flex-wrap text-xs">
+            <span className="text-[11px] font-semibold text-[#64748b]">Termos Relacionados:</span>
+            {term.relatedTerms.slice(0, 4).map((relId) => {
+              const relTerm = allTerms?.find((t) => t.id === relId);
+              const label = relTerm ? relTerm.term : relId.replace(/-/g, ' ');
+              return (
+                <span
+                  key={relId}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (relTerm) onSelectTerm(relTerm);
+                  }}
+                  className="rounded-lg bg-[#f4efe4] border border-[#ded5c2] px-2 py-0.5 text-[11px] font-medium text-[#112338] hover:bg-[#eae3d2] hover:border-[#112338] transition cursor-pointer"
+                  title="Ver termo relacionado"
+                >
+                  {label}
+                </span>
+              );
+            })}
+            {term.relatedTerms.length > 4 && (
+              <span className="text-[10px] text-[#94a3b8] font-medium">+{term.relatedTerms.length - 4}</span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Footer Area */}

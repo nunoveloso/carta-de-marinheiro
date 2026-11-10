@@ -23,7 +23,7 @@ import {
 
 import { auth, db, handleFirestoreError, OperationType, logOut } from './firebase';
 import { NauticalTerm, TermCategory, TermImportance } from './types/glossary';
-import { CATEGORIES, INITIAL_TERMS } from './data/initialTerms';
+import { CATEGORIES, INITIAL_TERMS, MANUAL_SECTIONS } from './data/initialTerms';
 import { Navbar } from './components/Navbar';
 import { TermCard } from './components/TermCard';
 import { TermDetailModal } from './components/TermDetailModal';
@@ -52,6 +52,7 @@ export default function App() {
   // Search and Filter states
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedSection, setSelectedSection] = useState<string>('all');
   const [selectedImportance, setSelectedImportance] = useState<string>('all');
   const [onlyBookmarked, setOnlyBookmarked] = useState(false);
   const [onlyWithNotes, setOnlyWithNotes] = useState(false);
@@ -79,26 +80,18 @@ export default function App() {
       termsCollectionRef,
       (snapshot) => {
         if (!snapshot.empty) {
-          const loaded: NauticalTerm[] = [];
+          const loadedFromFirestore: NauticalTerm[] = [];
           snapshot.forEach((docSnap) => {
-            const data = docSnap.data() as NauticalTerm;
-            loaded.push({ ...data, id: docSnap.id });
+            loadedFromFirestore.push({ ...docSnap.data(), id: docSnap.id } as NauticalTerm);
           });
-          const existingIds = new Set(loaded.map((t) => t.id));
-          const merged = [...loaded];
-          INITIAL_TERMS.forEach((it) => {
-            if (!existingIds.has(it.id)) {
-              merged.push(it);
-            }
-          });
-          setTerms(merged);
+          setTerms(loadedFromFirestore);
         } else {
+          setTerms(INITIAL_TERMS);
           seedTermsToFirestore();
         }
       },
       (error) => {
-        console.warn('Firestore snapshot error for terms, using cached syllabus:', error);
-        handleFirestoreError(error, OperationType.GET, 'terms');
+        console.warn('Firestore snapshot error for terms, using manual syllabus:', error);
       }
     );
 
@@ -264,10 +257,16 @@ export default function App() {
           const matchDef = normalize(term.definition).includes(queryNorm);
           const matchSyn = term.synonyms?.some((s) => normalize(s).includes(queryNorm));
           const matchTip = term.examTip ? normalize(term.examTip).includes(queryNorm) : false;
-          if (!matchTerm && !matchDef && !matchSyn && !matchTip) return false;
+          const matchSection = term.section ? normalize(term.section).includes(queryNorm) : false;
+          const matchSubsec = term.subsection ? normalize(term.subsection).includes(queryNorm) : false;
+          if (!matchTerm && !matchDef && !matchSyn && !matchTip && !matchSection && !matchSubsec) return false;
         }
 
         if (selectedCategory !== 'all' && term.category !== selectedCategory) {
+          return false;
+        }
+
+        if (selectedSection !== 'all' && term.section !== selectedSection) {
           return false;
         }
 
@@ -306,6 +305,7 @@ export default function App() {
     terms,
     searchQuery,
     selectedCategory,
+    selectedSection,
     selectedImportance,
     onlyBookmarked,
     onlyWithNotes,
@@ -347,7 +347,7 @@ export default function App() {
                   <Compass className="w-4 h-4 text-[#a16207]" />
                   <span>DGRM Portugal</span>
                   <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
-                  <span>Programa Oficial da Carta de Marinheiro</span>
+                  <span>Manual do Marinheiro (2021)</span>
                 </div>
 
                 <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#112338] tracking-tight leading-tight">
@@ -355,7 +355,7 @@ export default function App() {
                 </h2>
 
                 <p className="mt-2 text-xs sm:text-sm text-[#475569] leading-relaxed">
-                  Consulte a nomenclatura marítima, regras do RIPAM, luzes de navegação e balizamento da costa portuguesa com pronúncia áudio e dicas de exame.
+                  Consulte os termos e definições oficiais extraídos integralmente do <strong>Manual do Marinheiro</strong>, organizados pelas suas secções e subsecções originais, com pronúncia áudio, regras do R.I.E.A.M. e dicas de exame.
                 </p>
 
                 {/* Instant Search Bar */}
@@ -367,7 +367,7 @@ export default function App() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Pesquisar termo, manobra, sigla (ex: Estibordo, RIPAM, BB, Ferro, Ch 16, IALA)..."
+                    placeholder="Pesquisar termo, secção, manobra (ex: Quilha, Barlavento, Butakow, Ferro, Marés, IALA, Navtex)..."
                     className="w-full rounded-2xl border border-[#ded5c2] bg-white py-3.5 pl-12 pr-10 text-xs sm:text-sm text-[#1e293b] placeholder:text-[#94a3b8] focus:border-[#112338] focus:outline-none focus:ring-1 focus:ring-[#112338] shadow-2xs transition"
                   />
                   {searchQuery && (
@@ -395,7 +395,7 @@ export default function App() {
                       : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] hover:text-[#112338]'
                   }`}
                 >
-                  Todas ({terms.length})
+                  Todas as Categorias ({terms.length})
                 </button>
 
                 {CATEGORIES.map((cat) => {
@@ -420,10 +420,25 @@ export default function App() {
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#ede6d8] text-xs">
                 
                 <div className="flex flex-wrap items-center gap-2">
+                  {/* Manual Section Filter */}
+                  <select
+                    value={selectedSection}
+                    onChange={(e) => setSelectedSection(e.target.value)}
+                    className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs font-semibold max-w-[200px] truncate"
+                    title="Filtrar por Secção do Manual"
+                  >
+                    <option value="all">Todas as Secções do Manual ({MANUAL_SECTIONS.length})</option>
+                    {MANUAL_SECTIONS.map((sec) => (
+                      <option key={sec} value={sec}>
+                        {sec}
+                      </option>
+                    ))}
+                  </select>
+
                   <select
                     value={selectedImportance}
                     onChange={(e) => setSelectedImportance(e.target.value)}
-                    className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+                    className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs font-medium"
                   >
                     <option value="all">Todas as Importâncias</option>
                     <option value="essencial">★ Apenas Exame Obrigatório</option>
@@ -485,6 +500,7 @@ export default function App() {
                     hasNote={Boolean(userNotes[term.id])}
                     onToggleBookmark={handleToggleBookmark}
                     onSelectTerm={setSelectedTerm}
+                    allTerms={terms}
                   />
                 ))}
               </div>
@@ -503,6 +519,7 @@ export default function App() {
                   onClick={() => {
                     setSearchQuery('');
                     setSelectedCategory('all');
+                    setSelectedSection('all');
                     setSelectedImportance('all');
                     setOnlyBookmarked(false);
                     setOnlyWithNotes(false);
