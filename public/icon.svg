@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0f2b48" />
+      <stop offset="70%" stop-color="#071626" />
+      <stop offset="100%" stop-color="#030b14" />
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer circle & dark nautical base -->
+  <circle cx="256" cy="256" r="248" fill="url(#bgGrad)" stroke="url(#goldGrad)" stroke-width="12" />
+  <circle cx="256" cy="256" r="226" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 6" opacity="0.6" />
+  
+  <!-- Compass ring markers -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="url(#goldGrad)" stroke-width="4" />
+  
+  <!-- Steering wheel / Helm spokes -->
+  <g stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round">
+    <line x1="256" y1="20" x2="256" y2="492" />
+    <line x1="20" y1="256" x2="492" y2="256" />
+    <line x1="89" y1="89" x2="423" y2="423" />
+    <line x1="89" y1="423" x2="423" y2="89" />
+  </g>
+  
+  <!-- Intermediate wheel ring -->
+  <circle cx="256" cy="256" r="160" fill="none" stroke="url(#goldGrad)" stroke-width="14" />
+  <circle cx="256" cy="256" r="148" fill="none" stroke="#071626" stroke-width="3" />
+  
+  <!-- Compass Rose Points -->
+  <!-- North (Red/Gold) -->
+  <polygon points="256,48 244,236 256,210" fill="#ef4444" />
+  <polygon points="256,48 268,236 256,210" fill="#dc2626" />
+  
+  <!-- South (Blue/White) -->
+  <polygon points="256,464 244,276 256,302" fill="#94a3b8" />
+  <polygon points="256,464 268,276 256,302" fill="#cbd5e1" />
+  
+  <!-- East -->
+  <polygon points="464,256 276,244 302,256" fill="url(#goldGrad)" />
+  <polygon points="464,256 276,268 302,256" fill="#ca8a04" />
+  
+  <!-- West -->
+  <polygon points="48,256 236,244 210,256" fill="#fde047" />
+  <polygon points="48,256 236,268 210,256" fill="url(#goldGrad)" />
+  
+  <!-- Diagonal points (NE, NW, SE, SW) -->
+  <polygon points="403,109 265,247 285,227" fill="#38bdf8" />
+  <polygon points="109,109 247,247 227,227" fill="#0284c7" />
+  <polygon points="403,403 265,265 285,285" fill="#0284c7" />
+  <polygon points="109,403 247,265 227,285" fill="#38bdf8" />
+  
+  <!-- Central Hub -->
+  <circle cx="256" cy="256" r="54" fill="#071626" stroke="url(#goldGrad)" stroke-width="8" />
+  <circle cx="256" cy="256" r="38" fill="url(#blueGrad)" />
+  
+  <!-- Mini anchor in center -->
+  <path d="M256,230 L256,275 M244,238 C244,232 268,232 268,238 C268,244 244,244 244,238 M236,258 C236,278 276,278 276,258 M248,248 L264,248" 
+        stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none" />
+        
+  <!-- Cardinal labels -->
+  <text x="256" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="900" fill="#f87171" text-anchor="middle">N</text>
+  <text x="256" y="498" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="800" fill="#94a3b8" text-anchor="middle">S</text>
+  <text x="496" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="800" fill="#fde047" text-anchor="middle">E</text>
+  <text x="18" y="265" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="800" fill="#fde047" text-anchor="middle">W</text>
+</svg>

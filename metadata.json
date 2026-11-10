@@ -1,0 +1,8 @@
+{
+  "name": "Carta de Marinheiro - Glossário Náutico",
+  "description": "Aplicação PWA interativa para o estudo da Carta de Marinheiro com glossário náutico, flashcards e sincronização Firebase Cloud Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

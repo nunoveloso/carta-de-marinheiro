@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "Term": {
+      "title": "Glossary Term",
+      "description": "Nautical glossary entry for the Portuguese Carta de Marinheiro qualification.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-z0-9\\-]+$",
+          "description": "Unique identifier slug for the nautical term."
+        },
+        "term": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Name of the nautical term in Portuguese."
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Category corresponding to Carta de Marinheiro syllabus."
+        },
+        "definition": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Detailed official definition according to DGRM syllabus."
+        },
+        "example": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Practical onboard usage or context example."
+        },
+        "examTip": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Key point frequently tested on the examination."
+        },
+        "importance": {
+          "type": "string",
+          "enum": ["essencial", "importante", "complementar"],
+          "description": "Importance level for the exam."
+        },
+        "authorId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "UID of the contributor or system admin."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp."
+        }
+      },
+      "required": ["term", "category", "definition", "importance"]
+    },
+    "UserBookmark": {
+      "title": "User Bookmark",
+      "description": "A saved term bookmark belonging to an authenticated user.",
+      "type": "object",
+      "properties": {
+        "termId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-z0-9\\-]+$",
+          "description": "ID of the bookmarked term."
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "UID of the owner."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when bookmarked."
+        }
+      },
+      "required": ["termId", "userId"]
+    },
+    "UserNote": {
+      "title": "User Study Note",
+      "description": "A personal private study note for a nautical term.",
+      "type": "object",
+      "properties": {
+        "termId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-z0-9\\-]+$",
+          "description": "ID of the term being annotated."
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "UID of the user."
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Personal revision note or mnemonic."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last modification timestamp."
+        }
+      },
+      "required": ["termId", "userId", "note"]
+    }
+  },
+  "firestore": {
+    "/terms/{termId}": {
+      "schema": "Term",
+      "description": "Collection of nautical terms for Carta de Marinheiro."
+    },
+    "/users/{userId}/bookmarks/{termId}": {
+      "schema": "UserBookmark",
+      "description": "Per-user bookmarked glossary terms for quick revision."
+    },
+    "/users/{userId}/notes/{termId}": {
+      "schema": "UserNote",
+      "description": "Personal revision notes written by the user for a term."
+    }
+  }
+}
