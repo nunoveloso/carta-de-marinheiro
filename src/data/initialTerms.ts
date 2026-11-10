@@ -3740,36 +3740,108 @@ export const INITIAL_TERMS: NauticalTerm[] = [
   },
   {
     "id": "marcas-laterais",
-    "term": "Marcas Laterais",
+    "term": "Marcas Laterais (Região A)",
     "category": "balizamento-iala",
     "section": "Sistema de Balizagem Marítima",
-    "subsection": "Marcas Laterais",
+    "subsection": "Marcas Laterais (Região A)",
     "page": 65,
     "definition": "Ao entrar num porto, subir um canal ou rio: dê bombordo às boias vermelhas (a sua numeração é sempre par, luz vermelha); dê estibordo às boias verdes (a sua numeração é sempre ímpar, luz verde).",
     "importance": "essencial",
     "examTip": "A entrar num porto em Portugal: Bombordo = Boia vermelha, número PAR; Estibordo = Boia verde, número ÍMPAR.",
     "relatedTerms": [
+      "lateral-bombordo",
+      "lateral-estibordo",
       "canal-principal",
       "sistema-de-balizagem-iala",
-      "marcas-cardeais",
       "bombordo",
       "estibordo"
     ]
   },
   {
-    "id": "canal-principal",
-    "term": "Canal Principal",
+    "id": "lateral-bombordo",
+    "term": "Marca Lateral de Bombordo (BB)",
     "category": "balizamento-iala",
     "section": "Sistema de Balizagem Marítima",
-    "subsection": "Canal Principal",
+    "subsection": "Marcas Laterais (Região A)",
     "page": 65,
-    "definition": "Boias de bifurcação: boia vermelha com faixa verde indica canal preferencial a bombordo; boia verde com faixa vermelha indica canal preferencial a estibordo.",
+    "definition": "Ao entrar num porto, subir um canal ou rio dê bombordo a estas bóias. A sua cor é vermelha, formato cilíndrico (com sinal de tope cilíndrico vermelho), a sua numeração é sempre par e a luz é vermelha de qualquer ritmo (exceto grupo composto 2+1).",
     "importance": "essencial",
-    "examTip": "Termo náutico oficial avaliado no âmbito do exame de Carta de Marinheiro e nomenclatura da DGRM.",
+    "examTip": "Ao entrar num porto em Portugal (Região A): Bombordo = Boia vermelha, formato cilíndrico, numeração PAR (2, 4, 6...), luz vermelha.",
     "relatedTerms": [
       "marcas-laterais",
+      "lateral-estibordo",
+      "canal-principal-bombordo",
       "sistema-de-balizagem-iala",
-      "marcas-cardeais"
+      "bombordo"
+    ]
+  },
+  {
+    "id": "lateral-estibordo",
+    "term": "Marca Lateral de Estibordo (EB)",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Marcas Laterais (Região A)",
+    "page": 65,
+    "definition": "Ao entrar num porto, subir um canal ou rio dê estibordo a estas bóias. A sua cor é verde, formato cónico (com sinal de tope cónico verde com vértice para cima), a sua numeração é sempre ímpar e a luz é verde de qualquer ritmo (exceto grupo composto 2+1).",
+    "importance": "essencial",
+    "examTip": "Ao entrar num porto em Portugal (Região A): Estibordo = Boia verde, formato cónico, numeração ÍMPAR (1, 3, 5...), luz verde.",
+    "relatedTerms": [
+      "marcas-laterais",
+      "lateral-bombordo",
+      "canal-principal-estibordo",
+      "sistema-de-balizagem-iala",
+      "estibordo"
+    ]
+  },
+  {
+    "id": "canal-principal",
+    "term": "Canal Principal (Bifurcação)",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Canal Principal (Região A)",
+    "page": 65,
+    "definition": "Boias de bifurcação de canal. Estas bóias são de preferências ou seja podemos dar qualquer dos bordos sendo preferível o canal assinalado (faixa verde = canal a bombordo; faixa vermelha = canal a estibordo). Ritmo de luz característico: grupo composto Fl(2+1).",
+    "importance": "essencial",
+    "examTip": "Bifurcação: boia com faixa horizontal central e ritmo de luz Fl(2+1).",
+    "relatedTerms": [
+      "canal-principal-bombordo",
+      "canal-principal-estibordo",
+      "marcas-laterais",
+      "sistema-de-balizagem-iala"
+    ]
+  },
+  {
+    "id": "canal-principal-bombordo",
+    "term": "Canal Principal a Bombordo",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Canal Principal (Região A)",
+    "page": 65,
+    "definition": "Bóia de bifurcação de canal indicando que o canal preferencial/principal fica para Bombordo. Corpo vermelho com uma larga faixa horizontal verde ao meio, tope cilíndrico vermelho e luz vermelha em ritmo composto Fl(2+1) R.",
+    "importance": "essencial",
+    "examTip": "Faixa verde ao meio da boia vermelha = canal principal a Bombordo. Ritmo da luz: grupo composto Fl(2+1).",
+    "relatedTerms": [
+      "canal-principal",
+      "canal-principal-estibordo",
+      "lateral-bombordo",
+      "marcas-laterais"
+    ]
+  },
+  {
+    "id": "canal-principal-estibordo",
+    "term": "Canal Principal a Estibordo",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Canal Principal (Região A)",
+    "page": 65,
+    "definition": "Bóia de bifurcação de canal indicando que o canal preferencial/principal fica para Estibordo. Corpo verde com uma larga faixa horizontal vermelha ao meio, tope cónico verde e luz verde em ritmo composto Fl(2+1) G.",
+    "importance": "essencial",
+    "examTip": "Faixa vermelha ao meio da boia verde = canal principal a Estibordo. Ritmo da luz: grupo composto Fl(2+1).",
+    "relatedTerms": [
+      "canal-principal",
+      "canal-principal-bombordo",
+      "lateral-estibordo",
+      "marcas-laterais"
     ]
   },
   {
@@ -3781,12 +3853,86 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     "page": 66,
     "definition": "Devemos passar a (N, S, W, E) segundo a respectiva boia cardinal de modo a evitar o perigo. Norte: cones para cima; Sul: cones para baixo; Este: cones unidos pelas bases; Oeste: cones unidos pelos vértices.",
     "importance": "essencial",
-    "examTip": "Norte (cones para cima, luz contínua); Sul (cones para baixo, 6 relâmpagos + 1 longo); Este (cones pelas bases, 3 relâmpagos); Oeste (cones pelos vértices, 9 relâmpagos).",
+    "examTip": "Norte (12h, cones para cima, luz contínua); Este (3h, cones pelas bases, 3 clarões); Sul (6h, cones para baixo, 6 clarões + 1 longo); Oeste (9h, cones pelos vértices, 9 clarões).",
     "relatedTerms": [
+      "cardeal-norte",
+      "cardeal-este",
+      "cardeal-sul",
+      "cardeal-oeste",
       "sistema-de-balizagem-iala",
-      "perigo-isolado",
-      "marcas-de-aguas-limpas",
-      "marcas-laterais"
+      "perigo-isolado"
+    ]
+  },
+  {
+    "id": "cardeal-norte",
+    "term": "Marca Cardeal Norte",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Marcas Cardeais",
+    "page": 66,
+    "definition": "Devemos passar a Norte desta bóia de modo a evitar o perigo situado a Sul. Marca de tope: dois cones pretos com os vértices para cima (▲ ▲). Cores da boia: preto acima e amarelo abaixo (o preto indica para onde apontam os cones). Ritmo da luz: luz branca cintilante rápida contínua (Q W ou VQ W).",
+    "importance": "essencial",
+    "examTip": "Norte = 12h no relógio (luz rápida contínua). Cones apontam para cima (▲▲), metade superior preta.",
+    "relatedTerms": [
+      "marcas-cardeais",
+      "cardeal-sul",
+      "cardeal-este",
+      "cardeal-oeste",
+      "sistema-de-balizagem-iala"
+    ]
+  },
+  {
+    "id": "cardeal-este",
+    "term": "Marca Cardeal Este",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Marcas Cardeais",
+    "page": 66,
+    "definition": "Devemos passar a Este desta bóia de modo a evitar o perigo situado a Oeste. Marca de tope: dois cones pretos unidos pelas bases em losango (▲ ▼). Cores da boia: preto com uma larga faixa horizontal amarela ao meio. Ritmo da luz: grupo de 3 clarões rápidos brancos a cada 10s (Q(3) W 10s).",
+    "importance": "essencial",
+    "examTip": "Este = 3h no relógio = grupo de 3 clarões rápidos. Cones unidos pelas bases (losango).",
+    "relatedTerms": [
+      "marcas-cardeais",
+      "cardeal-oeste",
+      "cardeal-norte",
+      "cardeal-sul",
+      "sistema-de-balizagem-iala"
+    ]
+  },
+  {
+    "id": "cardeal-sul",
+    "term": "Marca Cardeal Sul",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Marcas Cardeais",
+    "page": 66,
+    "definition": "Devemos passar a Sul desta bóia de modo a evitar o perigo situado a Norte. Marca de tope: dois cones pretos com os vértices para baixo (▼ ▼). Cores da boia: amarelo acima e preto abaixo (o preto indica para onde apontam os cones). Ritmo da luz: 6 clarões rápidos brancos seguidos de 1 clarão longo de pelo menos 2s a cada 15s (Q(6)+LFl W 15s).",
+    "importance": "essencial",
+    "examTip": "Sul = 6h no relógio = 6 clarões rápidos + 1 clarão longo. Cones apontam para baixo (▼▼), metade inferior preta.",
+    "relatedTerms": [
+      "marcas-cardeais",
+      "cardeal-norte",
+      "cardeal-este",
+      "cardeal-oeste",
+      "sistema-de-balizagem-iala"
+    ]
+  },
+  {
+    "id": "cardeal-oeste",
+    "term": "Marca Cardeal Oeste",
+    "category": "balizamento-iala",
+    "section": "Sistema de Balizagem Marítima",
+    "subsection": "Marcas Cardeais",
+    "page": 66,
+    "definition": "Devemos passar a Oeste desta bóia de modo a evitar o perigo situado a Este. Marca de tope: dois cones pretos unidos pelos vértices em ampulheta (▼ ▲). Cores da boia: amarelo com uma larga faixa horizontal preta ao meio. Ritmo da luz: grupo de 9 clarões rápidos brancos a cada 15s (Q(9) W 15s).",
+    "importance": "essencial",
+    "examTip": "Oeste = 9h no relógio = grupo de 9 clarões rápidos. Cones em ampulheta (cintura estreita no meio como o W).",
+    "relatedTerms": [
+      "marcas-cardeais",
+      "cardeal-este",
+      "cardeal-norte",
+      "cardeal-sul",
+      "sistema-de-balizagem-iala"
     ]
   },
   {

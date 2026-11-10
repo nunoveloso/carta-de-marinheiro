@@ -6,6 +6,7 @@ import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
+import { BuoyIllustration } from './BuoyIllustration';
 
 interface TermCardProps {
   term: NauticalTerm;
@@ -154,6 +155,14 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Signal Flags / Bandeiras CIS illustration if applicable */}
         <SignalFlagsIllustration
+          termId={term.id}
+          variant="card"
+          allTerms={allTerms}
+          onSelectTerm={onSelectTerm}
+        />
+
+        {/* IALA Buoys / Bóias de Balizamento illustration if applicable */}
+        <BuoyIllustration
           termId={term.id}
           variant="card"
           allTerms={allTerms}

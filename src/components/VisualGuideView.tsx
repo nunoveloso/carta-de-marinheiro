@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Compass, Ship, Navigation, Volume2, Info, Layers, Flag } from 'lucide-react';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
+import { BuoyIllustration } from './BuoyIllustration';
 
 export const VisualGuideView: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'barco' | 'luzes' | 'iala' | 'sons' | 'baloes' | 'bandeiras'>('barco');
@@ -344,63 +345,7 @@ export const VisualGuideView: React.FC = () => {
       {/* SECTION 3: BALIZAMENTO (IALA A) */}
       {activeSection === 'iala' && (
         <div className="space-y-6">
-          <div className="rounded-3xl border border-[#ded5c2] bg-[#fdfcf9] p-6 sm:p-8 shadow-sm">
-            <h3 className="font-maritime text-2xl font-bold text-[#112338] mb-2">
-              Sistema de Balizamento Marítimo IALA Região A (Portugal)
-            </h3>
-            <p className="text-xs sm:text-sm text-[#64748b] mb-6">
-              Em Portugal e na Europa aplica-se a Região A. A regra fundamental ao entrar do mar para o porto:
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <div className="rounded-2xl bg-[#ecfdf5] p-5 border border-[#a7f3d0]">
-                <div className="text-[#065f46] font-bold text-base mb-1 font-maritime text-xl">
-                  Entrada de Barra: Estibordo
-                </div>
-                <div className="text-xs text-[#334155] space-y-1">
-                  <p><strong>Cor:</strong> Verde</p>
-                  <p><strong>Formato:</strong> Cónica (com topo cónico)</p>
-                  <p><strong>Luz:</strong> Verde</p>
-                  <p><strong>Regra:</strong> Fica à direita da embarcação que entra no canal.</p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl bg-[#fef2f2] p-5 border border-[#fecaca]">
-                <div className="text-[#991b1b] font-bold text-base mb-1 font-maritime text-xl">
-                  Entrada de Barra: Bombordo
-                </div>
-                <div className="text-xs text-[#334155] space-y-1">
-                  <p><strong>Cor:</strong> Vermelha</p>
-                  <p><strong>Formato:</strong> Cilíndrica (com topo cilíndrico)</p>
-                  <p><strong>Luz:</strong> Vermelha</p>
-                  <p><strong>Regra:</strong> Fica à esquerda da embarcação que entra no canal.</p>
-                </div>
-              </div>
-            </div>
-
-            <h4 className="font-maritime text-xl font-bold text-[#112338] mb-3">Marcas Cardinais (Regra do Relógio)</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-[#334155]">
-              <div className="rounded-xl bg-white p-4 border border-[#ded5c2] shadow-2xs">
-                <span className="font-bold text-[#112338] text-sm block mb-1">Cardinal Norte</span>
-                <p>2 cones para CIMA. Cores: Preto acima / Amarelo abaixo. Luz branca cintilante contínua.</p>
-              </div>
-
-              <div className="rounded-xl bg-white p-4 border border-[#ded5c2] shadow-2xs">
-                <span className="font-bold text-[#112338] text-sm block mb-1">Cardinal Sul</span>
-                <p>2 cones para BAIXO. Cores: Amarelo acima / Preto abaixo. Luz: 6 cintilações + 1 clarão longo (posição 6h).</p>
-              </div>
-
-              <div className="rounded-xl bg-white p-4 border border-[#ded5c2] shadow-2xs">
-                <span className="font-bold text-[#112338] text-sm block mb-1">Cardinal Este</span>
-                <p>Cones unidos pelas BASES. Preto com faixa amarela ao meio. Luz: 3 cintilações (posição 3h).</p>
-              </div>
-
-              <div className="rounded-xl bg-white p-4 border border-[#ded5c2] shadow-2xs">
-                <span className="font-bold text-[#112338] text-sm block mb-1">Cardinal Oeste</span>
-                <p>Cones unidos pelos VÉRTICES (ampulheta). Amarelo com faixa preta ao meio. Luz: 9 cintilações (posição 9h).</p>
-              </div>
-            </div>
-          </div>
+          <BuoyIllustration termId="sistema-de-balizagem-iala" variant="modal" />
         </div>
       )}
 

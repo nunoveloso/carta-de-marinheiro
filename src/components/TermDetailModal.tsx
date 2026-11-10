@@ -7,6 +7,7 @@ import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
+import { BuoyIllustration } from './BuoyIllustration';
 
 interface TermDetailModalProps {
   term: NauticalTerm | null;
@@ -234,6 +235,14 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
 
           {/* Signal Flags / Bandeiras CIS Dedicated Illustration */}
           <SignalFlagsIllustration
+            termId={term.id}
+            variant="modal"
+            allTerms={allTerms}
+            onSelectTerm={onSelectTerm}
+          />
+
+          {/* IALA Buoys / Bóias de Balizamento Dedicated Illustration */}
+          <BuoyIllustration
             termId={term.id}
             variant="modal"
             allTerms={allTerms}
