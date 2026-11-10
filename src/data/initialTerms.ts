@@ -25,8 +25,8 @@ export const CATEGORIES: CategoryMeta[] = [
   {
     id: 'balizamento-iala',
     name: 'Balizamento (IALA A)',
-    description: 'Bóias laterais, cardinais, perigo isolado e águas limpas em Portugal.',
-    iconName: 'Beacon',
+    description: 'Boias laterais, cardinais, perigo isolado e águas limpas em Portugal.',
+    iconName: 'Navigation',
     color: 'from-rose-600 to-red-600',
   },
   {
@@ -76,7 +76,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Durante a noite avistámos uma luz verde a cruzar a nossa frente, correspondente ao estibordo de outro barco.',
     examTip: 'Pergunta clássica de exame: Estibordo é o bordo direito (luz verde), com setor de 112,5 graus desde a proa.',
     importance: 'essencial',
-    synonyms: ['EB', 'Bordo direito', 'Starboard'],
+    synonyms: ['EB', 'Bordo direito'],
     relatedTerms: ['bombordo', 'proa', 'popa', 'luzes-navegacao'],
   },
   {
@@ -87,7 +87,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Ao atracar com o cais à nossa esquerda, estamos a atracar de bombordo.',
     examTip: 'Mnemónica de exame: Bom-bor-do tem luz VERMELHA (ambos têm R). Setor de visibilidade de 112,5 graus.',
     importance: 'essencial',
-    synonyms: ['BB', 'Bordo esquerdo', 'Port'],
+    synonyms: ['BB', 'Bordo esquerdo'],
     relatedTerms: ['estibordo', 'proa', 'popa', 'luzes-navegacao'],
   },
   {
@@ -98,7 +98,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O marinheiro colocou-se à proa com o bicheiro para orientar a entrada na doca.',
     examTip: 'A direção para a frente denomina-se "a vante".',
     importance: 'essencial',
-    synonyms: ['Vante', 'Front'],
+    synonyms: ['Vante', 'Bico de proa'],
     relatedTerms: ['popa', 'estibordo', 'bombordo'],
   },
   {
@@ -109,7 +109,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'A bandeira nacional (pavilhão) deve ser arvorada à popa da embarcação de recreio.',
     examTip: 'A direção para a traseira denomina-se "a ré". Na popa exibe-se a luz de alcance (branca de 135 graus).',
     importance: 'essencial',
-    synonyms: ['Ré', 'Stern'],
+    synonyms: ['Ré', 'Espelho de popa'],
     relatedTerms: ['proa', 'luz-alcance'],
   },
   {
@@ -117,10 +117,10 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     term: 'Obras Vivas (Carena)',
     category: 'nomenclatura-geral',
     definition: 'Parte submersa do casco da embarcação, situada abaixo da linha de água. Também denominada carena.',
-    example: 'Na doca seca aplica-se tinta anti-vegetativa (antifouling) em toda a área das obras vivas.',
+    example: 'Na doca seca aplica-se tinta antivegetativa (antifouling) em toda a área das obras vivas.',
     examTip: 'Distinga: Obras vivas estão debaixo de água (submersas); Obras mortas estão acima da água.',
     importance: 'essencial',
-    synonyms: ['Carena'],
+    synonyms: ['Carena', 'Fundo submerso'],
     relatedTerms: ['obras-mortas', 'linha-de-agua', 'calado'],
   },
   {
@@ -131,7 +131,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O vento lateral exerce pressão sobre as obras mortas, provocando o abatimento da embarcação.',
     examTip: 'O bordo livre mede exatamente a altura vertical das obras mortas a meia-nau.',
     importance: 'essencial',
-    synonyms: ['Parte emersa'],
+    synonyms: ['Costado emerso', 'Parte emersa'],
     relatedTerms: ['obras-vivas', 'bordo-livre', 'linha-de-agua'],
   },
   {
@@ -142,7 +142,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Com maré baixa na barra de Tavira, um barco com 1,5 metros de calado pode encalhar num banco de areia.',
     examTip: 'Pergunta frequente: Calado é a medida vertical da parte submersa (distância da quilha à linha de água).',
     importance: 'essencial',
-    synonyms: ['Draft'],
+    synonyms: ['Calado da quilha', 'Tirante de água'],
     relatedTerms: ['obras-vivas', 'pontal', 'bordo-livre', 'linha-sonda'],
   },
   {
@@ -153,7 +153,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Um excesso de carga a bordo reduz perigosamente o bordo livre, facilitando a entrada de água.',
     examTip: 'Fórmula básica conceptual: Pontal = Calado + Bordo Livre.',
     importance: 'essencial',
-    synonyms: ['Freeboard'],
+    synonyms: ['Borda livre', 'Reserva de flutuabilidade'],
     relatedTerms: ['calado', 'pontal', 'obras-mortas'],
   },
   {
@@ -164,7 +164,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'A boca máxima do barco é de 2,45 metros, permitindo o seu transporte legal em reboque rodoviário.',
     examTip: 'Não confundir Boca (largura máxima) com Pontal (altura do casco) ou Comprimento.',
     importance: 'importante',
-    synonyms: ['Largura máxima', 'Beam'],
+    synonyms: ['Largura máxima', 'Boca da meia-nau'],
     relatedTerms: ['pontal', 'meia-nau'],
   },
   {
@@ -175,7 +175,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O pontal da embarcação define a sua altura total interna estrutural.',
     examTip: 'Lembre-se: Pontal = Calado + Bordo Livre.',
     importance: 'importante',
-    synonyms: ['Depth'],
+    synonyms: ['Altura de construção', 'Pontal de construção'],
     relatedTerms: ['calado', 'bordo-livre'],
   },
   {
@@ -186,7 +186,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O comando do leme "a meio" posiciona a pá na linha longitudinal da meia-nau.',
     examTip: 'As dimensões transversais como a boca máxima são geralmente medidas a meia-nau.',
     importance: 'importante',
-    synonyms: ['Midships'],
+    synonyms: ['Secção mestra', 'Plano diametral médio'],
     relatedTerms: ['proa', 'popa'],
   },
   {
@@ -195,9 +195,9 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     category: 'nomenclatura-geral',
     definition: 'Peça de metal ou compósito fixada no convés em forma de T ou dois cornos, usada para dar voltas e fixar os cabos de amarração.',
     example: 'Ao atracar, fixámos o cabo de proa com uma volta redonda e dois cotes no cunho do convés.',
-    examTip: 'Nos exames práticos e teóricos, a amarração correcta a um cunho faz-se com volta mordida em oito.',
+    examTip: 'Nos exames práticos e teóricos, a amarração correta a um cunho faz-se com volta mordida em oito.',
     importance: 'essencial',
-    synonyms: ['Cleat'],
+    synonyms: ['Cunho de convés', 'Cunho de amarração'],
     relatedTerms: ['cabeco', 'amarras-fundear'],
   },
 
@@ -210,7 +210,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Mantivemos a embarcação no rumo da agulha de 240 graus em direção à entrada do porto.',
     examTip: 'A agulha náutica não aponta para o Norte Verdadeiro, mas sim para o Norte da Agulha, sujeito à declinação magnética e desvio do ferro de bordo.',
     importance: 'essencial',
-    synonyms: ['Bússola náutica', 'Compass'],
+    synonyms: ['Agulha de marear', 'Bússola náutica'],
     relatedTerms: ['rumo-agulha', 'declinacao-magnetica', 'desvio-agulha', 'rosa-dos-ventos'],
   },
   {
@@ -221,7 +221,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O timoneiro tem a instrução de manter o Ra = 090º durante a viagem até à ilha da Culatra.',
     examTip: 'Fórmula fundamental: Rv = Ra + Dt (onde Dt = d + dm, sendo d o desvio da agulha e dm a declinação magnética).',
     importance: 'essencial',
-    synonyms: ['Ra'],
+    synonyms: ['Ra', 'Rumo da agulha de marear'],
     relatedTerms: ['rumo-verdadeiro', 'agulha-magnetica'],
   },
   {
@@ -232,7 +232,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Traçámos na carta o rumo verdadeiro de 180º para descer a costa vicentina.',
     examTip: 'O rumo traçado na carta com a régua de paralelas é SEMPRE o Rumo Verdadeiro (Rv).',
     importance: 'essencial',
-    synonyms: ['Rv', 'True course'],
+    synonyms: ['Rv', 'Rumo na carta náutica'],
     relatedTerms: ['rumo-da-agulha', 'declinacao-magnetica'],
   },
   {
@@ -243,7 +243,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Na carta de Cascais a declinação magnética indicada é de 2º W diminuindo 8 minutos de arco ao ano.',
     examTip: 'Se a declinação é para Oeste (W), o seu valor numérico é considerado negativo nas fórmulas de cálculo.',
     importance: 'essencial',
-    synonyms: ['dm', 'Variação magnética'],
+    synonyms: ['dm', 'Variação magnética local'],
     relatedTerms: ['desvio-agulha', 'agulha-magnetica', 'rumo-verdadeiro'],
   },
   {
@@ -254,7 +254,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Depois de instalar um rádio VHF junto da bússola, o desvio da agulha aumentou 3 graus.',
     examTip: 'O desvio da agulha depende da proa da embarcação e é determinado através de uma tabela de desvios.',
     importance: 'importante',
-    synonyms: ['d', 'Magnetic deviation'],
+    synonyms: ['d', 'Desvio do ferro de bordo'],
     relatedTerms: ['declinacao-magnetica', 'agulha-magnetica'],
   },
   {
@@ -265,18 +265,18 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'A distância entre o porto de recreio de Oeiras e Cascais é de aproximadamente 6 milhas náuticas.',
     examTip: 'PERGUNTA OBRIGATÓRIA: 1 Milha Marítima = 1.852 metros. Mede-se SEMPRE na escala vertical das latitudes da carta náutica.',
     importance: 'essencial',
-    synonyms: ['NM', 'M'],
+    synonyms: ['Milha náutica', 'M'],
     relatedTerms: ['no', 'linha-sonda'],
   },
   {
     id: 'no',
-    term: 'Nó (Knot)',
+    term: 'Nó',
     category: 'navegacao-agulhas',
     definition: 'Unidade de velocidade em navegação marítima equivalente a uma milha náutica por hora (1 nó = 1,852 km/h).',
     example: 'A velocidade máxima autorizada no canal do rio Tejo é de 5 nós para não criar ondulação excessiva.',
-    examTip: 'Nunca diga "nós por hora", pois o nó já é milhas por hora!',
+    examTip: 'Nunca diga "nós por hora", pois o nó já representa milhas por hora!',
     importance: 'essencial',
-    synonyms: ['Knots', 'Kt'],
+    synonyms: ['Milhas por hora marítimas', 'Velocidade de navio'],
     relatedTerms: ['milha-maritima'],
   },
   {
@@ -287,7 +287,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Navegámos pelo enfiamento das duas balizas iluminadas para entrar com segurança no porto de Portimão.',
     examTip: 'O enfiamento é uma das formas mais seguras e simples de verificar se o barco não está a ser desviado pela corrente.',
     importance: 'importante',
-    synonyms: ['Alinhamento visual', 'Leading line'],
+    synonyms: ['Alinhamento de marcas', 'Linha de enfiamento'],
     relatedTerms: ['rumo-verdadeiro', 'agulha-magnetica'],
   },
 
@@ -300,7 +300,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Avistando um iate a motor a aproximar-se pelo meu estibordo, reduzi a velocidade e guinei para estibordo.',
     examTip: 'REGRA DE OURO: "Quem vê estibordo verde, cede passagem". A embarcação que tem a outra por estibordo manobra; a outra mantém o rumo e velocidade.',
     importance: 'essencial',
-    synonyms: ['Prioridade pela direita', 'Crossing situation'],
+    synonyms: ['Cruzamento de rumos', 'Prioridade por estibordo'],
     relatedTerms: ['roda-a-roda', 'ultrapassagem', 'velocidade-seguranca'],
   },
   {
@@ -311,7 +311,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Vindo outro barco de frente para nós, ambos guinámos para a direita (estibordo) garantindo distância de segurança.',
     examTip: 'Perguntas de exame: Em situação de proa com proa (roda a roda), as duas embarcações guinam para ESTIBORDO emitindo um apito curto.',
     importance: 'essencial',
-    synonyms: ['Proa com proa', 'Head-on'],
+    synonyms: ['Proa com proa', 'Navios em rumos opostos'],
     relatedTerms: ['rumos-cruzados', 'sinais-sonoros-ripam'],
   },
   {
@@ -322,7 +322,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Ao navegar a 15 nós ultrapassando um veleiro a 5 nós, tivemos de manobrar com ampla folga pela alheta.',
     examTip: 'Considera-se que ultrapassa quem se aproxima num setor superior a 22,5 graus para a ré do través (à noite só vê a luz de alcance branca).',
     importance: 'essencial',
-    synonyms: ['Alcançar', 'Overtaking'],
+    synonyms: ['Navio alcançador', 'Manobra de ultrapassar'],
     relatedTerms: ['luz-alcance', 'rumos-cruzados'],
   },
   {
@@ -333,7 +333,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Ao cair da noite ligámos de imediato as luzes de bordos e a luz de tope/mastro.',
     examTip: 'Soma total dos setores das luzes: 112,5º (EB) + 112,5º (BB) + 135º (Alcance) = 360º de cobertura ao redor de todo o horizonte.',
     importance: 'essencial',
-    synonyms: ['Luzes de bordo', 'Navigation lights'],
+    synonyms: ['Luzes regulamentares de bordo', 'Luzes de navegação noturna'],
     relatedTerms: ['luz-alcance', 'estibordo', 'bombordo'],
   },
   {
@@ -344,7 +344,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Quando estamos a alcançar um navio pela sua popa, a primeira luz visível é a sua luz de alcance.',
     examTip: 'O setor da luz de alcance é de 135 graus. Se avistar apenas uma luz branca na água, pode ser um barco fundeado ou a popa de um navio.',
     importance: 'essencial',
-    synonyms: ['Luz de popa', 'Sternlight'],
+    synonyms: ['Luz de popa', 'Farol de alcance à ré'],
     relatedTerms: ['luzes-navegacao', 'popa', 'ultrapassagem'],
   },
   {
@@ -355,7 +355,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Em aproximação a uma curva de rio cega, emitimos um apito longo de aviso.',
     examTip: '5 apitos curtos ou mais: significa "não compreendo as suas intenções" ou "duvido da sua manobra" (sinal de perigo).',
     importance: 'essencial',
-    synonyms: ['Apitos de manobra'],
+    synonyms: ['Apitos de manobra', 'Sinais acústicos'],
     relatedTerms: ['roda-a-roda', 'rumos-cruzados'],
   },
   {
@@ -366,31 +366,31 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Sob nevoeiro denso à saída de Setúbal, reduzimos para velocidade de segurança com vigia na proa.',
     examTip: 'A velocidade de segurança não é um número fixo de nós; é aquela que permite parar com segurança no espaço disponível.',
     importance: 'importante',
-    synonyms: ['Safe speed'],
+    synonyms: ['Velocidade controlada', 'Marcha de segurança'],
     relatedTerms: ['sinais-sonoros-ripam'],
   },
 
   // --- Balizamento IALA Região A ---
   {
     id: 'marca-lateral-estibordo',
-    term: 'Bóia Lateral de Estibordo (IALA A)',
+    term: 'Boia Lateral de Estibordo (IALA A)',
     category: 'balizamento-iala',
     definition: 'No Sistema IALA Região A (adotado em Portugal e na Europa), quem entra no porto ou canal vindo do mar deve deixar as marcas de Estibordo por ESTIBORDO (à sua direita). Cor VERDE, formato cónico, e luz verde.',
-    example: 'Ao subir o estuário do Sado, deixámos as bóias cónicas verdes pelo nosso bordo de estibordo.',
+    example: 'Ao subir o estuário do Sado, deixámos as boias cónicas verdes pelo nosso bordo de estibordo.',
     examTip: 'MUITO IMPORTANTE PARA O EXAME: Em Portugal (IALA A), a entrar na barra: VERDE à direita (Estibordo), VERMELHO à esquerda (Bombordo). A sair da barra inverte-se!',
     importance: 'essencial',
-    synonyms: ['Bóia verde', 'Starboard lateral mark'],
+    synonyms: ['Boia verde cónica', 'Baliza de estibordo'],
     relatedTerms: ['marca-lateral-bombordo', 'estibordo'],
   },
   {
     id: 'marca-lateral-bombordo',
-    term: 'Bóia Lateral de Bombordo (IALA A)',
+    term: 'Boia Lateral de Bombordo (IALA A)',
     category: 'balizamento-iala',
     definition: 'No Sistema IALA Região A, quem entra no porto ou canal deve deixar as marcas de Bombordo por BOMBORDO (à sua esquerda). Cor VERMELHA, formato cilíndrico (ou castelo), topo cilíndrico vermelho e luz vermelha.',
-    example: 'A entrada na barra de Lisboa exige manter o canal deixando as bóias vermelhas cilíndricas a bombordo.',
+    example: 'A entrada na barra de Lisboa exige manter o canal deixando as boias vermelhas cilíndricas a bombordo.',
     examTip: 'A entrar no porto: Bombordo = Vermelho e Cilíndrico. Estibordo = Verde e Cónico.',
     importance: 'essencial',
-    synonyms: ['Bóia vermelha', 'Port lateral mark'],
+    synonyms: ['Boia vermelha cilíndrica', 'Baliza de bombordo'],
     relatedTerms: ['marca-lateral-estibordo', 'bombordo'],
   },
   {
@@ -401,7 +401,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Passámos a norte da marca cardinal para nos mantermos afastados das rochas submersas a sul.',
     examTip: 'Tope com cones para cima = Norte (cones apontam para cima como no mapa). Luz branca cintilante contínua.',
     importance: 'essencial',
-    synonyms: ['Bóia cardinal Norte'],
+    synonyms: ['Boia cardinal Norte', 'Marca de quadrante Norte'],
     relatedTerms: ['marca-cardinal-sul', 'marca-cardinal-este', 'marca-cardinal-oeste'],
   },
   {
@@ -412,7 +412,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Avistada a marca cardinal Sul, governámos o rumo por forma a passar a sul da mesma.',
     examTip: 'Tope com cones para baixo = Sul. Ritmo da luz branca: 6 cintilações + 1 clarão longo (como o algarismo 6 do mostrador do relógio).',
     importance: 'essencial',
-    synonyms: ['Bóia cardinal Sul'],
+    synonyms: ['Boia cardinal Sul', 'Marca de quadrante Sul'],
     relatedTerms: ['marca-cardinal-norte'],
   },
   {
@@ -423,7 +423,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Para evitar o baixio rochoso da ilha, demos a volta passando pelo lado este da marca.',
     examTip: 'Cones unidos pelas bases = Este (lembra a forma da letra E ou um ovo). Luz: 3 cintilações (posição 3 no relógio).',
     importance: 'essencial',
-    synonyms: ['Bóia cardinal Este'],
+    synonyms: ['Boia cardinal Este', 'Marca de quadrante Leste'],
     relatedTerms: ['marca-cardinal-oeste'],
   },
   {
@@ -434,7 +434,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Mantivemo-nos a oeste da baliza para evitar a restinga de areia que se estende para este.',
     examTip: 'Cones unidos pelos vértices = Oeste (lembra uma ampulheta/cintura de vespa). Luz: 9 cintilações (posição 9 horas no relógio).',
     importance: 'essencial',
-    synonyms: ['Bóia cardinal Oeste'],
+    synonyms: ['Boia cardinal Oeste', 'Marca de quadrante Oeste'],
     relatedTerms: ['marca-cardinal-este'],
   },
   {
@@ -442,10 +442,10 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     term: 'Marca de Perigo Isolado',
     category: 'balizamento-iala',
     definition: 'Colocada sobre ou imediatamente junto a um perigo com águas navegáveis em todo o seu redor. Cor preta com uma ou mais faixas horizontais vermelhas. Tope: duas esferas pretas sobrepostas.',
-    example: 'Uma rocha isolada no meio da baía é assinalada por uma bóia preta com listas vermelhas e duas esferas no topo.',
+    example: 'Uma rocha isolada no meio da baía é assinalada por uma boia preta com listas vermelhas e duas esferas no topo.',
     examTip: 'Tope com DUAS ESFERAS PRETAS. Luz: branca com grupo de 2 clarões (Fl(2)).',
     importance: 'essencial',
-    synonyms: ['Isolated danger mark'],
+    synonyms: ['Boia de perigo isolado', 'Marca de escolho'],
     relatedTerms: ['marca-aguas-limpas'],
   },
   {
@@ -453,10 +453,10 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     term: 'Marca de Águas Limpas',
     category: 'balizamento-iala',
     definition: 'Indica que existem águas navegáveis em todo o redor da marca, servindo como marca de aterragem, eixo de canal ou entrada de barra. Faixas verticais vermelhas e brancas com uma esfera vermelha no topo.',
-    example: 'A bóia de aterragem na entrada de Cascais apresenta listas verticais vermelhas e brancas.',
+    example: 'A boia de aterragem na entrada de Cascais apresenta listas verticais vermelhas e brancas.',
     examTip: 'Identificação rápida: Faixas VERTICAIS vermelhas e brancas + uma esfera vermelha. Luz isofásica, de ocultações ou código Morse letra A (.-).',
     importance: 'essencial',
-    synonyms: ['Bóia de aterragem', 'Safe water mark'],
+    synonyms: ['Boia de águas limpas', 'Boia de aterragem'],
     relatedTerms: ['marca-perigo-isolado'],
   },
 
@@ -469,7 +469,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Antes de mergulhar na baía abrigada, largámos o ferro a 4 metros de profundidade.',
     examTip: 'Em linguagem náutica tradicional utiliza-se vulgarmente a designação "Ferro". A âncora mais comum em barcos de recreio portugueses é a Danforth.',
     importance: 'essencial',
-    synonyms: ['Ferro', 'Anchor'],
+    synonyms: ['Ferro', 'Fateixa de fundear'],
     relatedTerms: ['amarra', 'garrar', 'filar-amarra'],
   },
   {
@@ -480,7 +480,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Como regra para fundear em segurança com tempo calmo, devemos filar 3 a 5 vezes a sonda em amarra.',
     examTip: 'REGRA DE OURO DO EXAME: Com amarra só de corrente, fila-se 3 a 4 vezes a profundidade da água; com amarra mista cabo/corrente, fila-se 5 a 7 vezes a profundidade!',
     importance: 'essencial',
-    synonyms: ['Linha de fundeio', 'Anchor chain'],
+    synonyms: ['Corrente de fundeio', 'Linha de amarra'],
     relatedTerms: ['ancora-ferro', 'filar-amarra', 'garrar'],
   },
   {
@@ -491,7 +491,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Durante a noite o vento rondou para sueste e o barco começou a garrar em direção às rochas.',
     examTip: 'Para verificar se o barco está a garrar, marcam-se dois pontos em terra (enfiamento) ou verifica-se a tensão e solavancos na amarra.',
     importance: 'essencial',
-    synonyms: ['Arrastar o ferro', 'Dragging anchor'],
+    synonyms: ['Arrastar o ferro', 'Desferrar'],
     relatedTerms: ['ancora-ferro', 'enfiamento'],
   },
   {
@@ -502,7 +502,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Com o barco a recuar lentamente à mercê do vento, ordenou-se filar amarra até aos 20 metros.',
     examTip: 'A manobra correta de fundear faz-se sempre de marcha à ré e nunca com o barco parado em seco a largar a corrente por cima do ferro.',
     importance: 'importante',
-    synonyms: ['Arriar corrente'],
+    synonyms: ['Arriar amarra', 'Largar corrente'],
     relatedTerms: ['amarra', 'ancora-ferro'],
   },
 
@@ -515,7 +515,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Num hélice com passo à direita em marcha à ré, a popa é empurrada decididamente para bombordo.',
     examTip: 'Conceito essencial para atracar: Em marcha à ré, hélice de passo à direita leva a popa para BOMBORDO; hélice de passo à esquerda leva a popa para ESTIBORDO.',
     importance: 'essencial',
-    synonyms: ['Rasto de hélice', 'Propeller walk'],
+    synonyms: ['Passo do hélice', 'Efeito de guinada do hélice'],
     relatedTerms: ['ciada'],
   },
   {
@@ -526,18 +526,18 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Demos uma ciada firme para quebrar o seguimento antes de encostar a proa ao cais.',
     examTip: 'Dar uma ciada significa colocar o motor a fazer marcha à ré para travar o seguimento da embarcação.',
     importance: 'importante',
-    synonyms: ['Marcha a ré', 'Travar com motor'],
+    synonyms: ['Marcha a ré', 'Travar com as máquinas'],
     relatedTerms: ['efeito-helice'],
   },
   {
     id: 'homem-ao-mar',
     term: 'Manobra de Homem ao Mar',
     category: 'manobras-propulsao',
-    definition: 'Procedimento imediato e prioritário em caso de queda de um tripulante: gritar "homem ao mar", guinar de imediato a popa para o lado da queda (para afastar o hélice da vítima), lançar a boia com retenida e acionar o MOB no GPS.',
+    definition: 'Procedimento imediato e prioritário em caso de queda de um tripulante: gritar "homem ao mar", guinar de imediato a popa para o lado da queda (para afastar o hélice da vítima), lançar a boia com retenida e acionar a tecla de socorro no GPS.',
     example: 'Quando o tripulante caiu por estibordo, o timoneiro guinou de imediato para estibordo para afastar o hélice.',
     examTip: 'PERGUNTA CLÁSSICA DE SEGURANÇA: A primeira reação ao leme é guinar para o MESMO LADO da queda (afasta o hélice da vítima). Em seguida lançar boia e não perder a vítima de vista.',
     importance: 'essencial',
-    synonyms: ['MOB', 'Man Overboard'],
+    synonyms: ['Queda de homem à água', 'Manobra de salvamento de náufrago'],
     relatedTerms: ['boia-salva-vidas', 'colete-salva-vidas'],
   },
 
@@ -550,7 +550,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Antes de largar do porto, foi verificado que existiam a bordo 6 coletes salva-vidas homologados com marcação CE.',
     examTip: 'O número de coletes a bordo tem de corresponder no mínimo à lotação autorizada ou às pessoas a bordo.',
     importance: 'essencial',
-    synonyms: ['Lifejacket', 'Colete salva-vidas homologado'],
+    synonyms: ['Colete homologado', 'Aparelho individual de salvação'],
     relatedTerms: ['boia-salva-vidas', 'homem-ao-mar'],
   },
   {
@@ -561,7 +561,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Em situação de socorro noturno quando se avista uma embarcação de busca, acende-se o facho de mão a sotavento.',
     examTip: 'O facho deve ser segurado pelo punho com o braço estendido para FORA da borda e para SOTAVENTO para evitar que faíscas caiam no barco ou no operador.',
     importance: 'essencial',
-    synonyms: ['Red hand flare', 'Facho pirotécnico'],
+    synonyms: ['Facho pirotécnico manual', 'Sinal luminoso vermelho de mão'],
     relatedTerms: ['foguete-paraquedas', 'comunicacoes-vhf'],
   },
   {
@@ -572,7 +572,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O foguete com paraquedas foi disparado a prumo para alertar as equipas da estação salva-vidas a várias milhas de distância.',
     examTip: 'Validade dos pirotécnicos: 3 anos a contar da data de fabrico. Devem ser guardados em recipiente estanque.',
     importance: 'essencial',
-    synonyms: ['Parachute flare', 'Foguete de socorro'],
+    synonyms: ['Foguete pirotécnico com paraquedas', 'Sinal de socorro luminoso'],
     relatedTerms: ['facho-mao-vermelho'],
   },
   {
@@ -583,7 +583,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'A boia circular deve estar estivada num local desimpedido do convés, pronta a ser lançada imediatamente.',
     examTip: 'A boia deve ter um cabo de retenida flutuante de comprimento não inferior a 27,5 metros (ou dobro da altura do convés).',
     importance: 'essencial',
-    synonyms: ['Lifebuoy', 'Boia com retenida'],
+    synonyms: ['Boia circular com retenida', 'Boia de salvação'],
     relatedTerms: ['homem-ao-mar', 'colete-salva-vidas'],
   },
 
@@ -596,7 +596,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Após o contacto inicial com a capitania no canal 16, a conversa passou para o canal de trabalho 11.',
     examTip: 'PERGUNTA OBRIGATÓRIA: Canal 16 é exclusivo de Chamada, Socorro e Segurança. É proibido usá-lo para conversas rotineiras entre embarcações!',
     importance: 'essencial',
-    synonyms: ['Ch 16', '156.8 MHz'],
+    synonyms: ['Canal 16', 'Frequência de socorro 156,800 MHz'],
     relatedTerms: ['mayday', 'pan-pan', 'securite'],
   },
   {
@@ -607,7 +607,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Com o barco a afundar após colisão contra rocha submersa, transmitiu-se MAYDAY com posição e número de pessoas.',
     examTip: 'Hierarquia rádio: 1º MAYDAY (perigo de vida iminente); 2º PAN-PAN (urgência médica ou técnica); 3º SECURITÉ (aviso de segurança à navegação).',
     importance: 'essencial',
-    synonyms: ['Distress signal'],
+    synonyms: ['Sinal vocal de socorro', 'Chamada de socorro grave e iminente'],
     relatedTerms: ['canal-16-vhf', 'pan-pan', 'securite'],
   },
   {
@@ -618,7 +618,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Após quebra do veio do motor à entrada da baía, transmitimos PAN-PAN a solicitar assistência de reboque.',
     examTip: 'Pan-Pan é de Urgência, não de Socorro de vida imediato.',
     importance: 'essencial',
-    synonyms: ['Urgency call'],
+    synonyms: ['Sinal vocal de urgência', 'Chamada de urgência médica ou técnica'],
     relatedTerms: ['mayday', 'securite', 'canal-16-vhf'],
   },
   {
@@ -629,7 +629,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'O Instituto Hidrográfico transmitiu um sinal Sécurité sobre um contentor à deriva ao largo do Cabo da Roca.',
     examTip: 'Sécurité é para avisos à navegação, troncos flutuantes, faróis apagados ou aproximação de vendaval.',
     importance: 'importante',
-    synonyms: ['Navigational warning'],
+    synonyms: ['Aviso de segurança à navegação', 'Chamada de segurança marítima'],
     relatedTerms: ['canal-16-vhf', 'mayday'],
   },
 
@@ -642,7 +642,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Consultámos a tabela de marés para garantir a entrada no porto de Faro durante a preia-mar.',
     examTip: 'O intervalo médio entre uma preia-mar e a baixa-mar seguinte é de cerca de 6 horas e 12 minutos.',
     importance: 'essencial',
-    synonyms: ['Maré alta', 'High water'],
+    synonyms: ['Maré cheia', 'Maré alta'],
     relatedTerms: ['baixa-mar', 'amplitude-mare', 'aguas-vivas'],
   },
   {
@@ -653,7 +653,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Na baixa-mar os bancos de areia da ria ficaram descobertos.',
     examTip: 'A profundidade indicada na carta náutica (sonda da carta) está referenciada ao Zero Hidrográfico, que corresponde à baixa-mar máxima astronómica.',
     importance: 'essencial',
-    synonyms: ['Maré baixa', 'Low water'],
+    synonyms: ['Maré vazia', 'Maré baixa'],
     relatedTerms: ['preia-mar', 'amplitude-mare'],
   },
   {
@@ -664,7 +664,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Na costa portuguesa a amplitude da maré pode ultrapassar os 3,5 metros nas marés de águas vivas.',
     examTip: 'Amplitude = Altura da Preia-Mar menos Altura da Baixa-Mar.',
     importance: 'essencial',
-    synonyms: ['Tidal range'],
+    synonyms: ['Desnível da maré', 'Variação vertical da maré'],
     relatedTerms: ['preia-mar', 'baixa-mar', 'aguas-vivas'],
   },
   {
@@ -675,7 +675,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'Durante as águas vivas da lua cheia, as correntes de maré na barra de Aveiro tornam-se extremamente violentas.',
     examTip: 'Águas vivas = Lua Cheia e Lua Nova (maior amplitude e correntes mais fortes). Águas mortas = Quartos crescente e minguante.',
     importance: 'essencial',
-    synonyms: ['Marés de sizígia', 'Spring tides'],
+    synonyms: ['Marés de sizígia', 'Marés vivas'],
     relatedTerms: ['amplitude-mare', 'preia-mar'],
   },
   {
@@ -686,7 +686,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     example: 'A capitania emitiu aviso de temporal com vento de força 7 na escala Beaufort ao largo do Cabo de São Vicente.',
     examTip: 'A Carta de Marinheiro autoriza a navegar em condições normais até à força 4 ou 5 Beaufort (brisa moderada a fresca, ondas até 1 metro a 1,5m em abrigo).',
     importance: 'essencial',
-    synonyms: ['Beaufort scale'],
+    synonyms: ['Escala anemométrica de Beaufort', 'Graus de vento'],
     relatedTerms: ['escala-douglas'],
   },
 ];
@@ -707,7 +707,7 @@ export const SAMPLE_QUIZ_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'q2',
-    question: 'Ao entrar num porto em Portugal (Sistema de Balizamento IALA Região A), por que bordo deve deixar uma bóia cilíndrica de cor vermelha?',
+    question: 'Ao entrar num porto em Portugal (Sistema de Balizamento IALA Região A), por que bordo deve deixar uma boia cilíndrica de cor vermelha?',
     options: [
       'Por Estibordo (lado direito da nossa embarcação).',
       'Por Bombordo (lado esquerdo da nossa embarcação).',
@@ -754,7 +754,7 @@ export const SAMPLE_QUIZ_QUESTIONS: QuizQuestion[] = [
       'Canal 72',
     ],
     correctIndex: 1,
-    explanation: 'O Canal 16 (156.800 MHz) é o canal internacional obrigatório de socorro, segurança e chamada no mar.',
+    explanation: 'O Canal 16 (156,800 MHz) é o canal internacional obrigatório de socorro, segurança e chamada no mar.',
     category: 'comunicacoes-vhf',
   },
   {

@@ -212,7 +212,7 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
 
           <div>
             <label className="block text-xs font-semibold text-[#475569] mb-1">
-              Sinónimos / Equivalentes (separados por vírgula)
+              Outras designações (separadas por vírgula)
             </label>
             <input
               type="text"

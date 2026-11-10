@@ -185,7 +185,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
 
           {term.synonyms && term.synonyms.length > 0 && (
             <p className="mt-1 text-xs sm:text-sm text-[#475569] italic">
-              Outras designações / Abreviaturas: {term.synonyms.join(' • ')}
+              Outras designações: {term.synonyms.join(' • ')}
             </p>
           )}
         </div>

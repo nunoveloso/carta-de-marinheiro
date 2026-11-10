@@ -225,7 +225,7 @@ export const VisualGuideView: React.FC = () => {
                     O lado esquerdo da embarcação para quem olha para a proa. À noite é assinalado pela luz vermelha com setor de 112,5 graus.
                   </p>
                   <p className="mt-2.5 text-xs text-[#1e3a5f] bg-[#f0f4f8] p-3 rounded-xl border border-[#d2deeb]">
-                    <strong>Mnemónica de Exame:</strong> "Bom-bor-do" tem R (veRmelho). Ao entrar na barra em Portugal, bóias vermelhas ficam a Bombordo!
+                    <strong>Mnemónica de Exame:</strong> "Bom-bor-do" tem R (veRmelho). Ao entrar na barra em Portugal, boias vermelhas ficam a Bombordo!
                   </p>
                 </div>
               )}

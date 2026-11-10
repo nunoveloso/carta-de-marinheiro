@@ -128,7 +128,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <FileText className="w-4 h-4" />
                   <span className="font-maritime text-2xl font-bold text-[#112338]">{notesCount}</span>
                 </div>
-                <div className="text-[11px] text-[#64748b] font-medium">Notas Salvas</div>
+                <div className="text-[11px] text-[#64748b] font-medium">Notas Guardadas</div>
               </div>
             </div>
 
