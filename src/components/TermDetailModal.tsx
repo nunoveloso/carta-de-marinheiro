@@ -5,6 +5,8 @@ import { CATEGORIES } from '../data/initialTerms';
 import { User as FirebaseUser } from 'firebase/auth';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
+import { DayShapesIllustration } from './DayShapesIllustration';
+import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 
 interface TermDetailModalProps {
   term: NauticalTerm | null;
@@ -221,6 +223,22 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
               />
             </div>
           </div>
+
+          {/* Day Shapes / Balões Dedicated Illustration */}
+          <DayShapesIllustration
+            termId={term.id}
+            variant="modal"
+            allTerms={allTerms}
+            onSelectTerm={onSelectTerm}
+          />
+
+          {/* Signal Flags / Bandeiras CIS Dedicated Illustration */}
+          <SignalFlagsIllustration
+            termId={term.id}
+            variant="modal"
+            allTerms={allTerms}
+            onSelectTerm={onSelectTerm}
+          />
 
           {/* Practical Onboard Example */}
           {term.example && (

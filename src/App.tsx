@@ -84,7 +84,9 @@ export default function App() {
           snapshot.forEach((docSnap) => {
             loadedFromFirestore.push({ ...docSnap.data(), id: docSnap.id } as NauticalTerm);
           });
-          setTerms(loadedFromFirestore);
+          const firestoreIds = new Set(loadedFromFirestore.map((t) => t.id));
+          const missingTerms = INITIAL_TERMS.filter((t) => !firestoreIds.has(t.id));
+          setTerms([...loadedFromFirestore, ...missingTerms]);
         } else {
           setTerms(INITIAL_TERMS);
           seedTermsToFirestore();

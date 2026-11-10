@@ -3857,6 +3857,7 @@ export const INITIAL_TERMS: NauticalTerm[] = [
       "bandeira-bravo",
       "bandeira-oscar",
       "bandeira-quebec",
+      "bandeira-victor",
       "navtex"
     ]
   },
@@ -3922,6 +3923,24 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     "examTip": "Código Internacional de Sinais: decore as letras de maior relevância de segurança (A, B, O, V).",
     "relatedTerms": [
       "bandeira-bravo",
+      "bandeira-victor",
+      "codigo-internacional-de-sinais"
+    ]
+  },
+  {
+    "id": "bandeira-victor",
+    "term": "Bandeira Victor (V)",
+    "category": "comunicacoes-vhf",
+    "section": "Código Internacional de Sinais",
+    "subsection": "Bandeiras alfabéticas",
+    "page": 69,
+    "definition": "Bandeira branca com uma aspa (cruz diagonal) vermelha. Significado de sinal isolado: \"Preciso de assistência / socorro\". Código Morse: · · · —.",
+    "importance": "essencial",
+    "examTip": "Bandeira Victor (V, · · · —) = Preciso de assistência/socorro. Pergunta frequente de exame da DGRM!",
+    "relatedTerms": [
+      "bandeira-alfa",
+      "bandeira-bravo",
+      "bandeira-oscar",
       "codigo-internacional-de-sinais"
     ]
   },

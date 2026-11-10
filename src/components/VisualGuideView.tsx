@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Compass, Ship, Navigation, Volume2, Info } from 'lucide-react';
+import { Compass, Ship, Navigation, Volume2, Info, Layers, Flag } from 'lucide-react';
+import { DayShapesIllustration } from './DayShapesIllustration';
+import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 
 export const VisualGuideView: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<'barco' | 'luzes' | 'iala' | 'sons'>('barco');
+  const [activeSection, setActiveSection] = useState<'barco' | 'luzes' | 'iala' | 'sons' | 'baloes' | 'bandeiras'>('barco');
   const [selectedBoatPart, setSelectedBoatPart] = useState<string>('eb');
 
   // Web Audio ship horn beeper
@@ -98,6 +100,30 @@ export const VisualGuideView: React.FC = () => {
         >
           <Volume2 className="w-4 h-4" />
           <span>Sinais Sonoros com Áudio</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSection('baloes')}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition ${
+            activeSection === 'baloes'
+              ? 'bg-[#112338] text-[#fbf8f2] shadow-sm'
+              : 'border border-[#ded5c2] bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
+          }`}
+        >
+          <Layers className="w-4 h-4" />
+          <span>Balões (Marcas Diurnas)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSection('bandeiras')}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition ${
+            activeSection === 'bandeiras'
+              ? 'bg-[#112338] text-[#fbf8f2] shadow-sm'
+              : 'border border-[#ded5c2] bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
+          }`}
+        >
+          <Flag className="w-4 h-4" />
+          <span>Bandeiras (CIS & Morse)</span>
         </button>
       </div>
 
@@ -443,6 +469,20 @@ export const VisualGuideView: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* SECTION 5: BALÕES E MARCAS DIURNAS */}
+      {activeSection === 'baloes' && (
+        <div className="space-y-6">
+          <DayShapesIllustration termId="baloes-de-navegacao" variant="modal" />
+        </div>
+      )}
+
+      {/* SECTION 6: BANDEIRAS CIS E CÓDIGO MORSE */}
+      {activeSection === 'bandeiras' && (
+        <div className="space-y-6">
+          <SignalFlagsIllustration termId="codigo-internacional-de-sinais" variant="modal" />
         </div>
       )}
     </div>

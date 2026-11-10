@@ -4,6 +4,8 @@ import { NauticalTerm, TermImportance } from '../types/glossary';
 import { CATEGORIES } from '../data/initialTerms';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
+import { DayShapesIllustration } from './DayShapesIllustration';
+import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 
 interface TermCardProps {
   term: NauticalTerm;
@@ -141,6 +143,22 @@ export const TermCard: React.FC<TermCardProps> = ({
             onSelectTerm={onSelectTerm}
           />
         </p>
+
+        {/* Day Shapes / Balões illustration if applicable */}
+        <DayShapesIllustration
+          termId={term.id}
+          variant="card"
+          allTerms={allTerms}
+          onSelectTerm={onSelectTerm}
+        />
+
+        {/* Signal Flags / Bandeiras CIS illustration if applicable */}
+        <SignalFlagsIllustration
+          termId={term.id}
+          variant="card"
+          allTerms={allTerms}
+          onSelectTerm={onSelectTerm}
+        />
 
         {/* Importante para o Exame Section */}
         {term.examTip && (
