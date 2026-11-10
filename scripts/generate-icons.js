@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
 
-// Simple CRC32 implementation
 const crcTable = new Uint32Array(256);
 for (let n = 0; n < 256; n++) {
   let c = n;
@@ -38,18 +37,17 @@ function createPng(width, height, pixelFn) {
   const ihdrData = Buffer.alloc(13);
   ihdrData.writeUInt32BE(width, 0);
   ihdrData.writeUInt32BE(height, 4);
-  ihdrData[8] = 8; // bit depth
-  ihdrData[9] = 6; // color type: RGBA
-  ihdrData[10] = 0; // compression
-  ihdrData[11] = 0; // filter
-  ihdrData[12] = 0; // interlace
+  ihdrData[8] = 8;
+  ihdrData[9] = 6;
+  ihdrData[10] = 0;
+  ihdrData[11] = 0;
+  ihdrData[12] = 0;
   const ihdrChunk = makeChunk('IHDR', ihdrData);
 
-  // Raw Scanlines
   const rawRows = [];
   for (let y = 0; y < height; y++) {
     const row = Buffer.alloc(1 + width * 4);
-    row[0] = 0; // Filter: None
+    row[0] = 0;
     for (let x = 0; x < width; x++) {
       const [r, g, b, a] = pixelFn(x, y, width, height);
       const offset = 1 + x * 4;
@@ -69,7 +67,6 @@ function createPng(width, height, pixelFn) {
   return Buffer.concat([signature, ihdrChunk, idatChunk, iendChunk]);
 }
 
-// Pixel generator for nautical compass / helm
 function drawNauticalIcon(x, y, w, h, isMaskable = false) {
   const cx = w / 2;
   const cy = h / 2;
@@ -80,7 +77,7 @@ function drawNauticalIcon(x, y, w, h, isMaskable = false) {
 
   // Maskable background fill
   if (isMaskable && dist > radius) {
-    return [11, 19, 43, 255]; // Deep nautical navy
+    return [251, 248, 242, 255]; // Papyrus
   }
 
   // Outside circle
@@ -88,55 +85,48 @@ function drawNauticalIcon(x, y, w, h, isMaskable = false) {
     return [0, 0, 0, 0];
   }
 
-  // Outer border gold ring
+  // Outer border navy ring
   if (dist > radius - (w * 0.04)) {
-    return [234, 179, 8, 255]; // Gold
+    return [17, 35, 56, 255]; // Navy
   }
 
-  // Navy field background
   const angle = Math.atan2(dy, dx);
-  const angleNorm = (angle + Math.PI * 2) % (Math.PI * 2);
 
-  // Spokes
+  // Spokes in antique brass
   for (let i = 0; i < 8; i++) {
     const spokeAngle = (i * Math.PI) / 4;
     const diff = Math.abs(angle - spokeAngle);
     if ((diff < 0.05 || Math.abs(diff - Math.PI * 2) < 0.05) && dist < radius * 0.9) {
-      return [250, 204, 21, 255]; // Yellow gold spoke
+      return [184, 134, 11, 255]; // Brass gold
     }
   }
 
-  // Steering wheel mid ring
+  // Compass ring
   if (Math.abs(dist - radius * 0.62) < (w * 0.025)) {
-    return [234, 179, 8, 255];
+    return [184, 134, 11, 255];
   }
 
   // Center hub
   if (dist < radius * 0.22) {
-    if (dist < radius * 0.08) return [255, 255, 255, 255];
-    return [3, 105, 161, 255]; // Ocean blue
+    if (dist < radius * 0.08) return [184, 134, 11, 255];
+    return [17, 35, 56, 255]; // Navy hub
   }
 
-  // Compass star points
-  // North point (Red)
+  // North point (Crimson Red & Navy)
   if (dy < 0 && Math.abs(dx) < Math.abs(dy) * 0.28 && dist < radius * 0.85) {
-    return dx < 0 ? [239, 68, 68, 255] : [220, 38, 38, 255];
+    return dx < 0 ? [153, 27, 27, 255] : [17, 35, 56, 255];
   }
-  // South point (Silver)
+  // South point (Navy & Slate)
   if (dy > 0 && Math.abs(dx) < Math.abs(dy) * 0.28 && dist < radius * 0.85) {
-    return [203, 213, 225, 255];
+    return dx < 0 ? [100, 116, 139, 255] : [17, 35, 56, 255];
   }
-  // East / West points (Gold)
+  // East / West points (Brass Gold & Navy)
   if (Math.abs(dy) < Math.abs(dx) * 0.28 && dist < radius * 0.85) {
-    return [250, 204, 21, 255];
+    return [184, 134, 11, 255];
   }
 
-  // Deep ocean gradient background
-  const grad = Math.min(1, dist / radius);
-  const r = Math.round(15 + grad * 10);
-  const g = Math.round(23 + grad * 20);
-  const b = Math.round(42 + grad * 40);
-  return [r, g, b, 255];
+  // Warm papyrus background field
+  return [253, 251, 247, 255];
 }
 
 const publicDir = path.resolve('public');
@@ -144,7 +134,6 @@ if (!fs.existsSync(publicDir)) {
   fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Generate files
 const icons = [
   { file: 'pwa-192x192.png', size: 192, maskable: false },
   { file: 'pwa-512x512.png', size: 512, maskable: false },

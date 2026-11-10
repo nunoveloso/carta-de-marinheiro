@@ -9,9 +9,8 @@ import {
   ArrowRight,
   ArrowLeft,
   Compass,
-  Trophy,
 } from 'lucide-react';
-import { NauticalTerm, TermCategory } from '../types/glossary';
+import { NauticalTerm } from '../types/glossary';
 import { CATEGORIES } from '../data/initialTerms';
 
 interface FlashcardsViewProps {
@@ -103,11 +102,11 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
   if (deck.length === 0) {
     return (
       <div className="py-16 text-center max-w-md mx-auto">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-800 text-slate-400">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f4efe4] border border-[#ded5c2] text-[#64748b]">
           <HelpCircle className="w-8 h-8" />
         </div>
-        <h3 className="mt-4 text-lg font-bold text-white">Nenhum termo encontrado</h3>
-        <p className="mt-2 text-xs sm:text-sm text-slate-400">
+        <h3 className="mt-4 font-maritime text-2xl font-bold text-[#112338]">Nenhum termo encontrado</h3>
+        <p className="mt-2 text-xs sm:text-sm text-[#64748b]">
           Não existem cartões com os filtros selecionados. Tente remover os filtros ou adicionar termos aos favoritos.
         </p>
         <button
@@ -116,7 +115,7 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
             setOnlyEssential(false);
             setOnlyBookmarked(false);
           }}
-          className="mt-4 rounded-xl bg-cyan-600 px-4 py-2 text-xs font-semibold text-white hover:bg-cyan-500 transition"
+          className="mt-4 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1c3858] transition"
         >
           Limpar Filtros
         </button>
@@ -136,11 +135,11 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
       {/* Header and Filter Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-            <Compass className="w-6 h-6 text-cyan-400" />
+          <h2 className="font-maritime text-2xl sm:text-3xl font-bold text-[#112338] flex items-center gap-2">
+            <Compass className="w-6 h-6 text-[#a16207]" />
             Modo Estudo: Flashcards
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-[#64748b]">
             Treine e memorize a terminologia essencial para o exame prático e teórico.
           </p>
         </div>
@@ -148,30 +147,30 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={handleShuffle}
-            className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/90 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-cyan-300 hover:border-cyan-500 transition"
+            className="flex items-center gap-1.5 rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs font-semibold text-[#1e293b] hover:border-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
             title="Baralhar cartões"
           >
-            <Shuffle className="w-3.5 h-3.5" />
+            <Shuffle className="w-3.5 h-3.5 text-[#112338]" />
             <span>Baralhar</span>
           </button>
 
           <button
             onClick={handleRestart}
-            className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/90 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white transition"
+            className="flex items-center gap-1.5 rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs font-semibold text-[#1e293b] hover:border-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
             title="Reiniciar baralho"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3.5 h-3.5 text-[#112338]" />
             <span>Reiniciar</span>
           </button>
         </div>
       </div>
 
       {/* Filter Chips Bar */}
-      <div className="flex flex-wrap items-center gap-2 mb-6 p-3 rounded-2xl bg-slate-900/80 border border-slate-800">
+      <div className="flex flex-wrap items-center gap-2 mb-6 p-3 rounded-2xl bg-[#f4efe4] border border-[#ded5c2]">
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="rounded-xl border border-slate-700 bg-slate-950 px-3 py-1.5 text-xs text-slate-200 focus:border-cyan-500 focus:outline-none"
+          className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
         >
           <option value="all">Todas as Categorias ({terms.length})</option>
           {CATEGORIES.map((cat) => (
@@ -185,11 +184,11 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
           onClick={() => setOnlyEssential(!onlyEssential)}
           className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
             onlyEssential
-              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-              : 'border border-slate-700 text-slate-300 hover:bg-slate-800'
+              ? 'bg-[#112338] text-[#fbf8f2]'
+              : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] shadow-2xs'
           }`}
         >
-          <Sparkles className="w-3 h-3 text-amber-400" />
+          <Sparkles className="w-3 h-3 text-[#d4af37]" />
           <span>Apenas Exame</span>
         </button>
 
@@ -197,29 +196,29 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
           onClick={() => setOnlyBookmarked(!onlyBookmarked)}
           className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
             onlyBookmarked
-              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-              : 'border border-slate-700 text-slate-300 hover:bg-slate-800'
+              ? 'bg-[#112338] text-[#fbf8f2]'
+              : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] shadow-2xs'
           }`}
         >
           <span>Favoritos ({bookmarkedIds.size})</span>
         </button>
 
-        <div className="ml-auto text-xs font-medium text-slate-400">
-          Dominados: <span className="text-emerald-400 font-bold">{masteredIds.size}</span>/{deck.length}
+        <div className="ml-auto text-xs font-medium text-[#64748b]">
+          Dominados: <span className="text-[#15803d] font-bold">{masteredIds.size}</span>/{deck.length}
         </div>
       </div>
 
       {/* Progress Bar */}
       <div className="mb-4">
-        <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+        <div className="flex justify-between text-xs text-[#64748b] mb-1.5">
           <span>
             Cartão {currentIndex + 1} de {deck.length}
           </span>
           <span>{progressPercent}% percorrido</span>
         </div>
-        <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+        <div className="h-2 w-full rounded-full bg-[#eae3d2] overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-300"
+            className="h-full bg-[#112338] transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -231,74 +230,74 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
         className="group relative h-96 w-full cursor-pointer perspective-1000 select-none"
       >
         <div
-          className={`relative h-full w-full rounded-3xl transition-transform duration-500 transform-style-3d shadow-2xl ${
+          className={`relative h-full w-full rounded-3xl transition-transform duration-500 transform-style-3d shadow-md ${
             isFlipped ? 'rotate-y-180' : ''
           }`}
         >
           {/* Front Side */}
-          <div className="absolute inset-0 backface-hidden flex flex-col justify-between rounded-3xl border border-cyan-900/50 bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-950/40 p-8 text-center ring-1 ring-cyan-500/20">
+          <div className="absolute inset-0 backface-hidden flex flex-col justify-between rounded-3xl border border-[#ded5c2] bg-[#fdfcf9] p-8 text-center shadow-xs">
             <div className="flex items-center justify-between text-xs">
-              <span className="rounded-lg bg-cyan-500/10 px-2.5 py-1 font-semibold text-cyan-300 border border-cyan-500/20">
+              <span className="font-semibold text-[#112338]">
                 {categoryMeta.name}
               </span>
               {isCurrentMastered && (
-                <span className="flex items-center gap-1 text-emerald-400 font-medium">
+                <span className="flex items-center gap-1 text-[#15803d] font-semibold">
                   <CheckCircle2 className="w-4 h-4" /> Dominado
                 </span>
               )}
             </div>
 
             <div className="my-auto space-y-3">
-              <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold">
+              <p className="text-xs uppercase tracking-widest text-[#94a3b8] font-semibold">
                 Termo Náutico
               </p>
-              <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              <h3 className="font-maritime text-4xl sm:text-5xl font-bold text-[#112338] tracking-tight">
                 {currentTerm.term}
               </h3>
               {currentTerm.synonyms && currentTerm.synonyms.length > 0 && (
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[#64748b] italic">
                   {currentTerm.synonyms.join(' • ')}
                 </p>
               )}
             </div>
 
-            <div className="text-xs text-cyan-400 font-medium flex items-center justify-center gap-1.5 opacity-80 group-hover:opacity-100">
+            <div className="text-xs text-[#64748b] font-medium flex items-center justify-center gap-1.5 group-hover:text-[#112338] transition-colors">
               <span>Toque ou clique para virar o cartão</span>
               <RotateCcw className="w-3.5 h-3.5" />
             </div>
           </div>
 
           {/* Back Side */}
-          <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col justify-between rounded-3xl border border-slate-700 bg-slate-900 p-7 text-left overflow-y-auto">
+          <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col justify-between rounded-3xl border border-[#ded5c2] bg-white p-7 text-left overflow-y-auto shadow-xs">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+              <div className="flex items-center justify-between pb-3 border-b border-[#ded5c2]">
+                <span className="text-xs font-bold text-[#112338] uppercase tracking-wider">
                   Resposta / Definição
                 </span>
-                <span className="text-xs text-slate-400">Toque para voltar</span>
+                <span className="text-xs text-[#94a3b8]">Toque para voltar</span>
               </div>
 
-              <h4 className="mt-3 text-lg font-bold text-white">{currentTerm.term}</h4>
-              <p className="mt-2 text-sm text-slate-200 leading-relaxed">
+              <h4 className="mt-3 font-maritime text-2xl font-bold text-[#112338]">{currentTerm.term}</h4>
+              <p className="mt-2 text-sm text-[#1e293b] leading-relaxed">
                 {currentTerm.definition}
               </p>
 
               {currentTerm.example && (
-                <div className="mt-3 rounded-xl bg-slate-800/60 p-3 border-l-2 border-cyan-500 text-xs text-slate-300">
-                  <strong className="text-cyan-300 block mb-0.5">A Bordo:</strong>
+                <div className="mt-3 rounded-xl bg-[#f7f4ea] p-3.5 border border-[#e8dfcf] text-xs text-[#334155]">
+                  <strong className="text-[#112338] block mb-0.5">A Bordo:</strong>
                   {currentTerm.example}
                 </div>
               )}
 
               {currentTerm.examTip && (
-                <div className="mt-3 rounded-xl bg-amber-950/40 p-3 border border-amber-500/30 text-xs text-amber-200">
-                  <strong className="text-amber-400 block mb-0.5">Dica de Exame:</strong>
+                <div className="mt-3 rounded-xl bg-[#fefce8] p-3.5 border border-[#fef08a] text-xs text-[#854d0e]">
+                  <strong className="text-[#92400e] block mb-0.5">Dica de Exame:</strong>
                   {currentTerm.examTip}
                 </div>
               )}
             </div>
 
-            <div className="pt-3 border-t border-slate-800 text-center text-xs text-slate-400">
+            <div className="pt-3 border-t border-[#f0ebd9] text-center text-xs text-[#94a3b8]">
               Avalie abaixo o seu conhecimento deste termo
             </div>
           </div>
@@ -310,7 +309,7 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-          className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-200 hover:bg-slate-800 transition disabled:opacity-40"
+          className="flex items-center gap-1.5 rounded-xl border border-[#ded5c2] bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#1e293b] hover:bg-[#f4efe4] transition disabled:opacity-40 shadow-2xs"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Anterior</span>
@@ -319,14 +318,14 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={handleNext}
-            className="rounded-xl border border-slate-700 bg-slate-900 px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-300 hover:bg-slate-800 transition"
+            className="rounded-xl border border-[#ded5c2] bg-white px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-[#475569] hover:bg-[#f4efe4] transition shadow-2xs"
           >
             Ainda a Rever
           </button>
 
           <button
             onClick={handleMarkMastered}
-            className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md hover:from-emerald-500 hover:to-teal-500 transition"
+            className="flex items-center gap-1.5 rounded-xl bg-[#1b4332] px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-[#2d6a4f] transition"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span>Já Domino!</span>
@@ -336,7 +335,7 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
         <button
           onClick={handleNext}
           disabled={currentIndex === deck.length - 1}
-          className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-200 hover:bg-slate-800 transition disabled:opacity-40"
+          className="flex items-center gap-1.5 rounded-xl border border-[#ded5c2] bg-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#1e293b] hover:bg-[#f4efe4] transition disabled:opacity-40 shadow-2xs"
         >
           <span>Seguinte</span>
           <ArrowRight className="w-4 h-4" />

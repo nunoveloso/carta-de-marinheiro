@@ -13,16 +13,12 @@ import {
 } from 'firebase/firestore';
 import {
   Search,
-  Filter,
   Compass,
   Star,
   FileText,
   X,
-  Plus,
-  BookOpen,
-  Sparkles,
   ArrowUpDown,
-  CheckCircle,
+  BookOpen,
 } from 'lucide-react';
 
 import { auth, db, handleFirestoreError, OperationType, logOut } from './firebase';
@@ -88,7 +84,6 @@ export default function App() {
             const data = docSnap.data() as NauticalTerm;
             loaded.push({ ...data, id: docSnap.id });
           });
-          // Merge with initial terms if any are missing
           const existingIds = new Set(loaded.map((t) => t.id));
           const merged = [...loaded];
           INITIAL_TERMS.forEach((it) => {
@@ -98,7 +93,6 @@ export default function App() {
           });
           setTerms(merged);
         } else {
-          // If Firestore is empty, auto-seed with official terms in background
           seedTermsToFirestore();
         }
       },
@@ -111,7 +105,6 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // Auto-seed function to populate Firestore
   const seedTermsToFirestore = async () => {
     try {
       setIsSeedingFirestore(true);
@@ -128,7 +121,7 @@ export default function App() {
     }
   };
 
-  // 3. User Bookmarks Listener (when signed in)
+  // 3. User Bookmarks Listener
   useEffect(() => {
     if (!currentUser) {
       setBookmarkedIds(new Set());
@@ -154,7 +147,7 @@ export default function App() {
     return () => unsubscribe();
   }, [currentUser]);
 
-  // 4. User Notes Listener (when signed in)
+  // 4. User Notes Listener
   useEffect(() => {
     if (!currentUser) {
       setUserNotes({});
@@ -256,7 +249,6 @@ export default function App() {
 
   // Filtered and Sorted Terms
   const filteredTerms = useMemo(() => {
-    // Normalization helper for accent-insensitive search in Portuguese
     const normalize = (str: string) =>
       str
         .toLowerCase()
@@ -267,7 +259,6 @@ export default function App() {
 
     return terms
       .filter((term) => {
-        // Search query match
         if (queryNorm) {
           const matchTerm = normalize(term.term).includes(queryNorm);
           const matchDef = normalize(term.definition).includes(queryNorm);
@@ -276,22 +267,18 @@ export default function App() {
           if (!matchTerm && !matchDef && !matchSyn && !matchTip) return false;
         }
 
-        // Category filter
         if (selectedCategory !== 'all' && term.category !== selectedCategory) {
           return false;
         }
 
-        // Importance filter
         if (selectedImportance !== 'all' && term.importance !== selectedImportance) {
           return false;
         }
 
-        // Bookmarked only
         if (onlyBookmarked && !bookmarkedIds.has(term.id)) {
           return false;
         }
 
-        // With notes only
         if (onlyWithNotes && !userNotes[term.id]) {
           return false;
         }
@@ -328,7 +315,7 @@ export default function App() {
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#fbf8f2] text-[#1e293b] flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -351,41 +338,42 @@ export default function App() {
         {activeTab === 'glossario' && (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
             
-            {/* Hero / Quick Search Banner */}
-            <div className="relative rounded-3xl border border-cyan-900/40 bg-gradient-to-br from-slate-900 via-slate-900 to-cyan-950/40 p-6 sm:p-8 mb-8 overflow-hidden shadow-2xl">
-              <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-blue-600/10 blur-3xl pointer-events-none" />
-
+            {/* Hero / Quick Search Banner - Papyrus & Maritime Admiralty Look */}
+            <div className="relative rounded-3xl border border-[#ded5c2] bg-[#f4efe4] p-6 sm:p-8 mb-8 shadow-xs">
               <div className="relative z-10 max-w-2xl">
-                <div className="inline-flex items-center gap-2 rounded-xl bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300 border border-cyan-500/20 mb-3">
-                  <Compass className="w-4 h-4 text-cyan-400" />
-                  <span>DGRM • Carta de Marinheiro • Nomenclatura & RIPAM</span>
+                
+                {/* Clean unboxed subtitle */}
+                <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium mb-2.5">
+                  <Compass className="w-4 h-4 text-[#a16207]" />
+                  <span>DGRM Portugal</span>
+                  <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
+                  <span>Programa Oficial da Carta de Marinheiro</span>
                 </div>
 
-                <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#112338] tracking-tight leading-tight">
                   Glossário Náutico Interativo
                 </h2>
 
-                <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Consulte os termos oficiais, regras do RIPAM, luzes de navegação e balizamento IALA da costa portuguesa com pronúncia áudio e dicas diretas para o exame.
+                <p className="mt-2 text-xs sm:text-sm text-[#475569] leading-relaxed">
+                  Consulte a nomenclatura marítima, regras do RIPAM, luzes de navegação e balizamento da costa portuguesa com pronúncia áudio e dicas de exame.
                 </p>
 
                 {/* Instant Search Bar */}
                 <div className="mt-5 relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                    <Search className="w-5 h-5 text-cyan-400" />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-[#64748b]">
+                    <Search className="w-5 h-5 text-[#a16207]" />
                   </div>
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Pesquisar termo, manobra, sigla (ex: Estibordo, RIPAM, BB, Ferro, Ch 16, IALA)..."
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950/90 py-3.5 pl-12 pr-10 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 shadow-inner transition"
+                    className="w-full rounded-2xl border border-[#ded5c2] bg-white py-3.5 pl-12 pr-10 text-xs sm:text-sm text-[#1e293b] placeholder:text-[#94a3b8] focus:border-[#112338] focus:outline-none focus:ring-1 focus:ring-[#112338] shadow-2xs transition"
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-200"
+                      className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-[#94a3b8] hover:text-[#112338]"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -403,8 +391,8 @@ export default function App() {
                   onClick={() => setSelectedCategory('all')}
                   className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
                     selectedCategory === 'all'
-                      ? 'bg-cyan-600 text-white shadow-sm'
-                      : 'border border-slate-800 bg-slate-900/80 text-slate-300 hover:bg-slate-800'
+                      ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                      : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] hover:text-[#112338]'
                   }`}
                 >
                   Todas ({terms.length})
@@ -418,8 +406,8 @@ export default function App() {
                       onClick={() => setSelectedCategory(cat.id)}
                       className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
                         selectedCategory === cat.id
-                          ? 'bg-cyan-600 text-white shadow-sm'
-                          : 'border border-slate-800 bg-slate-900/80 text-slate-300 hover:bg-slate-800'
+                          ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                          : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] hover:text-[#112338]'
                       }`}
                     >
                       {cat.name} ({count})
@@ -428,15 +416,14 @@ export default function App() {
                 })}
               </div>
 
-              {/* Secondary Sub-filters: Importance, Bookmarks, Notes, Sorting */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-900 text-xs">
+              {/* Secondary Sub-filters */}
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#ede6d8] text-xs">
                 
                 <div className="flex flex-wrap items-center gap-2">
-                  {/* Importance Selector */}
                   <select
                     value={selectedImportance}
                     onChange={(e) => setSelectedImportance(e.target.value)}
-                    className="rounded-xl border border-slate-800 bg-slate-900 px-3 py-1.5 text-slate-200 focus:border-cyan-500 focus:outline-none"
+                    className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
                   >
                     <option value="all">Todas as Importâncias</option>
                     <option value="essencial">★ Apenas Exame Obrigatório</option>
@@ -444,41 +431,38 @@ export default function App() {
                     <option value="complementar">Complementar</option>
                   </select>
 
-                  {/* Bookmark Filter Pill */}
                   <button
                     onClick={() => setOnlyBookmarked(!onlyBookmarked)}
                     className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-semibold transition ${
                       onlyBookmarked
-                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                        : 'border border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800'
+                        ? 'bg-[#112338] text-[#fbf8f2]'
+                        : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] shadow-2xs'
                     }`}
                   >
-                    <Star className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-amber-400' : ''}`} />
+                    <Star className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-[#d97706]' : 'text-[#64748b]'}`} />
                     <span>Favoritos ({bookmarkedIds.size})</span>
                   </button>
 
-                  {/* Notes Filter Pill */}
                   <button
                     onClick={() => setOnlyWithNotes(!onlyWithNotes)}
                     className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-semibold transition ${
                       onlyWithNotes
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                        : 'border border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800'
+                        ? 'bg-[#112338] text-[#fbf8f2]'
+                        : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] shadow-2xs'
                     }`}
                   >
-                    <FileText className="w-3.5 h-3.5" />
+                    <FileText className="w-3.5 h-3.5 text-[#64748b]" />
                     <span>Minhas Notas ({Object.keys(userNotes).length})</span>
                   </button>
                 </div>
 
-                {/* Sort Option */}
-                <div className="flex items-center gap-2 text-slate-400">
+                <div className="flex items-center gap-2 text-[#64748b]">
                   <ArrowUpDown className="w-3.5 h-3.5" />
                   <span>Ordenar:</span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'alpha' | 'importance' | 'category')}
-                    className="rounded-xl border border-slate-800 bg-slate-900 px-2.5 py-1 text-slate-200 focus:border-cyan-500 focus:outline-none"
+                    className="rounded-xl border border-[#ded5c2] bg-white px-2.5 py-1 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
                   >
                     <option value="alpha">Ordem Alfabética (A-Z)</option>
                     <option value="importance">Importância no Exame</option>
@@ -506,11 +490,13 @@ export default function App() {
               </div>
             ) : (
               <div className="py-16 text-center max-w-md mx-auto">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-900 border border-slate-800 text-slate-400">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f4efe4] border border-[#ded5c2] text-[#64748b]">
                   <Search className="w-7 h-7" />
                 </div>
-                <h3 className="mt-4 text-lg font-bold text-white">Nenhum termo náutico encontrado</h3>
-                <p className="mt-1.5 text-xs sm:text-sm text-slate-400">
+                <h3 className="mt-4 font-maritime text-2xl font-bold text-[#112338]">
+                  Nenhum termo náutico encontrado
+                </h3>
+                <p className="mt-1.5 text-xs sm:text-sm text-[#64748b]">
                   Não existem termos que correspondam à sua pesquisa "{searchQuery}".
                 </p>
                 <button
@@ -521,7 +507,7 @@ export default function App() {
                     setOnlyBookmarked(false);
                     setOnlyWithNotes(false);
                   }}
-                  className="mt-4 rounded-xl bg-cyan-600 px-4 py-2 text-xs font-semibold text-white hover:bg-cyan-500 transition"
+                  className="mt-4 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1c3858] transition"
                 >
                   Limpar Todos os Filtros
                 </button>
@@ -545,21 +531,21 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-900 bg-slate-950/80 py-8 text-xs text-slate-400">
+      <footer className="mt-auto border-t border-[#ded5c2] bg-[#f4efe4] py-8 text-xs text-[#64748b]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <p className="font-semibold text-slate-300">
-              Carta de Marinheiro • Aplicação PWA de Estudo & Glossário
+            <p className="font-bold text-[#112338] font-maritime text-base">
+              Carta de Marinheiro • Caderno de Estudo & Glossário Náutico
             </p>
-            <p className="mt-0.5 text-slate-500">
+            <p className="mt-0.5 text-[#64748b]">
               Alinhado com o programa oficial DGRM, RIPAM (RIPEAM 1972) e Sistema de Balizamento IALA Região A.
             </p>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-slate-500">
-            <span>Base de Dados: Cloud Firestore (<code className="text-cyan-400">carta-de-marinheiro</code>)</span>
+          <div className="flex items-center gap-3 text-[11px] text-[#64748b]">
+            <span>Base de Dados: Cloud Firestore (<code className="text-[#112338] font-mono">carta-de-marinheiro</code>)</span>
             <span>•</span>
-            <span>PWA Compatível com Android & iOS</span>
+            <span>PWA Compatível</span>
           </div>
         </div>
       </footer>

@@ -112,36 +112,34 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="relative w-full max-w-2xl rounded-3xl border border-slate-700/80 bg-slate-900 shadow-2xl text-slate-100 my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#112338]/40 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="relative w-full max-w-2xl rounded-3xl border border-[#ded5c2] bg-[#fdfbf7] shadow-2xl text-[#1e293b] my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
-        {/* Top Header Banner with Nautical Gradient */}
-        <div className="relative bg-gradient-to-r from-slate-900 via-cyan-950/60 to-slate-900 px-6 pt-6 pb-5 border-b border-slate-800">
+        {/* Header Banner */}
+        <div className="relative bg-[#f4efe4] px-6 pt-6 pb-5 border-b border-[#ded5c2]">
           <div className="flex items-center justify-between gap-3">
             
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-500/20 px-2.5 py-1 text-xs font-semibold text-cyan-300 border border-cyan-500/30">
-                <Compass className="w-3.5 h-3.5" />
-                {categoryMeta.name}
-              </span>
-
+            {/* Unboxed Metadata Header */}
+            <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium">
+              <span className="font-semibold text-[#112338]">{categoryMeta.name}</span>
+              <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
               <span
-                className={`rounded-lg px-2.5 py-1 text-xs font-semibold capitalize ${
+                className={
                   term.importance === 'essencial'
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                    ? 'text-[#92400e] font-bold'
                     : term.importance === 'importante'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                    : 'bg-slate-800 text-slate-300'
-                }`}
+                    ? 'text-[#0f766e] font-semibold'
+                    : 'text-[#64748b]'
+                }
               >
                 {term.importance === 'essencial' ? '★ Exame Obrigatório' : term.importance}
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               <button
                 onClick={handleShare}
-                className="rounded-xl p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition"
+                className="rounded-xl p-2 text-[#64748b] hover:text-[#112338] hover:bg-[#eae3d2] transition"
                 title="Partilhar ou copiar termo"
               >
                 <Share2 className="w-4 h-4" />
@@ -151,8 +149,8 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                 onClick={handleSpeak}
                 className={`rounded-xl p-2 transition ${
                   isSpeaking
-                    ? 'bg-cyan-500/20 text-cyan-300 animate-pulse'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+                    ? 'bg-[#112338] text-[#fbf8f2]'
+                    : 'text-[#64748b] hover:text-[#112338] hover:bg-[#eae3d2]'
                 }`}
                 title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia e definição'}
               >
@@ -163,17 +161,17 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                 onClick={() => onToggleBookmark(term.id)}
                 className={`rounded-xl p-2 transition ${
                   isBookmarked
-                    ? 'text-amber-400 bg-amber-400/10'
-                    : 'text-slate-400 hover:text-amber-400 hover:bg-slate-800'
+                    ? 'text-[#d97706]'
+                    : 'text-[#94a3b8] hover:text-[#d97706] hover:bg-[#eae3d2]'
                 }`}
                 title={isBookmarked ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
               >
-                <Star className={`w-5 h-5 ${isBookmarked ? 'fill-amber-400' : ''}`} />
+                <Star className={`w-5 h-5 ${isBookmarked ? 'fill-[#d97706]' : ''}`} />
               </button>
 
               <button
                 onClick={onClose}
-                className="rounded-xl p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition ml-1"
+                className="rounded-xl p-2 text-[#64748b] hover:text-[#112338] hover:bg-[#eae3d2] transition ml-1"
                 title="Fechar (Esc)"
               >
                 <X className="w-5 h-5" />
@@ -181,56 +179,56 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
             </div>
           </div>
 
-          <h2 className="mt-4 text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="mt-3 font-maritime text-3xl sm:text-4xl font-bold text-[#112338] tracking-tight">
             {term.term}
           </h2>
 
           {term.synonyms && term.synonyms.length > 0 && (
-            <p className="mt-1 text-xs sm:text-sm text-cyan-400/90 font-medium">
+            <p className="mt-1 text-xs sm:text-sm text-[#475569] italic">
               Outras designações / Abreviaturas: {term.synonyms.join(' • ')}
             </p>
           )}
         </div>
 
         {/* Modal Body Content */}
-        <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+        <div className="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
           
           {/* Official Definition */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-              <FileText className="w-4 h-4 text-cyan-400" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-2 flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5 text-[#112338]" />
               Definição Oficial (Programa DGRM)
             </h4>
-            <p className="text-sm sm:text-base text-slate-200 leading-relaxed rounded-2xl bg-slate-800/40 p-4 border border-slate-800">
+            <div className="text-sm sm:text-base text-[#1e293b] leading-relaxed rounded-2xl bg-white p-4.5 border border-[#e5decb] shadow-2xs">
               {term.definition}
-            </p>
+            </div>
           </div>
 
           {/* Practical Onboard Example */}
           {term.example && (
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                <Lightbulb className="w-4 h-4 text-amber-400" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-2 flex items-center gap-1.5">
+                <Lightbulb className="w-3.5 h-3.5 text-[#a16207]" />
                 Aplicação Prática a Bordo
               </h4>
-              <p className="text-sm text-slate-300 leading-relaxed italic bg-slate-800/30 p-3.5 rounded-xl border-l-2 border-cyan-500">
+              <div className="text-xs sm:text-sm text-[#334155] leading-relaxed italic bg-[#f7f4ea] p-4 rounded-xl border border-[#e8dfcf]">
                 "{term.example}"
-              </p>
+              </div>
             </div>
           )}
 
           {/* Exam Tip Alert */}
           {term.examTip && (
-            <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-amber-950/40 p-4">
+            <div className="rounded-2xl border border-[#fef08a] bg-[#fefce8] p-4 text-[#854d0e]">
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 rounded-xl bg-amber-500/20 p-2 text-amber-400 shrink-0">
+                <div className="mt-0.5 rounded-xl bg-[#fef08a] p-2 text-[#a16207] shrink-0">
                   <AlertCircle className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-amber-300">
+                  <h4 className="text-sm font-bold text-[#92400e]">
                     Dica Crucial para o Exame de Carta de Marinheiro
                   </h4>
-                  <p className="mt-1 text-xs sm:text-sm text-amber-200/90 leading-relaxed">
+                  <p className="mt-1 text-xs sm:text-sm text-[#854d0e] leading-relaxed">
                     {term.examTip}
                   </p>
                 </div>
@@ -241,7 +239,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
           {/* Related Terms */}
           {term.relatedTerms && term.relatedTerms.length > 0 && (
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] mb-2">
                 Termos Náuticos Relacionados
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -252,7 +250,7 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                     <button
                       key={related.id}
                       onClick={() => onSelectTerm(related)}
-                      className="rounded-xl border border-slate-700/80 bg-slate-800/60 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-500 hover:text-cyan-300 hover:bg-slate-800 transition"
+                      className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs font-medium text-[#1e293b] hover:border-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
                     >
                       {related.term} →
                     </button>
@@ -263,14 +261,14 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
           )}
 
           {/* Personal Study Notes (Synced to Cloud Firestore) */}
-          <div className="pt-4 border-t border-slate-800">
+          <div className="pt-4 border-t border-[#ded5c2]">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <FileText className="w-4 h-4 text-cyan-400" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#64748b] flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-[#112338]" />
                 Minhas Notas de Estudo (Cloud Firestore)
               </h4>
               {noteSavedFeedback && (
-                <span className="flex items-center gap-1 text-xs font-semibold text-emerald-400">
+                <span className="flex items-center gap-1 text-xs font-semibold text-[#15803d]">
                   <Check className="w-3.5 h-3.5" /> Nota guardada na nuvem!
                 </span>
               )}
@@ -284,29 +282,29 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
                   placeholder="Escreva as suas notas pessoais, mnemónicas ou resumos sobre este termo para rever antes do exame..."
                   maxLength={1500}
                   rows={3}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 p-3.5 text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition"
+                  className="w-full rounded-2xl border border-[#ded5c2] bg-white p-3.5 text-xs sm:text-sm text-[#1e293b] placeholder:text-[#94a3b8] focus:border-[#112338] focus:outline-none focus:ring-1 focus:ring-[#112338] transition shadow-2xs"
                 />
-                <div className="flex items-center justify-between text-xs text-slate-500">
+                <div className="flex items-center justify-between text-xs text-[#64748b]">
                   <span>{noteInput.length}/1500 carateres</span>
                   <button
                     type="submit"
                     disabled={isSavingNote}
-                    className="flex items-center gap-1.5 rounded-xl bg-cyan-600 px-4 py-2 text-xs font-semibold text-white hover:bg-cyan-500 transition disabled:opacity-50"
+                    className="flex items-center gap-1.5 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1c3858] transition disabled:opacity-50"
                   >
                     {isSavingNote ? 'A guardar...' : 'Guardar Nota'}
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-4 text-center">
-                <p className="text-xs sm:text-sm text-slate-300">
+              <div className="rounded-2xl border border-[#ded5c2] bg-[#f7f3e8] p-4 text-center">
+                <p className="text-xs sm:text-sm text-[#475569]">
                   Inicie sessão com o Google para guardar notas de estudo personalizadas associadas a este termo e sincronizá-las no Cloud Firestore.
                 </p>
                 <button
                   onClick={onOpenAuth}
-                  className="mt-3 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-md hover:from-cyan-500 hover:to-blue-500 transition"
+                  className="mt-3 inline-flex items-center gap-2 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] shadow-sm hover:bg-[#1c3858] transition"
                 >
-                  <LogIn className="w-3.5 h-3.5" />
+                  <LogIn className="w-3.5 h-3.5 text-[#d4af37]" />
                   Iniciar Sessão
                 </button>
               </div>

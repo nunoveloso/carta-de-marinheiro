@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #fbf8f2;
+    color: #1e293b;
+  }
+
+  h1, h2, h3, .font-maritime {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -27,7 +39,7 @@
 }
 
 .animate-spin-slow {
-  animation: spinSlow 25s linear infinite;
+  animation: spinSlow 30s linear infinite;
 }
 
 .scrollbar-none::-webkit-scrollbar {

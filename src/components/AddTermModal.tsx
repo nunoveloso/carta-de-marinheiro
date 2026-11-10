@@ -45,7 +45,6 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
       return;
     }
 
-    // Generate safe alphanumeric slug id
     const slugId = term
       .toLowerCase()
       .normalize('NFD')
@@ -76,7 +75,6 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
       setIsSubmitting(true);
       await onAddTerm(newTerm);
       onClose();
-      // Reset form
       setTerm('');
       setDefinition('');
       setExample('');
@@ -92,21 +90,21 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="relative w-full max-w-lg rounded-3xl border border-slate-700 bg-slate-900 shadow-2xl text-slate-100 my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between border-b border-slate-800 px-6 py-5 bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#112338]/40 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="relative w-full max-w-lg rounded-3xl border border-[#ded5c2] bg-[#fdfbf7] shadow-xl text-[#1e293b] my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between border-b border-[#ded5c2] px-6 py-5 bg-[#f4efe4]">
           <div className="flex items-center gap-2.5">
-            <div className="rounded-xl bg-cyan-500/20 p-2 text-cyan-400">
-              <Ship className="w-5 h-5" />
+            <div className="rounded-xl bg-white p-2 text-[#112338] border border-[#ded5c2] shadow-2xs">
+              <Ship className="w-5 h-5 text-[#a16207]" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Adicionar Termo Náutico</h3>
-              <p className="text-xs text-slate-400">Guardado no Cloud Firestore (carta-de-marinheiro)</p>
+              <h3 className="font-maritime text-2xl font-bold text-[#112338]">Adicionar Termo Náutico</h3>
+              <p className="text-xs text-[#64748b]">Guardado no Cloud Firestore (carta-de-marinheiro)</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition"
+            className="rounded-xl p-1.5 text-[#64748b] hover:text-[#112338] hover:bg-[#eae3d2] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -114,14 +112,14 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
           {errorMessage && (
-            <div className="rounded-xl bg-rose-950/40 border border-rose-500/40 p-3 text-xs text-rose-300 flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+            <div className="rounded-xl bg-[#fef2f2] border border-[#fecaca] p-3 text-xs text-[#991b1b] flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-[#ef4444] shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-[#475569] mb-1">
               Termo Náutico (em Português) *
             </label>
             <input
@@ -131,19 +129,19 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               value={term}
               onChange={(e) => setTerm(e.target.value)}
               placeholder="Ex.: Verdugo, Bicheiro, Amura..."
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-sm text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full rounded-xl border border-[#ded5c2] bg-white p-3 text-sm text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-[#475569] mb-1">
                 Categoria do Programa *
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as TermCategory)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-xs text-slate-100 focus:border-cyan-500 focus:outline-none"
+                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat.id} value={cat.id}>
@@ -154,13 +152,13 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-[#475569] mb-1">
                 Importância no Exame *
               </label>
               <select
                 value={importance}
                 onChange={(e) => setImportance(e.target.value as TermImportance)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-xs text-slate-100 focus:border-cyan-500 focus:outline-none"
+                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
               >
                 <option value="essencial">Exame Obrigatório</option>
                 <option value="importante">Muito Importante</option>
@@ -170,7 +168,7 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-[#475569] mb-1">
               Definição Oficial * (máx. 2000 carateres)
             </label>
             <textarea
@@ -180,12 +178,12 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               value={definition}
               onChange={(e) => setDefinition(e.target.value)}
               placeholder="Explicação clara e rigorosa de acordo com a nomenclatura marítima..."
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-xs sm:text-sm text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full rounded-xl border border-[#ded5c2] bg-white p-3 text-xs sm:text-sm text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-[#475569] mb-1">
               Exemplo Prático a Bordo (opcional)
             </label>
             <input
@@ -194,12 +192,12 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               value={example}
               onChange={(e) => setExample(e.target.value)}
               placeholder="Ex.: Ao atracar, utiliza-se o bicheiro para apanhar o cabo da poita."
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-xs sm:text-sm text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full rounded-xl border border-[#ded5c2] bg-white p-3 text-xs sm:text-sm text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-[#475569] mb-1">
               Dica para Exame (opcional)
             </label>
             <input
@@ -208,12 +206,12 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               value={examTip}
               onChange={(e) => setExamTip(e.target.value)}
               placeholder="Mnemónica ou pergunta frequente da DGRM..."
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-3 text-xs sm:text-sm text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full rounded-xl border border-[#ded5c2] bg-white p-3 text-xs sm:text-sm text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-[#475569] mb-1">
               Sinónimos / Equivalentes (separados por vírgula)
             </label>
             <input
@@ -221,24 +219,24 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               value={synonymsInput}
               onChange={(e) => setSynonymsInput(e.target.value)}
               placeholder="Ex.: Bordo falso, Fenders, Defensas"
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-xs text-slate-100 focus:border-cyan-500 focus:outline-none"
+              className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
             />
           </div>
 
-          <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-2">
+          <div className="pt-3 border-t border-[#ded5c2] flex items-center justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-4 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800 transition"
+              className="rounded-xl px-4 py-2 text-xs font-semibold text-[#64748b] hover:bg-[#eae3d2] transition"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-5 py-2 text-xs font-bold text-white hover:from-cyan-500 hover:to-blue-500 transition disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-xl bg-[#112338] px-5 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1c3858] transition disabled:opacity-50"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 text-[#d4af37]" />
               <span>{isSubmitting ? 'A guardar...' : 'Adicionar ao Glossário'}</span>
             </button>
           </div>

@@ -60,29 +60,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="relative w-full max-w-md rounded-3xl border border-slate-700 bg-slate-900 p-6 shadow-2xl text-slate-100 my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#112338]/40 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="relative w-full max-w-md rounded-3xl border border-[#ded5c2] bg-[#fdfbf7] p-6 shadow-xl text-[#1e293b] my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-          <div className="flex items-center gap-2">
-            <div className="rounded-xl bg-cyan-500/20 p-2 text-cyan-400">
-              <Cloud className="w-5 h-5" />
+        <div className="flex items-center justify-between pb-4 border-b border-[#ded5c2]">
+          <div className="flex items-center gap-2.5">
+            <div className="rounded-xl bg-[#f4efe4] p-2 text-[#112338] border border-[#ded5c2]">
+              <Cloud className="w-5 h-5 text-[#a16207]" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">Conta & Sincronização</h3>
-              <p className="text-[11px] text-cyan-400">Firebase: carta-de-marinheiro</p>
+              <h3 className="font-maritime text-2xl font-bold text-[#112338]">Conta & Sincronização</h3>
+              <p className="text-[11px] text-[#64748b]">Firebase: carta-de-marinheiro</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition"
+            className="rounded-xl p-1.5 text-[#64748b] hover:text-[#112338] hover:bg-[#eae3d2] transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {authError && (
-          <div className="mt-4 rounded-xl bg-rose-950/40 border border-rose-500/40 p-3 text-xs text-rose-300">
+          <div className="mt-4 rounded-xl bg-[#fef2f2] border border-[#fecaca] p-3 text-xs text-[#991b1b]">
             {authError}
           </div>
         )}
@@ -90,69 +90,69 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {currentUser ? (
           <div className="mt-5 space-y-5">
             {/* User Profile Card */}
-            <div className="flex items-center gap-3.5 rounded-2xl bg-slate-950/80 p-4 border border-slate-800">
+            <div className="flex items-center gap-3.5 rounded-2xl bg-[#f4efe4] p-4 border border-[#ded5c2]">
               {currentUser.photoURL ? (
                 <img
                   src={currentUser.photoURL}
                   alt={currentUser.displayName || ''}
-                  className="h-12 w-12 rounded-full border-2 border-cyan-500/40"
+                  className="h-12 w-12 rounded-full border border-[#ded5c2]"
                 />
               ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cyan-600 font-bold text-lg text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#112338] font-bold text-lg text-[#d4af37]">
                   {currentUser.displayName ? currentUser.displayName[0] : 'M'}
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <h4 className="font-bold text-white truncate text-sm sm:text-base">
+                <h4 className="font-bold text-[#112338] truncate text-sm sm:text-base">
                   {currentUser.displayName || 'Marinheiro'}
                 </h4>
-                <p className="text-xs text-slate-400 truncate">{currentUser.email}</p>
-                <span className="inline-flex items-center gap-1 mt-1 text-[10px] text-emerald-400 font-medium">
-                  <CheckCircle2 className="w-3 h-3" /> Sessão Ativa
+                <p className="text-xs text-[#64748b] truncate">{currentUser.email}</p>
+                <span className="inline-flex items-center gap-1 mt-1 text-[10px] text-[#15803d] font-semibold">
+                  <CheckCircle2 className="w-3 h-3" /> Sessão Ativa no Firebase
                 </span>
               </div>
             </div>
 
             {/* Study Stats */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-slate-800/50 p-3.5 border border-slate-800 text-center">
-                <div className="flex items-center justify-center gap-1.5 text-amber-400 mb-1">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <span className="text-lg font-black">{bookmarksCount}</span>
+              <div className="rounded-2xl bg-white p-3.5 border border-[#ded5c2] text-center shadow-2xs">
+                <div className="flex items-center justify-center gap-1.5 text-[#d97706] mb-1">
+                  <Star className="w-4 h-4 fill-[#d97706]" />
+                  <span className="font-maritime text-2xl font-bold text-[#112338]">{bookmarksCount}</span>
                 </div>
-                <div className="text-[11px] text-slate-400 font-medium">Termos Favoritos</div>
+                <div className="text-[11px] text-[#64748b] font-medium">Termos Favoritos</div>
               </div>
 
-              <div className="rounded-2xl bg-slate-800/50 p-3.5 border border-slate-800 text-center">
-                <div className="flex items-center justify-center gap-1.5 text-cyan-400 mb-1">
+              <div className="rounded-2xl bg-white p-3.5 border border-[#ded5c2] text-center shadow-2xs">
+                <div className="flex items-center justify-center gap-1.5 text-[#0f766e] mb-1">
                   <FileText className="w-4 h-4" />
-                  <span className="text-lg font-black">{notesCount}</span>
+                  <span className="font-maritime text-2xl font-bold text-[#112338]">{notesCount}</span>
                 </div>
-                <div className="text-[11px] text-slate-400 font-medium">Notas Salvas</div>
+                <div className="text-[11px] text-[#64748b] font-medium">Notas Salvas</div>
               </div>
             </div>
 
             {/* Cloud Firestore Info */}
-            <div className="rounded-2xl bg-cyan-950/30 p-4 border border-cyan-500/20 text-xs text-slate-300 space-y-2">
-              <div className="flex items-center gap-2 font-bold text-cyan-300">
-                <Database className="w-4 h-4" />
+            <div className="rounded-2xl bg-[#f7f4ea] p-4 border border-[#e8dfcf] text-xs text-[#334155] space-y-2">
+              <div className="flex items-center gap-2 font-bold text-[#112338]">
+                <Database className="w-4 h-4 text-[#a16207]" />
                 <span>Base de Dados Cloud Firestore</span>
               </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                As suas anotações, favoritos e progresso de estudo estão vinculados de forma segura à sua conta no projeto <strong className="text-cyan-200">carta-de-marinheiro</strong>.
+              <p className="text-[11px] text-[#64748b] leading-relaxed">
+                As suas anotações, favoritos e progresso de estudo estão sincronizados de forma segura no projeto <strong className="text-[#112338]">carta-de-marinheiro</strong>.
               </p>
 
               <button
                 onClick={handleTriggerSeed}
                 disabled={isSeeding}
-                className="mt-2 w-full flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-3 py-2 text-xs font-semibold text-cyan-300 hover:bg-slate-700 transition"
+                className="mt-2 w-full flex items-center justify-center gap-2 rounded-xl bg-white border border-[#ded5c2] px-3 py-2 text-xs font-semibold text-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isSeeding ? 'animate-spin' : ''}`} />
                 <span>{isSeeding ? 'A sincronizar...' : 'Sincronizar Termos com Firestore'}</span>
               </button>
 
               {seedSuccess && (
-                <p className="text-[11px] text-emerald-400 text-center font-medium">
+                <p className="text-[11px] text-[#15803d] text-center font-semibold">
                   ✓ Termos sincronizados com sucesso no Cloud Firestore!
                 </p>
               )}
@@ -160,7 +160,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             <button
               onClick={handleSignOut}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 py-2.5 text-xs font-semibold text-rose-400 hover:bg-rose-950/30 hover:border-rose-500/40 transition"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#ded5c2] py-2.5 text-xs font-semibold text-[#b91c1c] hover:bg-[#fef2f2] hover:border-[#fecaca] transition"
             >
               <LogOut className="w-4 h-4" />
               <span>Terminar Sessão</span>
@@ -168,14 +168,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
         ) : (
           <div className="mt-5 space-y-4">
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
               Inicie sessão com a sua conta Google para guardar os seus termos favoritos, adicionar notas de estudo personalizadas e sincronizar o seu progresso no projeto Firebase <strong>carta-de-marinheiro</strong>.
             </p>
 
             <button
               onClick={handleSignIn}
               disabled={isSigningIn}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl bg-white py-3 px-4 text-xs sm:text-sm font-bold text-slate-900 shadow-xl hover:bg-slate-100 transition active:scale-95 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-3 rounded-2xl bg-white border border-[#ded5c2] py-3 px-4 text-xs sm:text-sm font-semibold text-[#1e293b] shadow-xs hover:bg-[#f7f3e8] transition active:scale-95 disabled:opacity-50"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -198,7 +198,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <span>{isSigningIn ? 'A autenticar...' : 'Entrar com Google'}</span>
             </button>
 
-            <div className="rounded-xl bg-slate-950/60 p-3 border border-slate-800 text-[11px] text-slate-400">
+            <div className="rounded-xl bg-[#f4efe4] p-3 border border-[#ded5c2] text-[11px] text-[#64748b]">
               🔒 Autenticação oficial gerida de forma segura pelo Firebase Auth no seu projeto.
             </div>
           </div>

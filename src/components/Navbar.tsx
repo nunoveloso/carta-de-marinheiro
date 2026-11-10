@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, BookOpen, Layers, CheckSquare, Eye, LogIn, LogOut, User, PlusCircle } from 'lucide-react';
+import { Compass, BookOpen, Layers, CheckSquare, Eye, LogIn, LogOut, PlusCircle } from 'lucide-react';
 import { User as FirebaseUser } from 'firebase/auth';
 import { PWAInstallButton } from './PWAInstallButton';
 
@@ -25,45 +25,41 @@ export const Navbar: React.FC<NavbarProps> = ({
   bookmarksCount,
 }) => {
   return (
-    <header className="sticky top-0 z-40 border-b border-cyan-900/40 bg-slate-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-[#e5decb] bg-[#fdfbf7]/95 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
           
           {/* Logo & Brand */}
           <div className="flex items-center gap-3">
-            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-900 shadow-md shadow-cyan-900/40 ring-1 ring-cyan-400/30">
-              <Compass className="h-6 w-6 text-white animate-spin-slow" />
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-cyan-500"></span>
-              </span>
+            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#112338] shadow-sm border border-[#0a1827]">
+              <Compass className="h-5 w-5 text-[#d4af37]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+                <h1 className="font-maritime text-xl sm:text-2xl font-bold tracking-tight text-[#112338] leading-none">
                   Carta de Marinheiro
-                  <span className="hidden md:inline-block rounded-md bg-cyan-500/10 px-2 py-0.5 text-[11px] font-medium text-cyan-400 border border-cyan-500/20">
-                    Portugal
-                  </span>
                 </h1>
+                <span className="hidden sm:inline-block rounded-md bg-[#f1ebe0] px-2 py-0.5 text-[10px] font-semibold text-[#64748b] border border-[#ded5c2]">
+                  DGRM Portugal
+                </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-400 truncate max-w-[170px] sm:max-w-none">
-                Estudo & Glossário Náutico Interativo
+              <p className="text-[11px] text-[#64748b] truncate max-w-[170px] sm:max-w-none font-medium mt-0.5">
+                Glossário & Caderno de Estudo
               </p>
             </div>
           </div>
 
           {/* Desktop Navigation Tabs */}
-          <nav className="hidden lg:flex items-center gap-1 rounded-xl bg-slate-900/80 p-1 border border-slate-800">
+          <nav className="hidden lg:flex items-center gap-1 rounded-xl bg-[#f4efe4] p-1 border border-[#e5decb]">
             <button
               onClick={() => setActiveTab('glossario')}
               className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                 activeTab === 'glossario'
-                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                  : 'text-[#475569] hover:text-[#112338] hover:bg-[#eae3d2]'
               }`}
             >
-              <BookOpen className="w-4 h-4" />
+              <BookOpen className="w-3.5 h-3.5" />
               <span>Glossário ({termsCount})</span>
             </button>
 
@@ -71,11 +67,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('flashcards')}
               className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                 activeTab === 'flashcards'
-                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                  : 'text-[#475569] hover:text-[#112338] hover:bg-[#eae3d2]'
               }`}
             >
-              <Layers className="w-4 h-4" />
+              <Layers className="w-3.5 h-3.5" />
               <span>Flashcards</span>
             </button>
 
@@ -83,11 +79,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('quiz')}
               className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                 activeTab === 'quiz'
-                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                  : 'text-[#475569] hover:text-[#112338] hover:bg-[#eae3d2]'
               }`}
             >
-              <CheckSquare className="w-4 h-4" />
+              <CheckSquare className="w-3.5 h-3.5" />
               <span>Simulador Exame</span>
             </button>
 
@@ -95,11 +91,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab('guia')}
               className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                 activeTab === 'guia'
-                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                  : 'text-[#475569] hover:text-[#112338] hover:bg-[#eae3d2]'
               }`}
             >
-              <Eye className="w-4 h-4" />
+              <Eye className="w-3.5 h-3.5" />
               <span>Guia Visual</span>
             </button>
           </nav>
@@ -110,10 +106,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Add Term button */}
             <button
               onClick={onOpenAddTerm}
-              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/80 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-500/50 hover:text-cyan-300 transition"
+              className="hidden sm:flex items-center gap-1.5 rounded-xl border border-[#ded5c2] bg-[#fcfaf5] px-3 py-1.5 text-xs font-semibold text-[#1e293b] hover:border-[#112338] hover:bg-[#f4efe4] transition shadow-2xs"
               title="Sugerir novo termo náutico"
             >
-              <PlusCircle className="w-3.5 h-3.5 text-cyan-400" />
+              <PlusCircle className="w-3.5 h-3.5 text-[#a16207]" />
               <span>Novo Termo</span>
             </button>
 
@@ -125,32 +121,32 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   onClick={onOpenAuth}
-                  className="flex items-center gap-2 rounded-xl border border-cyan-800/40 bg-slate-900/90 px-2.5 py-1 text-xs text-slate-200 hover:border-cyan-500/60 transition"
-                  title="Meu Perfil e Estatísticas de Estudo"
+                  className="flex items-center gap-2 rounded-xl border border-[#ded5c2] bg-[#fcfaf5] px-2.5 py-1 text-xs text-[#1e293b] hover:border-[#112338] transition shadow-2xs"
+                  title="Meu Perfil e Estatísticas"
                 >
                   {currentUser.photoURL ? (
                     <img
                       src={currentUser.photoURL}
                       alt={currentUser.displayName || 'Utilizador'}
-                      className="h-6 w-6 rounded-full border border-cyan-400/50"
+                      className="h-6 w-6 rounded-full border border-[#ded5c2]"
                     />
                   ) : (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-600 text-[10px] font-bold text-white">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#112338] text-[10px] font-bold text-[#d4af37]">
                       {currentUser.displayName ? currentUser.displayName[0] : 'M'}
                     </div>
                   )}
-                  <span className="hidden sm:inline font-medium max-w-[100px] truncate">
+                  <span className="hidden sm:inline font-semibold max-w-[100px] truncate">
                     {currentUser.displayName?.split(' ')[0] || 'Marinheiro'}
                   </span>
                   {bookmarksCount > 0 && (
-                    <span className="rounded-full bg-cyan-500/20 px-1.5 py-0.2 text-[10px] font-bold text-cyan-300 border border-cyan-500/30">
+                    <span className="rounded-md bg-[#fef3c7] px-1.5 py-0.5 text-[10px] font-bold text-[#92400e] border border-[#fde68a]">
                       ★ {bookmarksCount}
                     </span>
                   )}
                 </button>
                 <button
                   onClick={onSignOut}
-                  className="rounded-xl p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-900 transition"
+                  className="rounded-xl p-2 text-[#64748b] hover:text-[#991b1b] hover:bg-[#f4efe4] transition"
                   title="Terminar sessão"
                 >
                   <LogOut className="w-4 h-4" />
@@ -159,9 +155,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 rounded-xl border border-cyan-500/40 bg-cyan-950/40 px-3 py-1.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-900/40 hover:border-cyan-400 transition"
+                className="flex items-center gap-1.5 rounded-xl border border-[#ded5c2] bg-[#fcfaf5] px-3 py-1.5 text-xs font-semibold text-[#112338] hover:bg-[#f4efe4] hover:border-[#112338] transition shadow-2xs"
               >
-                <LogIn className="w-3.5 h-3.5" />
+                <LogIn className="w-3.5 h-3.5 text-[#a16207]" />
                 <span>Entrar</span>
               </button>
             )}
@@ -169,13 +165,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Mobile Navigation Bar */}
-        <div className="flex lg:hidden overflow-x-auto pb-2.5 pt-1 gap-1.5 scrollbar-none border-t border-slate-900">
+        <div className="flex lg:hidden overflow-x-auto pb-2.5 pt-1 gap-1.5 scrollbar-none border-t border-[#ede6d8]">
           <button
             onClick={() => setActiveTab('glossario')}
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium shrink-0 transition ${
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold shrink-0 transition ${
               activeTab === 'glossario'
-                ? 'bg-cyan-600 text-white shadow-sm'
-                : 'bg-slate-900 text-slate-300 hover:bg-slate-800'
+                ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                : 'bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -184,10 +180,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('flashcards')}
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium shrink-0 transition ${
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold shrink-0 transition ${
               activeTab === 'flashcards'
-                ? 'bg-cyan-600 text-white shadow-sm'
-                : 'bg-slate-900 text-slate-300 hover:bg-slate-800'
+                ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                : 'bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -196,10 +192,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('quiz')}
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium shrink-0 transition ${
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold shrink-0 transition ${
               activeTab === 'quiz'
-                ? 'bg-cyan-600 text-white shadow-sm'
-                : 'bg-slate-900 text-slate-300 hover:bg-slate-800'
+                ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                : 'bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
             }`}
           >
             <CheckSquare className="w-3.5 h-3.5" />
@@ -208,10 +204,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setActiveTab('guia')}
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium shrink-0 transition ${
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold shrink-0 transition ${
               activeTab === 'guia'
-                ? 'bg-cyan-600 text-white shadow-sm'
-                : 'bg-slate-900 text-slate-300 hover:bg-slate-800'
+                ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                : 'bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
