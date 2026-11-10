@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Ship, Compass, Volume2, VolumeX, Sparkles, AlertCircle } from 'lucide-react';
+import { Ship, Compass, Volume2, VolumeX, AlertCircle } from 'lucide-react';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 
 export type BoatPartId =
@@ -144,7 +144,7 @@ const BOAT_PARTS: Record<BoatPartId, BoatPartInfo> = {
     colorHex: '#eab308',
     glowHex: '#fde047',
     location: 'Plano Longitudinal Médio (Proa a Popa)',
-    definition: 'Manual do Marinheiro (pág. 6): Plano longitudinal vertical que passa pela Proa e pela Popa, dividindo o navio em duas regiões simétricas que se denominam Bordos (Bombordo e Estibordo).',
+    definition: 'Plano longitudinal vertical que passa pela Proa e pela Popa, dividindo o navio em duas regiões simétricas que se denominam Bordos (Bombordo e Estibordo).',
     examRule: 'Comando de governo "Leme a Meia-Nau": alinhar a pá do leme no centro exato com a linha longitudinal (sem guinada).',
     nightLight: 'Linha média central onde se situam a luz de tope e a luz de alcance.',
   },
@@ -157,7 +157,7 @@ const BOAT_PARTS: Record<BoatPartId, BoatPartInfo> = {
     colorHex: '#d97706',
     glowHex: '#fbbf24',
     location: 'Secção a Meio Comprimento (Meia Distância L/2)',
-    definition: 'Manual do Marinheiro (pág. 6): Região que fica situada a meia distância entre a proa e a popa. Secção transversal média onde se medem as dimensões principais do navio.',
+    definition: 'Região que fica situada a meia distância entre a proa e a popa. Secção transversal média onde se medem as dimensões principais do navio.',
     examRule: 'É ao Meio-Navio que se afere a Boca Máxima (largura do barco), o Calado Médio e o Bordo Livre.',
     nightLight: 'Linha divisória média entre a metade de vante (proa) e a metade de ré (popa).',
   },
@@ -192,7 +192,6 @@ const BOAT_PARTS: Record<BoatPartId, BoatPartInfo> = {
 export const BoatAnatomyGuide: React.FC = () => {
   const [selectedPart, setSelectedPart] = useState<BoatPartId | null>('eb');
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isMuseumAllLit, setIsMuseumAllLit] = useState(false);
 
   const currentInfo = selectedPart ? BOAT_PARTS[selectedPart] : null;
 
@@ -217,7 +216,7 @@ export const BoatAnatomyGuide: React.FC = () => {
     );
   };
 
-  const isLit = (part: BoatPartId) => isMuseumAllLit || selectedPart === part;
+  const isLit = (part: BoatPartId) => selectedPart === part;
 
   return (
     <div className="space-y-6">
@@ -225,66 +224,22 @@ export const BoatAnatomyGuide: React.FC = () => {
       <div className="rounded-3xl border border-[#ded5c2] bg-[#fdfcf9] p-6 sm:p-8 shadow-sm">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-[#e5decb]">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#a16207]">
-              <Ship className="w-4 h-4 text-[#a16207]" />
-              <span>Consola Náutica Interativa</span>
-            </div>
-            <h3 className="font-maritime text-2xl sm:text-3xl font-bold text-[#112338] mt-1">
-              Partes e Regiões da Embarcação
-            </h3>
-            <p className="text-xs sm:text-sm text-[#64748b] mt-1">
-              Manual do Marinheiro DGRM (pág. 6). Clique nos termos em baixo para acender a respetiva região no esquema.
-            </p>
+        <div className="mb-4 pb-4 border-b border-[#e5decb]">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#a16207]">
+            <Ship className="w-4 h-4 text-[#a16207]" />
+            <span>Guia Náutico Interativo</span>
           </div>
-
-          <div className="flex items-center gap-2 self-start sm:self-center">
-            {/* Museum All-Lights Mode Button */}
-            <button
-              onClick={() => setIsMuseumAllLit(!isMuseumAllLit)}
-              className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition border ${
-                isMuseumAllLit
-                  ? 'bg-[#112338] text-[#fde047] border-[#d4af37] shadow-sm'
-                  : 'bg-[#f4efe4] text-[#475569] border-[#ded5c2] hover:bg-[#eae3d2] hover:text-[#112338]'
-              }`}
-              title="Acende todas as luzes da maquete simultaneamente"
-            >
-              <Sparkles className={`w-3.5 h-3.5 ${isMuseumAllLit ? 'animate-pulse text-[#fde047]' : 'text-[#a16207]'}`} />
-              <span>{isMuseumAllLit ? 'Todas Acessas' : 'Iluminar Tudo'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Color Legend Strip */}
-        <div className="flex items-center justify-center flex-wrap gap-4 text-xs font-medium text-[#475569] mb-6 p-2.5 rounded-2xl bg-[#f4efe4]/80 border border-[#e5decb]">
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-[#16a34a] shadow-[0_0_8px_#22c55e]" />
-            <strong className="text-[#166534]">Estibordo (EB):</strong> Sempre Verde
-          </span>
-          <span className="text-[#cbd5e1] hidden sm:inline">|</span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-[#dc2626] shadow-[0_0_8px_#ef4444]" />
-            <strong className="text-[#991b1b]">Bombordo (BB):</strong> Sempre Vermelho
-          </span>
-          <span className="text-[#cbd5e1] hidden sm:inline">|</span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-[#eab308] shadow-[0_0_8px_#fde047]" />
-            <strong className="text-[#854d0e]">Meia-Nau & Meio-Navio:</strong> Amarelo
-          </span>
-          <span className="text-[#cbd5e1] hidden sm:inline">|</span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-white border border-[#0f172a] shadow-[0_0_8px_#ffffff]" />
-            <strong className="text-[#334155]">Proa (Vante) & Popa (Ré):</strong> Sempre Branco
-          </span>
+          <h3 className="font-maritime text-2xl sm:text-3xl font-bold text-[#112338] mt-1">
+            Partes e Regiões da Embarcação
+          </h3>
+          <p className="text-xs sm:text-sm text-[#64748b] mt-1">
+            Manual do Marinheiro DGRM. Toque nas diferentes partes ou rótulos da embarcação para explorar cada região.
+          </p>
         </div>
 
         {/* Vessel Interactive Canvas with Light Sea Blue Ocean & Hydrodynamic White Vessel */}
         <div
-          onClick={() => {
-            setSelectedPart(null);
-            setIsMuseumAllLit(false);
-          }}
+          onClick={() => setSelectedPart(null)}
           className="relative mx-auto max-w-xl rounded-3xl bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] p-0 border-2 border-[#7dd3fc] shadow-xl overflow-hidden cursor-pointer"
           title="Toque no mar para desmarcar a seleção"
         >
@@ -386,7 +341,6 @@ export const BoatAnatomyGuide: React.FC = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedPart(null);
-                setIsMuseumAllLit(false);
               }}
             />
 
@@ -1216,148 +1170,11 @@ export const BoatAnatomyGuide: React.FC = () => {
         </svg>
       </div>
 
-        {/* ================= MUSEUM CONSOLE ================= */}
-        <div className="mt-8 rounded-3xl bg-[#f4efe4] p-5 sm:p-7 border border-[#ded5c2] shadow-inner">
-          <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#112338] flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#112338] animate-ping" />
-              Consola de Iluminação — Toque num termo para acender:
-            </h4>
-            <span className="text-[11px] text-[#64748b] font-medium">
-              12 regiões e eixos regulamentares
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            {/* GROUP 1: ESTIBORDO (VERDE) */}
-            <div className="rounded-2xl bg-white p-3.5 border border-[#bbf7d0] shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#166534] pb-1.5 border-b border-[#bbf7d0]">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#16a34a] shadow-[0_0_6px_#22c55e]" />
-                <span>Estibordo (Sempre Verde)</span>
-              </div>
-              <div className="space-y-1.5">
-                {(['eb', 'amura-eb', 'traves-eb', 'alheta-eb'] as BoatPartId[]).map((id) => {
-                  const part = BOAT_PARTS[id];
-                  const active = selectedPart === id;
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => handleSelectPart(id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                        active
-                          ? 'bg-[#15803d] text-white shadow-md shadow-green-900/20 translate-x-1'
-                          : 'bg-[#f0fdf4] text-[#166534] hover:bg-[#dcfce7] border border-[#bbf7d0]'
-                      }`}
-                    >
-                      <span>{part.name}</span>
-                      <span className="text-[10px] opacity-75 font-mono">{part.abbreviation}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* GROUP 2: BOMBORDO (VERMELHO) */}
-            <div className="rounded-2xl bg-white p-3.5 border border-[#fecaca] shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#991b1b] pb-1.5 border-b border-[#fecaca]">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#dc2626] shadow-[0_0_6px_#ef4444]" />
-                <span>Bombordo (Sempre Vermelho)</span>
-              </div>
-              <div className="space-y-1.5">
-                {(['bb', 'amura-bb', 'traves-bb', 'alheta-bb'] as BoatPartId[]).map((id) => {
-                  const part = BOAT_PARTS[id];
-                  const active = selectedPart === id;
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => handleSelectPart(id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition ${
-                        active
-                          ? 'bg-[#b91c1c] text-white shadow-md shadow-red-900/20 translate-x-1'
-                          : 'bg-[#fef2f2] text-[#991b1b] hover:bg-[#fee2e2] border border-[#fecaca]'
-                      }`}
-                    >
-                      <span>{part.name}</span>
-                      <span className="text-[10px] opacity-75 font-mono">{part.abbreviation}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* GROUP 3: EIXOS MÉDIOS (AMARELO / DOURADO) */}
-            <div className="rounded-2xl bg-white p-3.5 border border-[#fef08a] shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#854d0e] pb-1.5 border-b border-[#fef08a]">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#eab308] shadow-[0_0_6px_#fde047]" />
-                <span>Eixos Médios (Amarelo)</span>
-              </div>
-              <div className="space-y-1.5">
-                {(['meia-nau', 'meio-navio'] as BoatPartId[]).map((id) => {
-                  const part = BOAT_PARTS[id];
-                  const active = selectedPart === id;
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => handleSelectPart(id)}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
-                        active
-                          ? 'bg-[#ca8a04] text-white shadow-md shadow-amber-900/20 translate-x-1'
-                          : 'bg-[#fefce8] text-[#854d0e] hover:bg-[#fef9c3] border border-[#fef08a]'
-                      }`}
-                    >
-                      <span>{part.name}</span>
-                      <span className="text-[10px] opacity-75 font-mono">
-                        {id === 'meia-nau' ? 'Longitudinal' : 'Transversal'}
-                      </span>
-                    </button>
-                  );
-                })}
-                <div className="p-2 rounded-xl bg-[#fefce8]/60 text-[11px] text-[#854d0e] leading-snug border border-[#fef08a]">
-                  <strong>Distinção no Exame:</strong> <em>Meia-nau</em> é o plano longitudinal (proa-popa); <em>Meio-navio</em> é a secção transversal média.
-                </div>
-              </div>
-            </div>
-
-            {/* GROUP 4: EXTREMIDADES (BRANCO / NÁUTICO) */}
-            <div className="rounded-2xl bg-white p-3.5 border border-[#ded5c2] shadow-2xs space-y-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#112338] pb-1.5 border-b border-[#ded5c2]">
-                <span className="w-2.5 h-2.5 rounded-full bg-white border border-[#0f172a] shadow-[0_0_6px_#ffffff]" />
-                <span>Extremidades (Sempre Branco)</span>
-              </div>
-              <div className="space-y-1.5">
-                {(['proa', 'popa'] as BoatPartId[]).map((id) => {
-                  const part = BOAT_PARTS[id];
-                  const active = selectedPart === id;
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => handleSelectPart(id)}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
-                        active
-                          ? 'bg-[#112338] text-white shadow-md shadow-slate-900/20 translate-x-1'
-                          : 'bg-[#f8fafc] text-[#334155] hover:bg-[#e2e8f0] border border-[#cbd5e1]'
-                      }`}
-                    >
-                      <span>{part.name}</span>
-                      <span className="text-[10px] opacity-75 font-mono">{part.abbreviation}</span>
-                    </button>
-                  );
-                })}
-                <div className="p-2 rounded-xl bg-[#f8fafc] text-[11px] text-[#475569] leading-snug border border-[#e2e8f0]">
-                  <strong>Luzes de Navegação:</strong> Proa (Vante) exibe luz de tope; Popa (Ré) exibe luz de alcance branca dirigida à ré.
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
         {/* ================= EXHIBIT DETAIL PLAQUE ================= */}
         <div className="mt-6 rounded-3xl bg-white p-6 sm:p-7 border-2 border-[#ded5c2] shadow-md transition-all">
           {currentInfo ? (
             <>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#e5decb]">
+              <div className="flex items-center justify-between gap-3 pb-4 border-b border-[#e5decb]">
                 <div className="flex items-center gap-3">
                   <span
                     className="w-4 h-4 rounded-full shadow-md shrink-0"
@@ -1367,42 +1184,32 @@ export const BoatAnatomyGuide: React.FC = () => {
                     }}
                   />
                   <div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-maritime text-2xl font-bold text-[#112338]">
-                        {currentInfo.name}
-                      </h4>
-                      {currentInfo.abbreviation && (
-                        <span className="rounded-md bg-[#f4efe4] px-2 py-0.5 text-xs font-bold text-[#112338] border border-[#ded5c2]">
-                          {currentInfo.abbreviation}
-                        </span>
-                      )}
-                    </div>
+                    <h4 className="font-maritime text-2xl font-bold text-[#112338]">
+                      {currentInfo.name}
+                    </h4>
                     <div className="text-xs text-[#64748b] font-medium mt-0.5">
                       Região: {currentInfo.location}
                     </div>
                   </div>
                 </div>
 
-                {/* Audio Button */}
+                {/* Audio Button - Minimalist icon button like glossary */}
                 <button
                   onClick={() => handleSpeak(currentInfo.name)}
-                  className={`flex items-center gap-2 self-start sm:self-center rounded-xl px-3.5 py-1.5 text-xs font-semibold transition border ${
+                  className={`rounded-xl p-2 transition ${
                     isSpeaking
-                      ? 'bg-[#112338] text-white border-[#112338]'
-                      : 'bg-[#f4efe4] text-[#112338] border-[#ded5c2] hover:bg-[#eae3d2]'
+                      ? 'bg-[#112338] text-[#fbf8f2]'
+                      : 'text-[#64748b] hover:text-[#112338] hover:bg-[#f4efe4]'
                   }`}
-                  title="Ouvir pronúncia do termo náutico"
+                  title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
+                  aria-label="Ouvir termo"
                 >
-                  {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                  <span>{isSpeaking ? 'Parar Áudio' : 'Ouvir Termo'}</span>
+                  {isSpeaking ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                 </button>
               </div>
 
               {/* Definition */}
               <div className="mt-4">
-                <h5 className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mb-1">
-                  Definição Oficial no Manual do Marinheiro (DGRM)
-                </h5>
                 <p className="text-sm sm:text-base text-[#1e293b] leading-relaxed">
                   {currentInfo.definition}
                 </p>
@@ -1427,23 +1234,17 @@ export const BoatAnatomyGuide: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2 text-center sm:text-left">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-[#f4efe4] flex items-center justify-center border border-[#ded5c2] shrink-0">
-                  <Ship className="w-5 h-5 text-[#a16207]" />
-                </div>
-                <div>
-                  <h4 className="font-maritime text-xl font-bold text-[#112338]">
-                    Nenhuma Região Selecionada
-                  </h4>
-                  <p className="text-xs sm:text-sm text-[#64748b] mt-0.5">
-                    Toque numa parte do barco ou nos botões da consola para consultar as regras da DGRM e iluminação noturna.
-                  </p>
-                </div>
+            <div className="flex items-center gap-3 py-2">
+              <div className="w-11 h-11 rounded-2xl bg-[#f4efe4] flex items-center justify-center border border-[#ded5c2] shrink-0">
+                <Ship className="w-5 h-5 text-[#a16207]" />
               </div>
-              <div className="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-[#f0f9ff] text-[#0369a1] border border-[#bae6fd] shrink-0">
-                <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
-                <span>Toque no mar para desmarcar</span>
+              <div>
+                <h4 className="font-maritime text-xl font-bold text-[#112338]">
+                  Nenhuma Região Selecionada
+                </h4>
+                <p className="text-xs sm:text-sm text-[#64748b] mt-0.5">
+                  Toque numa parte do barco ou nos rótulos para consultar as regras da DGRM e iluminação noturna.
+                </p>
               </div>
             </div>
           )}
