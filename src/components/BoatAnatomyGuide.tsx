@@ -190,13 +190,16 @@ const BOAT_PARTS: Record<BoatPartId, BoatPartInfo> = {
 };
 
 export const BoatAnatomyGuide: React.FC = () => {
-  const [selectedPart, setSelectedPart] = useState<BoatPartId>('eb');
+  const [selectedPart, setSelectedPart] = useState<BoatPartId | null>('eb');
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isMuseumAllLit, setIsMuseumAllLit] = useState(false);
 
-  const currentInfo = BOAT_PARTS[selectedPart];
+  const currentInfo = selectedPart ? BOAT_PARTS[selectedPart] : null;
 
-  const handleSelectPart = (id: BoatPartId) => {
+  const handleSelectPart = (id: BoatPartId, e?: React.MouseEvent) => {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
     setSelectedPart(id);
   };
 
@@ -277,39 +280,54 @@ export const BoatAnatomyGuide: React.FC = () => {
         </div>
 
         {/* Vessel Interactive Canvas with Light Sea Blue Ocean & Hydrodynamic White Vessel */}
-        <div className="relative mx-auto max-w-xl rounded-3xl bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] p-4 sm:p-8 border-2 border-[#7dd3fc] shadow-xl overflow-hidden">
+        <div
+          onClick={() => {
+            setSelectedPart(null);
+            setIsMuseumAllLit(false);
+          }}
+          className="relative mx-auto max-w-xl rounded-3xl bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] p-0 border-2 border-[#7dd3fc] shadow-xl overflow-hidden cursor-pointer"
+          title="Toque no mar para desmarcar a seleção"
+        >
           
           <svg
             viewBox="0 0 600 740"
-            className="w-full h-auto max-h-[620px] mx-auto select-none drop-shadow-xl"
+            className="w-full h-auto max-h-[640px] mx-auto select-none block drop-shadow-sm"
           >
             <defs>
               {/* CSS Animation Keyframes for Living Sea Waves */}
               <style>{`
                 @keyframes seaDriftA {
-                  0% { transform: translateY(0px) translateX(0px); opacity: 0.55; }
-                  50% { transform: translateY(-7px) translateX(4px); opacity: 0.85; }
-                  100% { transform: translateY(0px) translateX(0px); opacity: 0.55; }
+                  0% { transform: translateY(0px) translateX(0px); opacity: 0.6; }
+                  50% { transform: translateY(-9px) translateX(6px); opacity: 0.95; }
+                  100% { transform: translateY(0px) translateX(0px); opacity: 0.6; }
                 }
                 @keyframes seaDriftB {
-                  0% { transform: translateY(0px) translateX(0px); opacity: 0.45; }
-                  50% { transform: translateY(6px) translateX(-5px); opacity: 0.8; }
-                  100% { transform: translateY(0px) translateX(0px); opacity: 0.45; }
+                  0% { transform: translateY(0px) translateX(0px); opacity: 0.55; }
+                  50% { transform: translateY(8px) translateX(-7px); opacity: 0.9; }
+                  100% { transform: translateY(0px) translateX(0px); opacity: 0.55; }
+                }
+                @keyframes seaDriftC {
+                  0% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
+                  50% { transform: translateY(-7px) translateX(-5px); opacity: 0.85; }
+                  100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
                 }
                 @keyframes bowWavePulse {
-                  0% { transform: scale(0.99); opacity: 0.5; }
-                  50% { transform: scale(1.02); opacity: 0.85; }
-                  100% { transform: scale(0.99); opacity: 0.5; }
+                  0% { transform: scale(0.98); opacity: 0.55; }
+                  50% { transform: scale(1.03); opacity: 0.9; }
+                  100% { transform: scale(0.98); opacity: 0.55; }
                 }
                 .sea-wave-a {
-                  animation: seaDriftA 6s ease-in-out infinite;
+                  animation: seaDriftA 5.5s ease-in-out infinite;
                 }
                 .sea-wave-b {
-                  animation: seaDriftB 7s ease-in-out infinite;
+                  animation: seaDriftB 6.5s ease-in-out infinite;
+                }
+                .sea-wave-c {
+                  animation: seaDriftC 6s ease-in-out infinite;
                 }
                 .bow-wave {
                   transform-origin: 300px 115px;
-                  animation: bowWavePulse 4s ease-in-out infinite;
+                  animation: bowWavePulse 3.5s ease-in-out infinite;
                 }
               `}</style>
 
@@ -359,61 +377,133 @@ export const BoatAnatomyGuide: React.FC = () => {
               </filter>
             </defs>
 
-            {/* Sea Background Rectangle */}
-            <rect width="600" height="740" rx="24" fill="url(#sea-bg)" />
+            {/* Sea Background Rectangle - Single frame, clicking deselects */}
+            <rect
+              width="600"
+              height="740"
+              fill="url(#sea-bg)"
+              className="cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedPart(null);
+                setIsMuseumAllLit(false);
+              }}
+            />
 
             {/* ================= ANIMATED SEA WAVES (VAGAS DO MAR) ================= */}
+            {/* Wave Layer A: Crisp Undulations */}
             <g className="sea-wave-a pointer-events-none">
               <path
-                d="M 60 160 C 110 150, 160 170, 210 160 M 390 160 C 440 150, 490 170, 540 160"
+                d="M 45 95 C 85 85, 125 105, 165 95"
                 fill="none"
                 stroke="#ffffff"
                 strokeWidth="2"
                 strokeLinecap="round"
-                opacity="0.7"
+                opacity="0.8"
               />
               <path
-                d="M 40 280 C 80 270, 120 290, 160 280 M 440 280 C 480 270, 520 290, 560 280"
+                d="M 435 95 C 475 85, 515 105, 555 95"
                 fill="none"
-                stroke="#7dd3fc"
-                strokeWidth="2.5"
+                stroke="#ffffff"
+                strokeWidth="2"
                 strokeLinecap="round"
-                opacity="0.6"
+                opacity="0.8"
               />
               <path
-                d="M 50 480 C 100 470, 140 490, 180 480 M 420 480 C 460 470, 500 490, 550 480"
+                d="M 50 160 C 95 150, 145 170, 190 160 M 410 160 C 455 150, 505 170, 550 160"
                 fill="none"
                 stroke="#ffffff"
                 strokeWidth="2"
                 strokeLinecap="round"
                 opacity="0.75"
               />
+              <path
+                d="M 35 285 C 75 275, 115 295, 155 285 M 445 285 C 485 275, 525 295, 565 285"
+                fill="none"
+                stroke="#7dd3fc"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                opacity="0.75"
+              />
+              <path
+                d="M 45 490 C 85 480, 130 500, 170 490 M 430 490 C 470 480, 515 500, 555 490"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                opacity="0.85"
+              />
             </g>
 
+            {/* Wave Layer B: Deep Oceanic Swells */}
             <g className="sea-wave-b pointer-events-none">
               <path
-                d="M 70 380 C 110 390, 140 370, 175 380 M 425 380 C 460 390, 490 370, 530 380"
+                d="M 65 220 C 105 230, 140 210, 180 220 M 420 220 C 455 230, 495 210, 535 220"
                 fill="none"
                 stroke="#38bdf8"
                 strokeWidth="2"
                 strokeLinecap="round"
-                opacity="0.5"
+                opacity="0.65"
               />
               <path
-                d="M 80 610 C 130 600, 180 620, 220 610 M 380 610 C 420 600, 470 620, 520 610"
+                d="M 60 380 C 100 390, 130 370, 170 380 M 430 380 C 465 390, 495 370, 535 380"
+                fill="none"
+                stroke="#38bdf8"
+                strokeWidth="2"
+                strokeLinecap="round"
+                opacity="0.65"
+              />
+              <path
+                d="M 75 615 C 125 605, 175 625, 215 615 M 385 615 C 425 605, 475 625, 525 615"
                 fill="none"
                 stroke="#ffffff"
                 strokeWidth="2.5"
                 strokeLinecap="round"
-                opacity="0.8"
+                opacity="0.85"
               />
               <path
-                d="M 120 680 C 180 670, 240 690, 300 680 C 360 670, 420 690, 480 680"
+                d="M 120 690 C 180 680, 240 700, 300 690 C 360 680, 420 700, 480 690"
                 fill="none"
                 stroke="#7dd3fc"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                opacity="0.75"
+              />
+            </g>
+
+            {/* Wave Layer C: Gentle Marine Ripples */}
+            <g className="sea-wave-c pointer-events-none">
+              <path
+                d="M 70 330 C 105 320, 140 335, 170 325 M 430 330 C 460 320, 495 335, 530 325"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                opacity="0.7"
+              />
+              <path
+                d="M 50 440 C 90 450, 125 435, 165 445 M 435 440 C 475 450, 510 435, 550 445"
+                fill="none"
+                stroke="#38bdf8"
                 strokeWidth="2"
                 strokeLinecap="round"
                 opacity="0.6"
+              />
+              <path
+                d="M 85 570 C 120 560, 155 575, 190 565 M 410 570 C 445 560, 480 575, 515 565"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                opacity="0.75"
+              />
+              <path
+                d="M 170 720 C 230 710, 300 725, 360 715 C 400 710, 430 720, 460 715"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                opacity="0.8"
               />
             </g>
 
@@ -426,7 +516,7 @@ export const BoatAnatomyGuide: React.FC = () => {
                 strokeWidth="2.5"
                 strokeDasharray="8 6"
                 strokeLinecap="round"
-                opacity="0.65"
+                opacity="0.7"
               />
               <path
                 d="M 320 140 C 370 175, 430 225, 480 285"
@@ -435,7 +525,7 @@ export const BoatAnatomyGuide: React.FC = () => {
                 strokeWidth="2.5"
                 strokeDasharray="8 6"
                 strokeLinecap="round"
-                opacity="0.65"
+                opacity="0.7"
               />
             </g>
 
@@ -448,10 +538,13 @@ export const BoatAnatomyGuide: React.FC = () => {
               stroke="#93c5fd"
               strokeWidth="1.5"
               strokeDasharray="4 6"
-              opacity="0.6"
+              opacity="0.5"
+              className="pointer-events-none"
             />
 
-            {/* ================= PERFECT HYDRODYNAMIC WHITE HULL ================= */}
+            {/* Assembly grouping all boat paths, borders, axes, and labels (prevents sea deselect) */}
+            <g id="boat-vessel-assembly" onClick={(e) => e.stopPropagation()}>
+              {/* ================= PERFECT HYDRODYNAMIC WHITE HULL ================= */}
             {/* Seamless, continuous C1 curve for the white hull */}
             <path
               d="M 300 115
@@ -1119,8 +1212,9 @@ export const BoatAnatomyGuide: React.FC = () => {
                 BOMBORDO (BB)
               </text>
             </g>
-          </svg>
-        </div>
+          </g>
+        </svg>
+      </div>
 
         {/* ================= MUSEUM CONSOLE ================= */}
         <div className="mt-8 rounded-3xl bg-[#f4efe4] p-5 sm:p-7 border border-[#ded5c2] shadow-inner">
@@ -1261,74 +1355,98 @@ export const BoatAnatomyGuide: React.FC = () => {
 
         {/* ================= EXHIBIT DETAIL PLAQUE ================= */}
         <div className="mt-6 rounded-3xl bg-white p-6 sm:p-7 border-2 border-[#ded5c2] shadow-md transition-all">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#e5decb]">
-            <div className="flex items-center gap-3">
-              <span
-                className="w-4 h-4 rounded-full shadow-md shrink-0"
-                style={{
-                  backgroundColor: currentInfo.colorHex,
-                  boxShadow: `0 0 12px ${currentInfo.glowHex}`,
-                }}
-              />
-              <div>
-                <div className="flex items-center gap-2">
-                  <h4 className="font-maritime text-2xl font-bold text-[#112338]">
-                    {currentInfo.name}
-                  </h4>
-                  {currentInfo.abbreviation && (
-                    <span className="rounded-md bg-[#f4efe4] px-2 py-0.5 text-xs font-bold text-[#112338] border border-[#ded5c2]">
-                      {currentInfo.abbreviation}
-                    </span>
-                  )}
+          {currentInfo ? (
+            <>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#e5decb]">
+                <div className="flex items-center gap-3">
+                  <span
+                    className="w-4 h-4 rounded-full shadow-md shrink-0"
+                    style={{
+                      backgroundColor: currentInfo.colorHex,
+                      boxShadow: `0 0 12px ${currentInfo.glowHex}`,
+                    }}
+                  />
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-maritime text-2xl font-bold text-[#112338]">
+                        {currentInfo.name}
+                      </h4>
+                      {currentInfo.abbreviation && (
+                        <span className="rounded-md bg-[#f4efe4] px-2 py-0.5 text-xs font-bold text-[#112338] border border-[#ded5c2]">
+                          {currentInfo.abbreviation}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-[#64748b] font-medium mt-0.5">
+                      Região: {currentInfo.location}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs text-[#64748b] font-medium mt-0.5">
-                  Região: {currentInfo.location}
+
+                {/* Audio Button */}
+                <button
+                  onClick={() => handleSpeak(currentInfo.name)}
+                  className={`flex items-center gap-2 self-start sm:self-center rounded-xl px-3.5 py-1.5 text-xs font-semibold transition border ${
+                    isSpeaking
+                      ? 'bg-[#112338] text-white border-[#112338]'
+                      : 'bg-[#f4efe4] text-[#112338] border-[#ded5c2] hover:bg-[#eae3d2]'
+                  }`}
+                  title="Ouvir pronúncia do termo náutico"
+                >
+                  {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                  <span>{isSpeaking ? 'Parar Áudio' : 'Ouvir Termo'}</span>
+                </button>
+              </div>
+
+              {/* Definition */}
+              <div className="mt-4">
+                <h5 className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mb-1">
+                  Definição Oficial no Manual do Marinheiro (DGRM)
+                </h5>
+                <p className="text-sm sm:text-base text-[#1e293b] leading-relaxed">
+                  {currentInfo.definition}
+                </p>
+              </div>
+
+              {/* Night light / visual signal */}
+              <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-2xl bg-[#f8fafc] border border-[#e2e8f0] text-xs text-[#334155]">
+                <Compass className="w-4 h-4 text-[#0284c7] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-[#0369a1]">Sinalização Noturna & Setor:</strong>{' '}
+                  {currentInfo.nightLight}
                 </div>
               </div>
+
+              {/* Exam Rule Tip */}
+              <div className="mt-3.5 flex items-start gap-2.5 p-3.5 rounded-2xl bg-[#fefce8] border border-[#fef08a] text-xs text-[#854d0e]">
+                <AlertCircle className="w-4 h-4 text-[#b45309] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-[#92400e]">Regra de Exame DGRM / RIPAM:</strong>{' '}
+                  {currentInfo.examRule}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2 text-center sm:text-left">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-[#f4efe4] flex items-center justify-center border border-[#ded5c2] shrink-0">
+                  <Ship className="w-5 h-5 text-[#a16207]" />
+                </div>
+                <div>
+                  <h4 className="font-maritime text-xl font-bold text-[#112338]">
+                    Nenhuma Região Selecionada
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#64748b] mt-0.5">
+                    Toque numa parte do barco ou nos botões da consola para consultar as regras da DGRM e iluminação noturna.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-[#f0f9ff] text-[#0369a1] border border-[#bae6fd] shrink-0">
+                <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse" />
+                <span>Toque no mar para desmarcar</span>
+              </div>
             </div>
-
-            {/* Audio Button */}
-            <button
-              onClick={() => handleSpeak(currentInfo.name)}
-              className={`flex items-center gap-2 self-start sm:self-center rounded-xl px-3.5 py-1.5 text-xs font-semibold transition border ${
-                isSpeaking
-                  ? 'bg-[#112338] text-white border-[#112338]'
-                  : 'bg-[#f4efe4] text-[#112338] border-[#ded5c2] hover:bg-[#eae3d2]'
-              }`}
-              title="Ouvir pronúncia do termo náutico"
-            >
-              {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-              <span>{isSpeaking ? 'Parar Áudio' : 'Ouvir Termo'}</span>
-            </button>
-          </div>
-
-          {/* Definition */}
-          <div className="mt-4">
-            <h5 className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mb-1">
-              Definição Oficial no Manual do Marinheiro (DGRM)
-            </h5>
-            <p className="text-sm sm:text-base text-[#1e293b] leading-relaxed">
-              {currentInfo.definition}
-            </p>
-          </div>
-
-          {/* Night light / visual signal */}
-          <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-2xl bg-[#f8fafc] border border-[#e2e8f0] text-xs text-[#334155]">
-            <Compass className="w-4 h-4 text-[#0284c7] shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-[#0369a1]">Sinalização Noturna & Setor:</strong>{' '}
-              {currentInfo.nightLight}
-            </div>
-          </div>
-
-          {/* Exam Rule Tip */}
-          <div className="mt-3.5 flex items-start gap-2.5 p-3.5 rounded-2xl bg-[#fefce8] border border-[#fef08a] text-xs text-[#854d0e]">
-            <AlertCircle className="w-4 h-4 text-[#b45309] shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-[#92400e]">Regra de Exame DGRM / RIPAM:</strong>{' '}
-              {currentInfo.examRule}
-            </div>
-          </div>
+          )}
         </div>
 
       </div>
