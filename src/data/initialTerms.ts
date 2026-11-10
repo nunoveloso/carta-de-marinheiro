@@ -803,6 +803,10 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     "subsection": "Regiões do navio – Definições",
     "page": 6,
     "definition": "Região que fica situada a meia distância entre a proa e a popa.",
+    "synonyms": [
+      "Meio-Navio",
+      "Meio navio"
+    ],
     "importance": "importante",
     "examTip": "Termo náutico oficial avaliado no âmbito do exame de Carta de Marinheiro e nomenclatura da DGRM.",
     "relatedTerms": [
@@ -821,6 +825,12 @@ export const INITIAL_TERMS: NauticalTerm[] = [
     "subsection": "Regiões do navio – Definições",
     "page": 6,
     "definition": "Plano longitudinal que passa pela Proa e pela Popa, dividindo o navio em duas regiões simétricas que se denominam de bordos.",
+    "synonyms": [
+      "Meia-Nau",
+      "Meia nau",
+      "Plano Diametral",
+      "Plano diametral"
+    ],
     "importance": "essencial",
     "examTip": "Termo náutico oficial avaliado no âmbito do exame de Carta de Marinheiro e nomenclatura da DGRM.",
     "relatedTerms": [

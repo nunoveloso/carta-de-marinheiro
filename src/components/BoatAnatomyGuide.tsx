@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Ship, Compass, Volume2, VolumeX, AlertCircle } from 'lucide-react';
+import { User } from 'firebase/auth';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
+import { NauticalTerm } from '../types/glossary';
+import { INITIAL_TERMS } from '../data/initialTerms';
+import { GlossaryText } from './GlossaryText';
+import { TermDetailModal } from './TermDetailModal';
 
 export type BoatPartId =
   | 'proa'
@@ -189,11 +194,40 @@ const BOAT_PARTS: Record<BoatPartId, BoatPartInfo> = {
   },
 };
 
-export const BoatAnatomyGuide: React.FC = () => {
+export interface BoatAnatomyGuideProps {
+  allTerms?: NauticalTerm[];
+  onSelectTerm?: (term: NauticalTerm) => void;
+  currentUser?: User | null;
+  bookmarkedIds?: Set<string>;
+  onToggleBookmark?: (id: string) => void;
+  userNotes?: Record<string, string>;
+  onSaveNote?: (id: string, note: string) => Promise<void>;
+  onOpenAuth?: () => void;
+}
+
+export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
+  allTerms = INITIAL_TERMS,
+  onSelectTerm,
+  currentUser = null,
+  bookmarkedIds = new Set(),
+  onToggleBookmark = () => {},
+  userNotes = {},
+  onSaveNote,
+  onOpenAuth = () => {},
+}) => {
   const [selectedPart, setSelectedPart] = useState<BoatPartId | null>('eb');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [localModalTerm, setLocalModalTerm] = useState<NauticalTerm | null>(null);
 
   const currentInfo = selectedPart ? BOAT_PARTS[selectedPart] : null;
+
+  const handleSelectGlossaryTerm = (term: NauticalTerm) => {
+    if (onSelectTerm) {
+      onSelectTerm(term);
+    } else {
+      setLocalModalTerm(term);
+    }
+  };
 
   const handleSelectPart = (id: BoatPartId, e?: React.MouseEvent) => {
     if (e && typeof e.stopPropagation === 'function') {
@@ -1188,7 +1222,12 @@ export const BoatAnatomyGuide: React.FC = () => {
                       {currentInfo.name}
                     </h4>
                     <div className="text-xs text-[#64748b] font-medium mt-0.5">
-                      Região: {currentInfo.location}
+                      Região:{' '}
+                      <GlossaryText
+                        text={currentInfo.location}
+                        allTerms={allTerms}
+                        onSelectTerm={handleSelectGlossaryTerm}
+                      />
                     </div>
                   </div>
                 </div>
@@ -1208,28 +1247,40 @@ export const BoatAnatomyGuide: React.FC = () => {
                 </button>
               </div>
 
-              {/* Definition */}
+              {/* Definition with dotted glossary links */}
               <div className="mt-4">
                 <p className="text-sm sm:text-base text-[#1e293b] leading-relaxed">
-                  {currentInfo.definition}
+                  <GlossaryText
+                    text={currentInfo.definition}
+                    allTerms={allTerms}
+                    onSelectTerm={handleSelectGlossaryTerm}
+                  />
                 </p>
               </div>
 
-              {/* Night light / visual signal */}
+              {/* Night light / visual signal with dotted glossary links */}
               <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-2xl bg-[#f8fafc] border border-[#e2e8f0] text-xs text-[#334155]">
                 <Compass className="w-4 h-4 text-[#0284c7] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-[#0369a1]">Sinalização Noturna & Setor:</strong>{' '}
-                  {currentInfo.nightLight}
+                  <GlossaryText
+                    text={currentInfo.nightLight}
+                    allTerms={allTerms}
+                    onSelectTerm={handleSelectGlossaryTerm}
+                  />
                 </div>
               </div>
 
-              {/* Exam Rule Tip */}
+              {/* Exam Rule Tip with dotted glossary links */}
               <div className="mt-3.5 flex items-start gap-2.5 p-3.5 rounded-2xl bg-[#fefce8] border border-[#fef08a] text-xs text-[#854d0e]">
                 <AlertCircle className="w-4 h-4 text-[#b45309] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-[#92400e]">Regra de Exame DGRM / RIPAM:</strong>{' '}
-                  {currentInfo.examRule}
+                  <GlossaryText
+                    text={currentInfo.examRule}
+                    allTerms={allTerms}
+                    onSelectTerm={handleSelectGlossaryTerm}
+                  />
                 </div>
               </div>
             </>
@@ -1251,6 +1302,22 @@ export const BoatAnatomyGuide: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Standalone Fallback Modal if parent does not provide onSelectTerm */}
+      {localModalTerm && (
+        <TermDetailModal
+          term={localModalTerm}
+          allTerms={allTerms}
+          onClose={() => setLocalModalTerm(null)}
+          isBookmarked={bookmarkedIds?.has(localModalTerm.id) || false}
+          onToggleBookmark={onToggleBookmark}
+          currentUser={currentUser}
+          savedNote={userNotes?.[localModalTerm.id] || ''}
+          onSaveNote={onSaveNote || (async () => {})}
+          onSelectTerm={(t) => setLocalModalTerm(t)}
+          onOpenAuth={onOpenAuth}
+        />
+      )}
     </div>
   );
 };

@@ -1,11 +1,33 @@
 import React, { useState } from 'react';
 import { Compass, Ship, Navigation, Volume2, Layers, Flag } from 'lucide-react';
+import { User } from 'firebase/auth';
+import { NauticalTerm } from '../types/glossary';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
 import { BoatAnatomyGuide } from './BoatAnatomyGuide';
 
-export const VisualGuideView: React.FC = () => {
+export interface VisualGuideViewProps {
+  terms?: NauticalTerm[];
+  onSelectTerm?: (term: NauticalTerm) => void;
+  currentUser?: User | null;
+  bookmarkedIds?: Set<string>;
+  onToggleBookmark?: (id: string) => void;
+  userNotes?: Record<string, string>;
+  onSaveNote?: (id: string, note: string) => Promise<void>;
+  onOpenAuth?: () => void;
+}
+
+export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
+  terms,
+  onSelectTerm,
+  currentUser,
+  bookmarkedIds,
+  onToggleBookmark,
+  userNotes,
+  onSaveNote,
+  onOpenAuth,
+}) => {
   const [activeSection, setActiveSection] = useState<'barco' | 'luzes' | 'iala' | 'sons' | 'baloes' | 'bandeiras'>('barco');
 
   // Web Audio ship horn beeper
@@ -130,7 +152,16 @@ export const VisualGuideView: React.FC = () => {
 
       {/* SECTION 1: PARTES DO BARCO (MUSEUM INTERACTIVE EXHIBIT) */}
       {activeSection === 'barco' && (
-        <BoatAnatomyGuide />
+        <BoatAnatomyGuide
+          allTerms={terms}
+          onSelectTerm={onSelectTerm}
+          currentUser={currentUser}
+          bookmarkedIds={bookmarkedIds}
+          onToggleBookmark={onToggleBookmark}
+          userNotes={userNotes}
+          onSaveNote={onSaveNote}
+          onOpenAuth={onOpenAuth}
+        />
       )}
 
       {/* SECTION 2: SETORES DE LUZES (RIPAM) */}

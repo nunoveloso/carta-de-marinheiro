@@ -545,7 +545,18 @@ export default function App() {
         {activeTab === 'quiz' && <QuizView />}
 
         {/* VISUAL GUIDE TAB */}
-        {activeTab === 'guia' && <VisualGuideView />}
+        {activeTab === 'guia' && (
+          <VisualGuideView
+            terms={terms}
+            onSelectTerm={setSelectedTerm}
+            currentUser={currentUser}
+            bookmarkedIds={bookmarkedIds}
+            onToggleBookmark={handleToggleBookmark}
+            userNotes={userNotes}
+            onSaveNote={handleSaveNote}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
+          />
+        )}
 
       </main>
 
