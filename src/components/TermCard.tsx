@@ -7,6 +7,7 @@ import { GlossaryText } from './GlossaryText';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
+import { BoatPartIllustration } from './BoatPartIllustration';
 
 interface TermCardProps {
   term: NauticalTerm;
@@ -167,6 +168,12 @@ export const TermCard: React.FC<TermCardProps> = ({
           variant="card"
           allTerms={allTerms}
           onSelectTerm={onSelectTerm}
+        />
+
+        {/* Boat Part / Regiões do Navio illustration if applicable */}
+        <BoatPartIllustration
+          termId={term.id}
+          variant="card"
         />
 
         {/* Importante para o Exame Section */}

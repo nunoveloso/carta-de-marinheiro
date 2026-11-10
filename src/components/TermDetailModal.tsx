@@ -8,6 +8,7 @@ import { GlossaryText } from './GlossaryText';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
+import { BoatPartIllustration } from './BoatPartIllustration';
 
 interface TermDetailModalProps {
   term: NauticalTerm | null;
@@ -247,6 +248,12 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
             variant="modal"
             allTerms={allTerms}
             onSelectTerm={onSelectTerm}
+          />
+
+          {/* Boat Part / Regiões do Navio Dedicated Illustration */}
+          <BoatPartIllustration
+            termId={term.id}
+            variant="modal"
           />
 
           {/* Practical Onboard Example */}
