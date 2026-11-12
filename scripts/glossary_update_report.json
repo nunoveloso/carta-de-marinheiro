@@ -1,0 +1,1577 @@
+[
+  {
+    "term": "Balsa",
+    "id": "balsa-salvacao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Coletes de salvação",
+    "id": "coletes-salvacao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Boias de salvação",
+    "id": "boias-salvacao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Boia de salvação com retenida",
+    "id": "boia-com-retenida",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Boia de salvação com luz",
+    "id": "boia-com-luz",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Embarcação de Recreio (E.R.)",
+    "id": "embarcacao-de-recreio",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Legislação"
+  },
+  {
+    "term": "Embarcações miúdas",
+    "id": "embarcacoes-miudas",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Baleeira",
+    "id": "baleeira",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Salva-vidas (Embarcação)",
+    "id": "salva-vidas-embarcacao",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Chata",
+    "id": "chata",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Bote",
+    "id": "bote",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Quilha",
+    "id": "quilha",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Balizas",
+    "id": "balizas",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Roda de Proa",
+    "id": "roda-de-proa",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Cadaste",
+    "id": "cadaste",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Painel de Popa",
+    "id": "painel-de-popa",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Costado",
+    "id": "costado",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Querena",
+    "id": "querena",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Linha de água",
+    "id": "linha-de-agua",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Verdugo",
+    "id": "verdugo",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Robaletes",
+    "id": "robaletes",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Convés",
+    "id": "conves",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Enora",
+    "id": "enora",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Carlinga",
+    "id": "carlinga",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Escovém",
+    "id": "escovem",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Comprimento",
+    "id": "comprimento",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Boca",
+    "id": "boca",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Pontal",
+    "id": "pontal",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Calado",
+    "id": "calado",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Leme",
+    "id": "leme",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Balaustres",
+    "id": "balaustres",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Proa ou Vante",
+    "id": "proa-ou-vante",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Popa ou Ré",
+    "id": "popa-ou-re",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Bombordo",
+    "id": "bombordo",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Estibordo",
+    "id": "estibordo",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Alheta",
+    "id": "alheta",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Amuras",
+    "id": "amuras",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Través",
+    "id": "traves",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Meio Navio",
+    "id": "meio-navio",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Meia Nau",
+    "id": "meia-nau",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Barlavento",
+    "id": "barlavento",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Sotavento",
+    "id": "sotavento",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Orçar",
+    "id": "orcar",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Arribar",
+    "id": "arribar",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Punho da pena",
+    "id": "punho-da-pena",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Punho da escota",
+    "id": "punho-da-escota",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Punho da amura",
+    "id": "punho-da-amura",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Testa",
+    "id": "testa-da-vela",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Esteira",
+    "id": "esteira-da-vela",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Valuma",
+    "id": "valuma-da-vela",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Habitabilidade",
+    "id": "habitabilidade",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Manobrabilidade",
+    "id": "manobrabilidade",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Navegabilidade",
+    "id": "navegabilidade",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Estabilidade",
+    "id": "estabilidade",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Flutuabilidade",
+    "id": "flutuabilidade",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Poder Giratório",
+    "id": "poder-giratorio",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Solidez",
+    "id": "solidez",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Estanquicidade",
+    "id": "estanquicidade",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Palamenta",
+    "id": "palamenta",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Ancorete",
+    "id": "ancorete",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Defensa",
+    "id": "defensa",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Vertedouro ou Bartedouro",
+    "id": "vertedouro-bartedouro",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Croque",
+    "id": "croque",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Drogue",
+    "id": "drogue",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Remo",
+    "id": "remo",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Pagaia",
+    "id": "pagaia",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Forqueta – Tolete",
+    "id": "forqueta-tolete",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Nomenclatura"
+  },
+  {
+    "term": "Cabos",
+    "id": "cabos",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Massame",
+    "id": "massame",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Chicotes",
+    "id": "chicotes",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Seio",
+    "id": "seio-do-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Cabos solteiros",
+    "id": "cabos-solteiros",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Cabos fixos",
+    "id": "cabos-fixos",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Sarilho",
+    "id": "sarilho",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Cocas",
+    "id": "cocas",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Alar um Cabo",
+    "id": "alar-um-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Folgar um cabo",
+    "id": "folgar-um-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Aguentar o Cabo",
+    "id": "aguentar-o-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Largar o Cabo por mão",
+    "id": "largar-o-cabo-por-mao",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Dar a volta a um Cabo",
+    "id": "dar-a-volta-a-um-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Colher um Cabo",
+    "id": "colher-um-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Retenida",
+    "id": "retenida",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Espia",
+    "id": "espia",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Bitola",
+    "id": "bitola",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Vergueiros",
+    "id": "vergueiros",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Boça",
+    "id": "boca-cabo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Adriça",
+    "id": "adrica",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Arinque",
+    "id": "arinque",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Nós e Voltas",
+    "id": "nos-e-voltas",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Nó direito",
+    "id": "no-direito",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Nó de escota",
+    "id": "no-de-escota",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Lais de guia",
+    "id": "lais-de-guia",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Volta de fiel",
+    "id": "volta-de-fiel",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Voltas falidas",
+    "id": "voltas-falidas",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Volta de cunho",
+    "id": "volta-de-cunho",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Volta de Anete",
+    "id": "volta-de-anete",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Cabos, Voltas e Nós"
+  },
+  {
+    "term": "Âncora (ou Ferro)",
+    "id": "ancora-ou-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Amarra",
+    "id": "amarra",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Quarteladas",
+    "id": "quarteladas",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Anete",
+    "id": "anete-do-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Haste",
+    "id": "haste-do-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Cruz",
+    "id": "cruz-do-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Braços",
+    "id": "bracos-do-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Unha",
+    "id": "unha-do-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Cepo",
+    "id": "cepo-do-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Âncora Flutuante",
+    "id": "ancora-flutuante",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Boia de arinque",
+    "id": "boia-de-arinque",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Manobra de fundear",
+    "id": "manobra-de-fundear",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Tença (Boa tença e Má tença)",
+    "id": "tenca",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Garrar",
+    "id": "garrar",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Colocar o ferro a pique",
+    "id": "colocar-o-ferro-a-pique",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Suspender o ferro",
+    "id": "suspender-o-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Unhar o ferro",
+    "id": "unhar-o-ferro",
+    "oldCategory": "amarras-fundear",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Âncoras e Amarras"
+  },
+  {
+    "term": "Lançantes",
+    "id": "lancantes",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Regeiras",
+    "id": "regeiras",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Traveses de amarração",
+    "id": "traveses-atracacao",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Atracagem ou atracação",
+    "id": "atracagem",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Desatracar",
+    "id": "desatracar",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Efeito lateral dos Hélices",
+    "id": "efeito-lateral-dos-helices",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Hélice de passo direito",
+    "id": "helice-de-passo-direito",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Hélice de passo esquerdo",
+    "id": "helice-de-passo-esquerdo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Manobra de Homem ao Mar",
+    "id": "manobra-de-homem-ao-mar",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Manobra de rotação",
+    "id": "manobra-de-rotacao",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Manobra de Butakow",
+    "id": "manobra-de-butakow",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Virando em roda (Cambar)",
+    "id": "virando-em-roda",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Virando por devante",
+    "id": "virando-por-devante",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Marinharia",
+    "newSubCategory": "Manobras"
+  },
+  {
+    "term": "Nó",
+    "id": "no",
+    "oldCategory": "navegacao-agulhas",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Navegação"
+  },
+  {
+    "term": "Milha marítima",
+    "id": "milha-maritima",
+    "oldCategory": "navegacao-agulhas",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Navegação"
+  },
+  {
+    "term": "Odómetro",
+    "id": "odometro",
+    "oldCategory": "navegacao-agulhas",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Navegação"
+  },
+  {
+    "term": "Barquinha (ou Baroa)",
+    "id": "barquinha",
+    "oldCategory": "navegacao-agulhas",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Navegação"
+  },
+  {
+    "term": "Tabela de rotações",
+    "id": "tabela-de-rotacoes",
+    "oldCategory": "navegacao-agulhas",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Navegação"
+  },
+  {
+    "term": "Marés",
+    "id": "mares",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Mês lunar (ou Lunação)",
+    "id": "mes-lunar",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Idade da Lua",
+    "id": "idade-da-lua",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Marés Vivas",
+    "id": "mares-vivas",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Marés Mortas",
+    "id": "mares-mortas",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Zero Hidrográfico (Z.H.)",
+    "id": "zero-hidrografico",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Sonda reduzida",
+    "id": "sonda-reduzida",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Sonda à hora",
+    "id": "sonda-a-hora",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Preia-mar",
+    "id": "preia-mar",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Baixa-mar",
+    "id": "baixa-mar",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Amplitude da maré",
+    "id": "amplitude-da-mare",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Altura da maré",
+    "id": "altura-da-mare",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Estofo da maré",
+    "id": "estofo-da-mare",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Tabela de marés",
+    "id": "tabela-de-mares",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Marés"
+  },
+  {
+    "term": "Escala Beaufort",
+    "id": "escala-beaufort",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Escala de Douglas",
+    "id": "escala-douglas",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Navegar aproado ao tempo",
+    "id": "navegar-aproado-ao-tempo",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Correr com o tempo",
+    "id": "correr-com-o-tempo",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Afocinhar",
+    "id": "afocinhar",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Rizar a vela grande",
+    "id": "rizar-a-vela-grande",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Meteorologia",
+    "id": "meteorologia",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Troposfera",
+    "id": "troposfera",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Pressão atmosférica",
+    "id": "pressao-atmosferica",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Isóbaras",
+    "id": "isobaras",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Anticiclones",
+    "id": "anticiclones",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Depressões",
+    "id": "depressoes",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Brisa Marítima",
+    "id": "brisa-maritima",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Brisa Terrestre",
+    "id": "brisa-terrestre",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Cirrus (Ci)",
+    "id": "nuvem-cirrus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Cirrocumulus (Cc)",
+    "id": "nuvem-cirrocumulus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Cirrostratus (Cs)",
+    "id": "nuvem-cirrostratus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Altocumulus (Ac)",
+    "id": "nuvem-altocumulus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Altostratus (As)",
+    "id": "nuvem-altostratus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Nimbostratus (Ns)",
+    "id": "nuvem-nimbostratus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Stratocumulus (Sc)",
+    "id": "nuvem-stratocumulus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Stratus (St)",
+    "id": "nuvem-stratus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Cumulus (Cu)",
+    "id": "nuvem-cumulus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Cumulonimbus (Cb)",
+    "id": "nuvem-cumulonimbus",
+    "oldCategory": "meteorologia-mares",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Meteorologia"
+  },
+  {
+    "term": "Unidade Propulsora",
+    "id": "unidade-propulsora",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Motores"
+  },
+  {
+    "term": "Triângulo do fogo",
+    "id": "triangulo-do-fogo",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Combustível",
+    "id": "combustivel",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Comburente",
+    "id": "comburente",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Temperatura de Ignição",
+    "id": "temperatura-de-ignicao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Extintores de pó seco ou químico",
+    "id": "extintores-po-quimico",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Asfixia",
+    "id": "asfixia",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Abafamento",
+    "id": "abafamento",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Arrefecimento",
+    "id": "arrefecimento",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Inibição",
+    "id": "inibicao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Incêndios"
+  },
+  {
+    "term": "Hipotermia",
+    "id": "hipotermia",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Insolação",
+    "id": "insolacao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Golpe de calor",
+    "id": "golpe-de-calor",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Hidrocussão",
+    "id": "hidrocussao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Paragem da digestão",
+    "id": "paragem-da-digestao",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Hemorragia",
+    "id": "hemorragia",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "P.L.S. (Posição Lateral de Segurança)",
+    "id": "pls",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "R.C.P. (Ressuscitação cardiopulmonar)",
+    "id": "rcp",
+    "oldCategory": "seguranca-salvamento",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Mayday",
+    "id": "mayday-socorro",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Primeiros Socorros"
+  },
+  {
+    "term": "Planeamento de viagem",
+    "id": "planeamento-de-viagem",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Segurança e Primeiros Socorros",
+    "newSubCategory": "Segurança"
+  },
+  {
+    "term": "Macho de fundo",
+    "id": "macho-de-fundo",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Motores"
+  },
+  {
+    "term": "Motor fora de borda",
+    "id": "motor-fora-de-borda",
+    "oldCategory": "manobras-propulsao",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Motores"
+  },
+  {
+    "term": "Preservação do meio ambiente marinho",
+    "id": "preservacao-do-meio-ambiente-marinho",
+    "oldCategory": "nomenclatura-geral",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Legislação"
+  },
+  {
+    "term": "R.I.E.A.M.",
+    "id": "rieam",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Abalroamentos"
+  },
+  {
+    "term": "Risco de abalroamento",
+    "id": "risco-de-abalroamento",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Abalroamentos"
+  },
+  {
+    "term": "Situação de roda a roda",
+    "id": "situacao-de-roda-a-roda",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Abalroamentos"
+  },
+  {
+    "term": "Situação de rumos cruzados",
+    "id": "situacao-de-rumos-cruzados",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Abalroamentos"
+  },
+  {
+    "term": "Navio que alcança",
+    "id": "navio-que-alcanca",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Abalroamentos"
+  },
+  {
+    "term": "Sinais sonoros para navios à vista",
+    "id": "sinais-sonoros-manobra",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Sinais Sonoros"
+  },
+  {
+    "term": "Balões",
+    "id": "baloes-de-navegacao",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Balões"
+  },
+  {
+    "term": "Balão esférico",
+    "id": "balao-esferico",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Balões"
+  },
+  {
+    "term": "Balão cónico",
+    "id": "balao-conico",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Balões"
+  },
+  {
+    "term": "Balão cilíndrico",
+    "id": "balao-cilindrico",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Balões"
+  },
+  {
+    "term": "Balão bicónico",
+    "id": "balao-biconico",
+    "oldCategory": "regras-ripam",
+    "newCategory": "R.I.E.A.M.",
+    "newSubCategory": "Balões"
+  },
+  {
+    "term": "Sistema de Balizagem AISM / IALA Região A",
+    "id": "sistema-de-balizagem-iala",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marcas Laterais (Região A)",
+    "id": "marcas-laterais",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marca Lateral de Bombordo (BB)",
+    "id": "lateral-bombordo",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marca Lateral de Estibordo (EB)",
+    "id": "lateral-estibordo",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Canal Principal (Bifurcação)",
+    "id": "canal-principal",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Canal Principal a Bombordo",
+    "id": "canal-principal-bombordo",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Canal Principal a Estibordo",
+    "id": "canal-principal-estibordo",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marcas Cardeais",
+    "id": "marcas-cardeais",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marca Cardeal Norte",
+    "id": "cardeal-norte",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marca Cardeal Este",
+    "id": "cardeal-este",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marca Cardeal Sul",
+    "id": "cardeal-sul",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marca Cardeal Oeste",
+    "id": "cardeal-oeste",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Perigo Isolado",
+    "id": "perigo-isolado",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marcas de Águas Limpas",
+    "id": "marcas-de-aguas-limpas",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Marcas Especiais",
+    "id": "marcas-especiais",
+    "oldCategory": "balizamento-iala",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Balizagem"
+  },
+  {
+    "term": "Código Internacional de Sinais",
+    "id": "codigo-internacional-de-sinais",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  },
+  {
+    "term": "Bandeira Alfa (A)",
+    "id": "bandeira-alfa",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  },
+  {
+    "term": "Bandeira Bravo (B)",
+    "id": "bandeira-bravo",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  },
+  {
+    "term": "Bandeira Oscar (O)",
+    "id": "bandeira-oscar",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  },
+  {
+    "term": "Bandeira Quebec (Q)",
+    "id": "bandeira-quebec",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  },
+  {
+    "term": "Bandeira Victor (V)",
+    "id": "bandeira-victor",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  },
+  {
+    "term": "Navtex",
+    "id": "navtex",
+    "oldCategory": "comunicacoes-vhf",
+    "newCategory": "Outras Matérias",
+    "newSubCategory": "Siglas"
+  }
+]

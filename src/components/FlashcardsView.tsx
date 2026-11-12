@@ -29,6 +29,15 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [masteredIds, setMasteredIds] = useState<Set<string>>(new Set());
 
+  // Dynamically derive categories from provided terms
+  const availableCategories = useMemo(() => {
+    const presentCats = new Set<string>();
+    terms.forEach((t) => {
+      if (t.category) presentCats.add(t.category);
+    });
+    return CATEGORIES.filter((c) => presentCats.has(c.id));
+  }, [terms]);
+
   // Filter terms according to options
   const filteredTerms = useMemo(() => {
     let result = terms;
@@ -173,7 +182,7 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
           className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
         >
           <option value="all">Todas as Categorias ({terms.length})</option>
-          {CATEGORIES.map((cat) => (
+          {availableCategories.map((cat) => (
             <option key={cat.id} value={cat.id}>
               {cat.name}
             </option>
@@ -239,13 +248,13 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
             <div className="flex items-center justify-between text-xs gap-2">
               <div className="flex items-center gap-1.5 flex-wrap text-left">
                 <span className="font-semibold text-[#112338]">
-                  {categoryMeta.name}
+                  {currentTerm.category}
                 </span>
-                {currentTerm.section && (
+                {(currentTerm.subCategory || currentTerm.subcategory) && (
                   <>
-                    <span className="text-[#94a3b8]">›</span>
-                    <span className="text-[#64748b] font-medium text-[11px] truncate max-w-[220px]" title={currentTerm.section}>
-                      {currentTerm.section}
+                    <span className="text-[#a16207]">→</span>
+                    <span className="text-[#854d0e] font-semibold text-[11px] truncate max-w-[220px]">
+                      {currentTerm.subCategory || currentTerm.subcategory}
                     </span>
                   </>
                 )}
@@ -285,9 +294,9 @@ export const FlashcardsView: React.FC<FlashcardsViewProps> = ({
                   <span className="text-xs font-bold text-[#112338] uppercase tracking-wider">
                     Definição Oficial
                   </span>
-                  {currentTerm.section && (
-                    <span className="text-[11px] text-[#64748b]">
-                      • {currentTerm.section}{currentTerm.subsection ? ` › ${currentTerm.subsection}` : ''}
+                  {(currentTerm.subCategory || currentTerm.subcategory) && (
+                    <span className="text-[11px] font-semibold text-[#854d0e]">
+                      • {currentTerm.category} → {currentTerm.subCategory || currentTerm.subcategory}
                     </span>
                   )}
                 </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Star, Volume2, VolumeX, Lightbulb, Compass, FileText, Check, AlertCircle, Share2, LogIn } from 'lucide-react';
 import { NauticalTerm } from '../types/glossary';
-import { CATEGORIES } from '../data/initialTerms';
 import { User as FirebaseUser } from 'firebase/auth';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
@@ -61,8 +60,6 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
 
   if (!term) return null;
 
-  const categoryMeta = CATEGORIES.find((c) => c.id === term.category) || CATEGORIES[0];
-
   const handleSpeak = () => {
     if (isSpeaking) {
       stopSpeaking();
@@ -120,10 +117,8 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
         <div className="relative bg-[#f4efe4] px-6 pt-6 pb-5 border-b border-[#ded5c2]">
           <div className="flex items-center justify-between gap-3">
             
-            {/* Unboxed Metadata Header */}
-            <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium">
-              <span className="font-semibold text-[#112338]">{categoryMeta.name}</span>
-              <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
+            {/* Metadata Header */}
+            <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium flex-wrap">
               <span
                 className={
                   term.importance === 'essencial'
@@ -184,21 +179,16 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
             {term.term}
           </h2>
 
-          {term.section && (
-            <div className="mt-2 flex items-center gap-2 text-xs font-medium text-[#854d0e] flex-wrap">
-              <span className="rounded-lg bg-[#ede6d8] px-2.5 py-1 font-semibold border border-[#d8cdb8] text-[#112338]">
-                {term.section}
-              </span>
-              {term.subsection && (
-                <>
-                  <span className="text-[#94a3b8]">›</span>
-                  <span className="rounded-lg bg-[#ede6d8] px-2.5 py-1 font-medium border border-[#d8cdb8] text-[#475569]">
-                    {term.subsection}
-                  </span>
-                </>
-              )}
-            </div>
-          )}
+          {/* Category -> SubCategory breadcrumb */}
+          <div className="mt-2 flex items-center gap-2 text-xs font-medium text-[#854d0e] flex-wrap">
+            <span className="rounded-lg bg-[#ede6d8] px-2.5 py-1 font-bold border border-[#d8cdb8] text-[#112338]">
+              {term.category}
+            </span>
+            <span className="text-[#a16207] font-bold">→</span>
+            <span className="rounded-lg bg-[#ede6d8] px-2.5 py-1 font-semibold border border-[#d8cdb8] text-[#854d0e]">
+              {term.subCategory || term.subcategory || 'Geral'}
+            </span>
+          </div>
 
           {term.synonyms && term.synonyms.length > 0 && (
             <p className="mt-1.5 text-xs sm:text-sm text-[#475569] italic">

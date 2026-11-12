@@ -33,8 +33,7 @@ interface AuthModalProps {
   currentUser: FirebaseUser | null;
   bookmarksCount: number;
   notesCount: number;
-  onSeedFirestore: () => Promise<void>;
-  isSeeding: boolean;
+  termsCount?: number;
 }
 
 type AuthTab = 'login' | 'register' | 'forgot_password';
@@ -45,14 +44,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   currentUser,
   bookmarksCount,
   notesCount,
-  onSeedFirestore,
-  isSeeding,
+  termsCount = 225,
 }) => {
   const [activeTab, setActiveTab] = useState<AuthTab>('login');
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState('');
   const [authSuccess, setAuthSuccess] = useState('');
-  const [seedSuccess, setSeedSuccess] = useState(false);
 
   // Form fields
   const [name, setName] = useState('');
@@ -178,16 +175,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     onClose();
   };
 
-  const handleTriggerSeed = async () => {
-    try {
-      await onSeedFirestore();
-      setSeedSuccess(true);
-      setTimeout(() => setSeedSuccess(false), 3000);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#112338]/40 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="relative w-full max-w-md rounded-3xl border border-[#ded5c2] bg-[#fdfbf7] p-6 shadow-xl text-[#1e293b] my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
@@ -277,28 +264,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             {/* Cloud Firestore Info */}
             <div className="rounded-2xl bg-[#f7f4ea] p-4 border border-[#e8dfcf] text-xs text-[#334155] space-y-2">
-              <div className="flex items-center gap-2 font-bold text-[#112338]">
-                <Database className="w-4 h-4 text-[#a16207]" />
-                <span>Base de Dados Cloud Firestore</span>
+              <div className="flex items-center justify-between font-bold text-[#112338]">
+                <div className="flex items-center gap-2">
+                  <Database className="w-4 h-4 text-[#a16207]" />
+                  <span>Base de Dados Cloud Firestore</span>
+                </div>
+                <span className="flex items-center gap-1 text-[11px] font-semibold text-[#15803d]">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Ativo
+                </span>
               </div>
               <p className="text-[11px] text-[#64748b] leading-relaxed">
-                As suas anotações, favoritos e progresso de estudo estão sincronizados de forma segura no projeto <strong className="text-[#112338]">carta-de-marinheiro</strong>.
+                Os <strong className="text-[#112338]">{termsCount} termos oficiais</strong>, as suas anotações e favoritos estão permanentemente sincronizados com a Cloud Firestore.
               </p>
-
-              <button
-                onClick={handleTriggerSeed}
-                disabled={isSeeding}
-                className="mt-2 w-full flex items-center justify-center gap-2 rounded-xl bg-white border border-[#ded5c2] px-3 py-2 text-xs font-semibold text-[#112338] hover:bg-[#f4efe4] transition shadow-2xs cursor-pointer"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${isSeeding ? 'animate-spin' : ''}`} />
-                <span>{isSeeding ? 'A sincronizar...' : 'Sincronizar Termos com Firestore'}</span>
-              </button>
-
-              {seedSuccess && (
-                <p className="text-[11px] text-[#15803d] text-center font-semibold">
-                  ✓ Termos sincronizados com sucesso no Cloud Firestore!
-                </p>
-              )}
             </div>
 
             <button

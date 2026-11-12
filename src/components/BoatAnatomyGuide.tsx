@@ -3,7 +3,6 @@ import { Ship, Compass, Volume2, VolumeX, AlertCircle } from 'lucide-react';
 import { User } from 'firebase/auth';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { NauticalTerm } from '../types/glossary';
-import { INITIAL_TERMS } from '../data/initialTerms';
 import { GlossaryText } from './GlossaryText';
 import { TermDetailModal } from './TermDetailModal';
 
@@ -206,7 +205,7 @@ export interface BoatAnatomyGuideProps {
 }
 
 export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
-  allTerms = INITIAL_TERMS,
+  allTerms = [],
   onSelectTerm,
   currentUser = null,
   bookmarkedIds = new Set(),

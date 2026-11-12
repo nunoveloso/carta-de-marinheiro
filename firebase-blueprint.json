@@ -21,15 +21,10 @@
           "maxLength": 60,
           "description": "Category corresponding to Carta de Marinheiro syllabus."
         },
-        "section": {
+        "subCategory": {
           "type": "string",
-          "maxLength": 100,
-          "description": "Manual chapter or main section."
-        },
-        "subsection": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "Manual subsection."
+          "maxLength": 60,
+          "description": "Subcategory corresponding to Carta de Marinheiro taxonomy tree."
         },
         "page": {
           "type": "integer",

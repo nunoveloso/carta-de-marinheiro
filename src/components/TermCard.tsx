@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Star, Volume2, VolumeX, FileText, ChevronRight, AlertCircle, Compass } from 'lucide-react';
 import { NauticalTerm, TermImportance } from '../types/glossary';
-import { CATEGORIES } from '../data/initialTerms';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
 import { BoatPartIllustration } from './BoatPartIllustration';
+import { HighlightText } from './HighlightText';
 
 interface TermCardProps {
   term: NauticalTerm;
@@ -16,6 +16,7 @@ interface TermCardProps {
   onToggleBookmark: (termId: string) => void;
   onSelectTerm: (term: NauticalTerm) => void;
   allTerms?: NauticalTerm[];
+  highlightQuery?: string;
 }
 
 const IMPORTANCE_CONFIG: Record<
@@ -43,10 +44,10 @@ export const TermCard: React.FC<TermCardProps> = ({
   onToggleBookmark,
   onSelectTerm,
   allTerms,
+  highlightQuery,
 }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const categoryMeta = CATEGORIES.find((c) => c.id === term.category) || CATEGORIES[0];
   const importanceMeta = IMPORTANCE_CONFIG[term.importance] || IMPORTANCE_CONFIG.importante;
 
   const handleSpeak = (e: React.MouseEvent) => {
@@ -77,12 +78,10 @@ export const TermCard: React.FC<TermCardProps> = ({
       className="group relative flex flex-col justify-between rounded-2xl border border-[#e5decb] bg-[#fdfcf9] p-5.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#112338]/40 hover:bg-white hover:shadow-md cursor-pointer shadow-2xs"
     >
       <div>
-        {/* Top Unboxed Metadata & Action Buttons */}
+        {/* Top Metadata & Action Buttons */}
         <div className="flex items-center justify-between gap-2 mb-2">
-          {/* Zero-Pill Unboxed Metadata separated by middot */}
-          <div className="flex items-center gap-1.5 text-xs text-[#64748b] flex-wrap">
-            <span className="font-medium text-[#112338]">{categoryMeta.name}</span>
-            <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
+          {/* Importance indicator */}
+          <div className="flex items-center gap-1.5 text-xs text-[#64748b]">
             <span className={importanceMeta.textClass}>{importanceMeta.label}</span>
           </div>
 
@@ -117,33 +116,37 @@ export const TermCard: React.FC<TermCardProps> = ({
           </div>
         </div>
 
-        {/* Manual Section & Subsection tag */}
-        {term.section && (
-          <div className="text-[10px] font-semibold text-[#854d0e] tracking-wide mb-1 flex items-center gap-1">
-            <span className="truncate max-w-[280px]">{term.section}{term.subsection ? ` › ${term.subsection}` : ''}</span>
-          </div>
-        )}
-
         {/* Term Title in Classic Maritime Serif */}
         <h3 className="font-maritime text-2xl font-bold text-[#112338] tracking-tight group-hover:text-[#1d4e6d] transition-colors leading-tight">
-          {term.term}
+          <HighlightText text={term.term} query={highlightQuery} />
         </h3>
+
+        {/* Category -> SubCategory tag below term */}
+        <div className="text-[11px] font-semibold text-[#854d0e] tracking-wide mt-1.5 mb-1 flex items-center gap-1.5">
+          <span className="font-bold text-[#112338]">{term.category}</span>
+          <span aria-hidden="true" className="text-[#a16207]">→</span>
+          <span className="text-[#854d0e]">{term.subCategory || term.subcategory || 'Geral'}</span>
+        </div>
 
         {/* Synonyms / Abbreviations */}
         {term.synonyms && term.synonyms.length > 0 && (
           <p className="mt-0.5 text-xs text-[#64748b] italic">
-            Outras designações: {term.synonyms.join(', ')}
+            Outras designações: <HighlightText text={term.synonyms.join(', ')} query={highlightQuery} />
           </p>
         )}
 
         {/* Definition excerpt */}
         <p className="mt-2.5 text-xs sm:text-sm text-[#334155] line-clamp-3 leading-relaxed">
-          <GlossaryText
-            text={term.definition}
-            allTerms={allTerms || []}
-            currentTermId={term.id}
-            onSelectTerm={onSelectTerm}
-          />
+          {highlightQuery ? (
+            <HighlightText text={term.definition} query={highlightQuery} />
+          ) : (
+            <GlossaryText
+              text={term.definition}
+              allTerms={allTerms || []}
+              currentTermId={term.id}
+              onSelectTerm={onSelectTerm}
+            />
+          )}
         </p>
 
         {/* Day Shapes / Balões illustration if applicable */}
@@ -184,7 +187,7 @@ export const TermCard: React.FC<TermCardProps> = ({
               <span>Importante para o Exame:</span>
             </div>
             <p className="text-[12px] text-[#854d0e] leading-snug line-clamp-2">
-              {term.examTip}
+              <HighlightText text={term.examTip} query={highlightQuery} />
             </p>
           </div>
         )}

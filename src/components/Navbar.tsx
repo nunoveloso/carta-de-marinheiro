@@ -1,11 +1,11 @@
 import React from 'react';
-import { Compass, BookOpen, Layers, CheckSquare, Eye, LogIn, LogOut, PlusCircle } from 'lucide-react';
+import { Compass, BookOpen, Layers, CheckSquare, Eye, LogIn, LogOut, PlusCircle, TrendingUp } from 'lucide-react';
 import { User as FirebaseUser } from 'firebase/auth';
 import { PWAInstallButton } from './PWAInstallButton';
 
 interface NavbarProps {
-  activeTab: 'glossario' | 'flashcards' | 'quiz' | 'guia';
-  setActiveTab: (tab: 'glossario' | 'flashcards' | 'quiz' | 'guia') => void;
+  activeTab: 'glossario' | 'flashcards' | 'quiz' | 'guia' | 'progresso';
+  setActiveTab: (tab: 'glossario' | 'flashcards' | 'quiz' | 'guia' | 'progresso') => void;
   currentUser: FirebaseUser | null;
   onOpenAuth: () => void;
   onOpenAddTerm: () => void;
@@ -84,7 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <CheckSquare className="w-3.5 h-3.5" />
-              <span>Simulador Exame</span>
+              <span>Simulador de Testes</span>
             </button>
 
             <button
@@ -97,6 +97,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Eye className="w-3.5 h-3.5" />
               <span>Guia Visual</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('progresso')}
+              className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
+                activeTab === 'progresso'
+                  ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                  : 'text-[#475569] hover:text-[#112338] hover:bg-[#eae3d2]'
+              }`}
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-[#0284c7]" />
+              <span>Progresso</span>
             </button>
           </nav>
 
@@ -212,6 +224,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Eye className="w-3.5 h-3.5" />
             <span>Guia Visual</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('progresso')}
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold shrink-0 transition ${
+              activeTab === 'progresso'
+                ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                : 'bg-[#f4efe4] text-[#475569] hover:bg-[#eae3d2]'
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5" />
+            <span>Progresso</span>
           </button>
         </div>
 

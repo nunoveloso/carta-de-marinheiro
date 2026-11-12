@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Plus, AlertCircle, Ship } from 'lucide-react';
-import { TermCategory, TermImportance, NauticalTerm } from '../types/glossary';
-import { CATEGORIES, MANUAL_SECTIONS } from '../data/initialTerms';
+import { TermCategory, TermImportance, NauticalTerm, SubCategory, TAXONOMY_TREE, MainCategory } from '../types/glossary';
+import { CATEGORIES } from '../data/initialTerms';
 import { User as FirebaseUser } from 'firebase/auth';
 
 interface AddTermModalProps {
@@ -20,9 +20,8 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
   onOpenAuth,
 }) => {
   const [term, setTerm] = useState('');
-  const [category, setCategory] = useState<TermCategory>('nomenclatura-geral');
-  const [section, setSection] = useState<string>(MANUAL_SECTIONS[0]);
-  const [subsection, setSubsection] = useState('');
+  const [category, setCategory] = useState<TermCategory>('Marinharia');
+  const [subCategory, setSubCategory] = useState<SubCategory>('Nomenclatura');
   const [pageNumber, setPageNumber] = useState<string>('');
   const [importance, setImportance] = useState<TermImportance>('importante');
   const [definition, setDefinition] = useState('');
@@ -66,8 +65,8 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
       id: slugId,
       term: term.trim(),
       category,
-      section: section || 'DEFINIÇÕES DE EMBARCAÇÃO DE RECREIO',
-      subsection: subsection.trim() || undefined,
+      subCategory,
+      subcategory: subCategory,
       page: !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : undefined,
       importance,
       definition: definition.trim(),
@@ -148,8 +147,15 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               </label>
               <select
                 value={category}
-                onChange={(e) => setCategory(e.target.value as TermCategory)}
-                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+                onChange={(e) => {
+                  const newCat = e.target.value as MainCategory;
+                  setCategory(newCat);
+                  const validSubs = TAXONOMY_TREE[newCat];
+                  if (validSubs && validSubs.length > 0) {
+                    setSubCategory(validSubs[0]);
+                  }
+                }}
+                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs font-semibold"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat.id} value={cat.id}>
@@ -159,6 +165,25 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
               </select>
             </div>
 
+            <div>
+              <label className="block text-xs font-semibold text-[#475569] mb-1">
+                Subcategoria Oficial *
+              </label>
+              <select
+                value={subCategory}
+                onChange={(e) => setSubCategory(e.target.value as SubCategory)}
+                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs font-semibold"
+              >
+                {(TAXONOMY_TREE[category as MainCategory] || []).map((sub) => (
+                  <option key={sub} value={sub}>
+                    {sub}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-[#475569] mb-1">
                 Importância no Exame *
@@ -173,55 +198,21 @@ export const AddTermModal: React.FC<AddTermModalProps> = ({
                 <option value="complementar">Complementar</option>
               </select>
             </div>
-          </div>
-
-          {/* Section & Subsection in Manual */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-[#475569] mb-1">
-                Secção do Manual *
-              </label>
-              <select
-                value={section}
-                onChange={(e) => setSection(e.target.value)}
-                className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
-              >
-                {MANUAL_SECTIONS.map((sec) => (
-                  <option key={sec} value={sec}>
-                    {sec}
-                  </option>
-                ))}
-              </select>
-            </div>
 
             <div>
               <label className="block text-xs font-semibold text-[#475569] mb-1">
-                Página do Manual
+                Página do Manual (opcional)
               </label>
               <input
                 type="number"
                 min={1}
-                max={72}
+                max={200}
                 value={pageNumber}
                 onChange={(e) => setPageNumber(e.target.value)}
                 placeholder="Ex.: 4"
                 className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
               />
             </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-[#475569] mb-1">
-              Subsecção no Manual (opcional)
-            </label>
-            <input
-              type="text"
-              maxLength={150}
-              value={subsection}
-              onChange={(e) => setSubsection(e.target.value)}
-              placeholder="Ex.: Nomenclatura e definições, Nós e Voltas..."
-              className="w-full rounded-xl border border-[#ded5c2] bg-white p-2.5 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
-            />
           </div>
 
           <div>
