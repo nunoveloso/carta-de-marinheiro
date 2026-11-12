@@ -45,7 +45,6 @@ import { AddTermModal } from './components/AddTermModal';
 import { AuthModal } from './components/AuthModal';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { AlphabetFilter } from './components/AlphabetFilter';
-import { DirectMatchesRow } from './components/DirectMatchesRow';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
@@ -682,17 +681,38 @@ export default function App() {
             ) : isSearching ? (
               /* SEARCH VIEW: TWO DISTINCT SECTIONS */
               <div className="space-y-8">
-                {/* SECTION 1: Direct matches in the term name (horizontal single row) */}
+                {/* SECTION 1: Direct matches in the term name */}
                 {directNameMatches.length > 0 && (
-                  <DirectMatchesRow
-                    terms={directNameMatches}
-                    searchQuery={searchQuery}
-                    bookmarkedIds={bookmarkedIds}
-                    userNotes={userNotes}
-                    onToggleBookmark={handleToggleBookmark}
-                    onSelectTerm={setSelectedTerm}
-                    allTerms={terms}
-                  />
+                  <div>
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-[#ded5c2] pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#a16207]" />
+                        <h3 className="font-maritime text-base sm:text-lg font-bold text-[#112338]">
+                          Correspondências Diretas no Nome do Termo ({directNameMatches.length})
+                        </h3>
+                      </div>
+                      <span className="text-xs text-[#64748b]">
+                        {directNameMatches.length === 1
+                          ? '1 termo com nome coincidente'
+                          : `${directNameMatches.length} termos com nomes coincidentes`}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                      {directNameMatches.map((term) => (
+                        <TermCard
+                          key={term.id}
+                          term={term}
+                          isBookmarked={bookmarkedIds.has(term.id)}
+                          hasNote={Boolean(userNotes[term.id])}
+                          onToggleBookmark={handleToggleBookmark}
+                          onSelectTerm={setSelectedTerm}
+                          allTerms={terms}
+                          highlightQuery={searchQuery}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 )}
 
                 {/* SECTION 2: Matches inside the card content (definition, examTip, example) */}
