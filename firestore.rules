@@ -63,7 +63,7 @@ service cloud.firestore {
       allow get, list: if true;
       allow create: if isValidId(termId) && isValidTerm(incoming());
       allow update: if isValidId(termId) && isValidTerm(incoming());
-      allow delete: if isSignedIn() && (request.auth.token.email == 'nunoveloso18@gmail.com');
+      allow delete: if isValidId(termId);
     }
 
     // Match rules for user-isolated data

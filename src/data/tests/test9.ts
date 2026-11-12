@@ -34,10 +34,18 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "RIEAM",
     subcategory: "Abalroamentos",
-    type: "open-answer",
+    type: "fill-blank",
     points: 1.0,
-    statement: "Caso exista risco de colisão entre as embarcações A e B representadas na figura, a embarcação A tem direito a rumo porque:",
+    statement: "Caso exista risco de colisão a embarcação ________ tem direito a rumo porque ________",
     expectedAnswer: "A embarcação A tem direito a rumo porque se encontra com capacidade de manobra reduzida.",
+    expectedBlanks: [
+      "A",
+      "se encontra com capacidade de manobra reduzida"
+    ],
+    acceptedKeywordsPerBlank: [
+      ["a"],
+      ["capacidade de manobra reduzida", "manobra reduzida", "reduzida", "regra 18"]
+    ],
     acceptedKeywords: ["capacidade de manobra reduzida", "manobra reduzida", "reduzida"],
     explanation: "Regra 18 do RIEAM: Embarcações com capacidade de manobra reduzida têm prioridade sobre embarcações de propulsão mecânica em rumos cruzados.",
     diagram: {
@@ -135,12 +143,26 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "Segurança e Primeiros Socorros",
     subcategory: "Segurança e Salvamento",
-    type: "open-answer",
+    type: "fill-blank",
     points: 1.0,
-    statement: "Indique as ações sequenciais a efetuar no caso de um dos tripulantes cair ao mar por Bombordo (BB):",
-    expectedAnswer: "1. Reduzir a velocidade dos motores; 2. Guinar para BB (afastar a popa/hélice da vítima); 3. Largar boia salva-vidas com fumo/luz; 4. Não perder o náufrago de vista; 5. Recolher o náufrago por sotavento.",
-    acceptedKeywords: ["guinar para bb", "reduzir velocidade", "largar boia", "sotavento", "vigia"],
-    explanation: "Manobra padrão de Homem ao Mar (Williamson / Anderson): roda-se o leme para o bordo da queda para desviar o hélice e recolhe-se a sotavento."
+    statement: "Indique o que deve fazer no caso de um dos tripulantes cair ao mar por BB:\n- ________ a velocidade dos motores\n- Guinar para ________\n- Largar ________\n- Não perder o tripulante de ________\n- Recolher o tripulante por ________",
+    expectedAnswer: "- Reduzir a velocidade dos motores\n- Guinar para Bombordo (BB)\n- Largar uma boia salva-vidas\n- Não perder o tripulante de vista\n- Recolher o tripulante por sotavento",
+    expectedBlanks: [
+      "Reduzir",
+      "Bombordo (BB)",
+      "uma boia salva-vidas",
+      "vista",
+      "sotavento"
+    ],
+    acceptedKeywordsPerBlank: [
+      ["reduzir", "diminuir", "cortar", "abrandar"],
+      ["bombordo", "bb", "o bordo da queda"],
+      ["boia", "bóia", "boia salva-vidas", "bóia salva-vidas", "uma boia"],
+      ["vista"],
+      ["sotavento"]
+    ],
+    acceptedKeywords: ["reduzir", "bombordo", "boia", "vista", "sotavento"],
+    explanation: "Manobra oficial de Homem ao Mar (Manual do Marinheiro / RIEAM): 1. Reduz a velocidade dos motores; 2. Guina o leme para o bordo da queda (BB) para afastar a popa e as hélices da vítima; 3. Larga a boia salva-vidas de imediato; 4. Mantém vigia sem perder o tripulante de vista; 5. Manobra para recolher o náufrago por sotavento."
   },
   {
     id: "t9-q08",
@@ -249,10 +271,12 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "Marinharia",
     subcategory: "Âncoras e Fundeio",
-    type: "open-answer",
+    type: "fill-blank",
     points: 0.5,
-    statement: "À manobra de deixar correr a amarra, para que o ferro chegue ao fundo dá-se o nome de:",
+    statement: "À manobra de deixar correr a amarra, para que o ferro chegue ao fundo dá-se o nome de: ________",
     expectedAnswer: "Largar a amarra (ou filar amarra).",
+    expectedBlanks: ["Largar a amarra (ou filar amarra)"],
+    acceptedKeywordsPerBlank: [["largar", "filar", "filar a amarra", "largar a amarra"]],
     acceptedKeywords: ["largar", "filar", "filar a amarra", "largar a amarra"],
     explanation: "Filar ou largar a amarra é o comando dado para soltar o travão do molinete/cabrestante e deixar o ferro descer até ao fundo."
   },
@@ -263,10 +287,12 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "Marinharia",
     subcategory: "Âncoras e Fundeio",
-    type: "open-answer",
+    type: "fill-blank",
     points: 0.5,
-    statement: "À manobra de recolha da amarra, isto é, de levantar a âncora do fundo e trazê-la para bordo, dá-se o nome de:",
+    statement: "À manobra de recolha da amarra, isto é, de levantar a âncora do fundo e trazê-la para bordo, dá-se o nome de: ________",
     expectedAnswer: "Suspender o ferro (ou virar amarra / alar).",
+    expectedBlanks: ["Suspender o ferro (ou virar amarra / alar)"],
+    acceptedKeywordsPerBlank: [["suspender", "virar amarra", "alar", "içar"]],
     acceptedKeywords: ["suspender", "virar amarra", "alar", "içar"],
     explanation: "Suspender é arrancar o ferro do fundo e alçá-lo até à sua posição de viagem na raposa ou no convés."
   },
@@ -361,10 +387,12 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "Marinharia",
     subcategory: "Nomenclatura da Embarcação",
-    type: "open-answer",
+    type: "fill-blank",
     points: 0.5,
-    statement: "O elemento propulsor que possibilita o avanço ou recuo de uma embarcação através do seu movimento circular em rotação chama-se:",
+    statement: "O aparelho mecânico que possibilita o avanço, ou recuo de uma embarcação através do seu movimento circular, chama-se: ________",
     expectedAnswer: "Hélice.",
+    expectedBlanks: ["Hélice"],
+    acceptedKeywordsPerBlank: [["hélice", "helice"]],
     acceptedKeywords: ["hélice", "helice"],
     explanation: "O hélice marítimo é o órgão mecânico dotado de pás que converte potência de rotação em impulsão propulsora hidrodinâmica."
   },
@@ -461,10 +489,22 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "Outras Matérias",
     subcategory: "Legislação Marítima",
-    type: "open-answer",
+    type: "fill-blank",
     points: 0.6,
-    statement: "Complete a frase: O titular da carta de marinheiro com mais de 18 anos está habilitado ao comando de uma ER até ____ metros de comprimento, até uma distância máxima de ____ milhas da costa e ____ milhas de um porto de abrigo, em navegação diurna com potência instalada até ____ kW.",
+    statement: "Complete a frase: O titular da carta de marinheiro com mais de 18 anos está habilitado ao comando de uma ER até ________ metros de comprimento, até uma distância máxima de ________ milhas da costa e ________ milhas de um porto de abrigo, em navegação diurna com potência instalada até ________ kW.",
     expectedAnswer: "7 metros de comprimento, até 3 milhas da costa e 10 milhas de um porto de abrigo, em navegação diurna com potência conforme a homologação da ER (ou 22,5 kW até aos 18 anos).",
+    expectedBlanks: [
+      "7",
+      "3",
+      "10",
+      "limite de homologação da ER (ou 22,5 kW até aos 18 anos)"
+    ],
+    acceptedKeywordsPerBlank: [
+      ["7", "7m", "7 metros"],
+      ["3", "3 milhas"],
+      ["10", "10 milhas"],
+      ["homologada", "homologação", "sem limite", "22,5", "22.5"]
+    ],
     acceptedKeywords: ["7", "3", "10", "diurna"],
     explanation: "Artigo 34.º do Regulamento da Náutica de Recreio (DL 93/2018): Marinheiro maior de idade pode comandar ER até 7m em navegação diurna até 3 milhas da costa e 10 milhas de porto de abrigo."
   },
@@ -538,10 +578,12 @@ export const TEST_9_QUESTIONS: TestQuestion[] = [
     sourceTests: [9],
     category: "Outras Matérias",
     subcategory: "Motores e Mecânica",
-    type: "open-answer",
+    type: "fill-blank",
     points: 0.5,
-    statement: "Complete a frase: O circuito de arrefecimento de um motor fora de borda após funcionamento em água salgada deve ser adoçado/lavado com:",
+    statement: "Complete a frase: O circuito de arrefecimento de um motor fora de borda após funcionamento em água salgada deve ser adoçado/lavado com: ________",
     expectedAnswer: "Água doce limpa (para retirar cristais de sal e resíduos corrosivos).",
+    expectedBlanks: ["Água doce limpa"],
+    acceptedKeywordsPerBlank: [["água doce", "doce"]],
     acceptedKeywords: ["água doce", "doce"],
     explanation: "O adoçamento regular do motor com água doce evita a cristalização do sal que obstrui as galerias de refrigeração e corrói o bloco."
   },

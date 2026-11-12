@@ -140,6 +140,28 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
     }));
   };
 
+  // In-line blank changes
+  const handleChangeBlankAnswer = (questionId: string, blankIndex: number, text: string) => {
+    setUserAnswers((prev) => {
+      const prevAnswer = prev[questionId];
+      const prevBlanks = prevAnswer?.blankAnswers ? [...prevAnswer.blankAnswers] : [];
+      while (prevBlanks.length <= blankIndex) {
+        prevBlanks.push('');
+      }
+      prevBlanks[blankIndex] = text;
+
+      return {
+        ...prev,
+        [questionId]: {
+          ...prevAnswer,
+          questionId,
+          blankAnswers: prevBlanks,
+          textAnswer: prevBlanks.filter((b) => b.trim().length > 0).join(' | '),
+        },
+      };
+    });
+  };
+
   // Self evaluate for open/fill questions
   const handleSelfEvaluate = (questionId: string, isCorrect: boolean) => {
     setUserAnswers((prev) => ({
@@ -293,6 +315,9 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
       const ans = userAnswers[q.id];
       if (q.type === 'multiple-choice') {
         return ans?.selectedOption === undefined;
+      }
+      if (ans?.blankAnswers && ans.blankAnswers.length > 0) {
+        return !ans.blankAnswers.some((b) => b.trim().length > 0);
       }
       return !ans?.textAnswer || ans.textAnswer.trim().length === 0;
     }).length;
@@ -651,7 +676,9 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                 const ans = userAnswers[q.id];
                 const isAnswered = q.type === 'multiple-choice'
                   ? ans?.selectedOption !== undefined
-                  : !!ans?.textAnswer && ans.textAnswer.trim().length > 0;
+                  : (ans?.blankAnswers && ans.blankAnswers.length > 0)
+                    ? ans.blankAnswers.some((b) => b.trim().length > 0)
+                    : !!ans?.textAnswer && ans.textAnswer.trim().length > 0;
                 const isBookmarked = bookmarkedIds.has(q.id);
                 const isCurrent = idx === currentIndex;
 
@@ -700,6 +727,7 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
               onToggleBookmark={() => handleToggleBookmark(currentQuestion.id)}
               onSelectOption={(optIdx) => handleSelectOption(currentQuestion.id, optIdx)}
               onChangeTextAnswer={(txt) => handleChangeText(currentQuestion.id, txt)}
+              onChangeBlankAnswer={(blankIdx, txt) => handleChangeBlankAnswer(currentQuestion.id, blankIdx, txt)}
               onSelfEvaluate={(isCorrect) => handleSelfEvaluate(currentQuestion.id, isCorrect)}
               reviewMode={isExamSubmitted}
             />

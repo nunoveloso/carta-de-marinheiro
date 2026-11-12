@@ -36,7 +36,9 @@ export interface TestQuestion {
   options?: string[];
   correctOptionIndex?: number;
   expectedAnswer: string;
+  expectedBlanks?: string[];
   acceptedKeywords?: string[];
+  acceptedKeywordsPerBlank?: string[][];
   explanation: string;
   diagram?: DiagramConfig;
 }
@@ -45,6 +47,7 @@ export interface UserAnswer {
   questionId: string;
   selectedOption?: number;
   textAnswer?: string;
+  blankAnswers?: string[];
   selfEvaluatedCorrect?: boolean;
 }
 

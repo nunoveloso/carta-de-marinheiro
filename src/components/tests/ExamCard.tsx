@@ -1,6 +1,7 @@
 import React from 'react';
 import { TestQuestion, UserAnswer } from '../../types/tests';
 import { TestDiagram } from './TestDiagram';
+import { InlineFillBlankRenderer } from './InlineFillBlankRenderer';
 import { Bookmark, CheckCircle2, XCircle, Lightbulb } from 'lucide-react';
 
 interface ExamCardProps {
@@ -12,6 +13,7 @@ interface ExamCardProps {
   onToggleBookmark?: () => void;
   onSelectOption?: (optionIndex: number) => void;
   onChangeTextAnswer?: (text: string) => void;
+  onChangeBlankAnswer?: (blankIndex: number, text: string) => void;
   onSelfEvaluate?: (isCorrect: boolean) => void;
   reviewMode?: boolean;
 }
@@ -25,6 +27,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({
   onToggleBookmark,
   onSelectOption,
   onChangeTextAnswer,
+  onChangeBlankAnswer,
   onSelfEvaluate,
   reviewMode = false,
 }) => {
@@ -50,6 +53,20 @@ export const ExamCard: React.FC<ExamCardProps> = ({
         return 'bg-[#e0f2fe] text-[#0369a1] border-[#bae6fd]';
       default:
         return 'bg-[#ede9fe] text-[#5b21b6] border-[#ddd6fe]';
+    }
+  };
+
+  const hasInlineBlanks = type === 'fill-blank' || /_{2,}/.test(statement);
+  const currentBlankAnswers = userAnswer?.blankAnswers || (userAnswer?.textAnswer ? userAnswer.textAnswer.split(' | ') : []);
+
+  const handleBlankChange = (blankIndex: number, text: string) => {
+    if (onChangeBlankAnswer) {
+      onChangeBlankAnswer(blankIndex, text);
+    } else if (onChangeTextAnswer) {
+      const updated = [...currentBlankAnswers];
+      while (updated.length <= blankIndex) updated.push('');
+      updated[blankIndex] = text;
+      onChangeTextAnswer(updated.join(' | '));
     }
   };
 
@@ -131,10 +148,30 @@ export const ExamCard: React.FC<ExamCardProps> = ({
         </div>
       </div>
 
-      {/* Statement */}
-      <h3 className="text-base sm:text-lg font-bold text-[#112338] leading-relaxed mb-4">
-        {statement}
-      </h3>
+      {/* Statement & In-line Fill-blank inputs */}
+      {hasInlineBlanks ? (
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2 text-xs font-bold text-[#a16207] uppercase tracking-wider">
+            <span>Preencha as lacunas no enunciado (conforme a folha de exame):</span>
+          </div>
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#fdfcf9] border border-[#e8dfcb]">
+            <InlineFillBlankRenderer
+              statement={statement}
+              blankAnswers={currentBlankAnswers}
+              onChangeBlank={handleBlankChange}
+              disabled={reviewMode}
+              reviewMode={reviewMode}
+              expectedBlanks={question.expectedBlanks}
+              acceptedKeywordsPerBlank={question.acceptedKeywordsPerBlank}
+              expectedAnswer={expectedAnswer}
+            />
+          </div>
+        </div>
+      ) : (
+        <h3 className="text-base sm:text-lg font-bold text-[#112338] leading-relaxed mb-4">
+          {statement}
+        </h3>
+      )}
 
       {/* Diagram (only present if official exam PDF includes a diagram) */}
       {diagram && <TestDiagram diagram={diagram} />}
@@ -204,25 +241,8 @@ export const ExamCard: React.FC<ExamCardProps> = ({
         </div>
       )}
 
-      {/* 2. Fill-in-the-blank (Preencher o vazio) */}
-      {type === 'fill-blank' && (
-        <div className="mt-4 space-y-2">
-          <label className="block text-xs font-semibold text-[#475569]">
-            Preencha a lacuna com a sua resposta:
-          </label>
-          <input
-            type="text"
-            value={userAnswer?.textAnswer || ''}
-            disabled={reviewMode}
-            onChange={(e) => onChangeTextAnswer && onChangeTextAnswer(e.target.value)}
-            placeholder="Escreva a resposta aqui..."
-            className="w-full px-4 py-3 rounded-xl border border-[#ded5c2] bg-[#fdfcf9] text-[#1e293b] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#112338] focus:border-transparent text-sm sm:text-base transition-all shadow-2xs"
-          />
-        </div>
-      )}
-
-      {/* 3. Open Answer (Pergunta Aberta) */}
-      {type === 'open-answer' && (
+      {/* 2. Open Answer (Pergunta Aberta SEM lacunas no enunciado) */}
+      {!hasInlineBlanks && type === 'open-answer' && (
         <div className="mt-4 space-y-2">
           <label className="block text-xs font-semibold text-[#475569]">
             Responda por extenso:
