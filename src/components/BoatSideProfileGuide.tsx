@@ -17,6 +17,7 @@ export type SidePartId =
   | 'costado'
   | 'conves'
   | 'balaustres'
+  | 'vergueiros'
   | 'verdugo'
   | 'escovem'
   | 'leme'
@@ -153,11 +154,23 @@ const SIDE_PARTS: Record<SidePartId, SidePartMeta> = {
     name: 'Balaústres',
     group: 'aparelho',
     pageRef: 'Pág. 5',
-    zoneLabel: 'Guarda da Borda',
+    zoneLabel: 'Prumos Verticais da Borda',
     definition:
-      'Peças normalmente em metal fixadas verticalmente à borda da embarcação, que recebem os vergueiros (cabos de segurança).',
+      'Peças normalmente em metal fixadas verticalmente à borda da embarcação, que recebem e sustentam os vergueiros (cabos de segurança).',
     examRule:
       'Conjunto de balaústres + vergueiros protege a tripulação de quedas ao mar ao circular no convés.',
+  },
+  vergueiros: {
+    id: 'vergueiros',
+    termId: 'vergueiros',
+    name: 'Vergueiros',
+    group: 'aparelho',
+    pageRef: 'Pág. 5',
+    zoneLabel: 'Cabos da Guarda da Borda (Proa ↔ Popa)',
+    definition:
+      'Cabos (ou varões metálicos) que passam da proa à popa pelos olhais dos balaústres, formando a guarda de segurança ao longo das bordas da embarcação.',
+    examRule:
+      'Os vergueiros ligam os balaústres entre si ao longo da borda para evitar que a tripulação caia à água.',
   },
   verdugo: {
     id: 'verdugo',
@@ -325,12 +338,21 @@ export const BoatSideProfileGuide: React.FC<BoatSideProfileGuideProps> = ({
 }) => {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const [selectedPart, setSelectedPart] = useState<SidePartId>('quilha');
+  const [hoveredPart, setHoveredPart] = useState<SidePartId | null>(null);
   const [activeGroup, setActiveGroup] = useState<'todos' | SideGroup>('todos');
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [localModalTerm, setLocalModalTerm] = useState<NauticalTerm | null>(null);
 
   const currentInfo = SIDE_PARTS[selectedPart];
-  const matchedGlossaryTerm = allTerms.find((t) => t.id === currentInfo.termId);
+  const normalizeLookup = (val: string) =>
+    val.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const matchedGlossaryTerm =
+    allTerms.find((t) => t.id === currentInfo.termId) ||
+    allTerms.find((t) => {
+      const n = normalizeLookup(t.term);
+      const target = normalizeLookup(currentInfo.termId);
+      return n === target || n === target.replace(/s$/, '');
+    });
 
   const handleOpenTermModal = (term: NauticalTerm) => {
     if (onSelectTerm) {
@@ -354,7 +376,12 @@ export const BoatSideProfileGuide: React.FC<BoatSideProfileGuideProps> = ({
     );
   };
 
-  const isLit = (part: SidePartId) => selectedPart === part;
+  const isLit = (part: SidePartId) => selectedPart === part || hoveredPart === part;
+  const partEvents = (part: SidePartId) => ({
+    onClick: () => setSelectedPart(part),
+    onMouseEnter: () => setHoveredPart(part),
+    onMouseLeave: () => setHoveredPart((prev) => (prev === part ? null : prev)),
+  });
 
   const skyGradId = `side-sky-${uid}`;
   const seaGradId = `side-sea-${uid}`;
@@ -391,9 +418,9 @@ export const BoatSideProfileGuide: React.FC<BoatSideProfileGuideProps> = ({
         <div className="mt-4 flex flex-wrap items-center gap-2">
           {(
             [
-              { key: 'todos', label: 'Todos (18)' },
+              { key: 'todos', label: 'Todos (19)' },
               { key: 'estrutura', label: 'Casco & Estrutura (8)' },
-              { key: 'aparelho', label: 'Convés & Aparelho (6)' },
+              { key: 'aparelho', label: 'Convés & Aparelho (7)' },
               { key: 'dimensoes', label: 'Dimensões Principais (4)' },
             ] as { key: 'todos' | SideGroup; label: string }[]
           ).map((tab) => (
@@ -636,43 +663,68 @@ export const BoatSideProfileGuide: React.FC<BoatSideProfileGuideProps> = ({
               />
             </g>
 
-            {/* BALAUSTRES & VERGUEIROS (Stanchions & lifelines) */}
-            <g className="cursor-pointer" onClick={() => setSelectedPart('balaustres')}>
-              {/* Guardrail cables (vergueiros) */}
+            {/* VERGUEIROS (Guardrail cables running from stern to bow) */}
+            <g className="cursor-pointer" {...partEvents('vergueiros')}>
               <path
-                d="M 215 161 C 360 175, 535 172, 682 150"
+                d="M 176 158 C 345 175, 540 172, 708 147"
                 fill="none"
-                stroke={isLit('balaustres') ? '#d97706' : '#475569'}
-                strokeWidth={isLit('balaustres') ? '2.5' : '1.4'}
+                stroke={isLit('vergueiros') ? '#d97706' : '#475569'}
+                strokeWidth={isLit('vergueiros') ? '3' : '1.7'}
+                filter={isLit('vergueiros') ? `url(#${glowAmberId})` : undefined}
               />
               <path
-                d="M 215 174 C 360 188, 535 185, 682 164"
+                d="M 176 172 C 345 189, 540 186, 708 161"
                 fill="none"
-                stroke={isLit('balaustres') ? '#d97706' : '#475569'}
-                strokeWidth={isLit('balaustres') ? '2.5' : '1.4'}
+                stroke={isLit('vergueiros') ? '#d97706' : '#475569'}
+                strokeWidth={isLit('vergueiros') ? '3' : '1.7'}
+                filter={isLit('vergueiros') ? `url(#${glowAmberId})` : undefined}
               />
-              {/* Metallic stanchions (balaústres) */}
+              {/* Wide invisible hit stroke strictly along the cables */}
+              <path
+                d="M 176 158 C 345 175, 540 172, 708 147"
+                fill="none"
+                stroke="transparent"
+                strokeWidth="10"
+              />
+              <path
+                d="M 176 172 C 345 189, 540 186, 708 161"
+                fill="none"
+                stroke="transparent"
+                strokeWidth="10"
+              />
+            </g>
+
+            {/* BALAÚSTRES (Vertical metallic stanchions — layered above cables with individual hit targets) */}
+            <g className="cursor-pointer" {...partEvents('balaustres')}>
               {[
-                { x: 215, yTop: 158, yBot: 190 },
-                { x: 285, yTop: 164, yBot: 196 },
-                { x: 355, yTop: 168, yBot: 199 },
-                { x: 525, yTop: 165, yBot: 195 },
-                { x: 605, yTop: 158, yBot: 189 },
-                { x: 682, yTop: 147, yBot: 180 },
+                { x: 176, yTop: 155, yBot: 187 },
+                { x: 256, yTop: 162, yBot: 194 },
+                { x: 356, yTop: 166, yBot: 198 },
+                { x: 526, yTop: 162, yBot: 194 },
+                { x: 627, yTop: 153, yBot: 185 },
+                { x: 708, yTop: 144, yBot: 176 },
               ].map((b) => (
-                <line
-                  key={b.x}
-                  x1={b.x}
-                  y1={b.yTop}
-                  x2={b.x}
-                  y2={b.yBot}
-                  stroke={isLit('balaustres') ? '#d97706' : '#0b3a55'}
-                  strokeWidth={isLit('balaustres') ? '4.5' : '2.8'}
-                  strokeLinecap="round"
-                  filter={isLit('balaustres') ? `url(#${glowAmberId})` : undefined}
-                />
+                <g key={b.x}>
+                  <line
+                    x1={b.x}
+                    y1={b.yTop}
+                    x2={b.x}
+                    y2={b.yBot}
+                    stroke={isLit('balaustres') ? '#d97706' : '#0b3a55'}
+                    strokeWidth={isLit('balaustres') ? '4.8' : '3'}
+                    strokeLinecap="round"
+                    filter={isLit('balaustres') ? `url(#${glowAmberId})` : undefined}
+                  />
+                  <circle
+                    cx={b.x}
+                    cy={b.yTop}
+                    r={isLit('balaustres') ? '3.4' : '2.4'}
+                    fill={isLit('balaustres') ? '#d97706' : '#0b3a55'}
+                  />
+                  {/* Individual vertical hit zone per stanchion so hovering between posts hits Vergueiros */}
+                  <rect x={b.x - 8} y={b.yTop - 5} width="16" height={b.yBot - b.yTop + 8} fill="transparent" />
+                </g>
               ))}
-              <rect x="210" y="146" width="478" height="46" fill="transparent" />
             </g>
 
             {/* ESCOVÉM (Hawsehole opening near bow) */}
@@ -818,7 +870,8 @@ export const BoatSideProfileGuide: React.FC<BoatSideProfileGuideProps> = ({
             {/* ================= CRISP INTERACTIVE CALLOUT LABELS ================= */}
             {(
               [
-                { id: 'balaustres', label: 'Balaústres', x: 355, y: 120, tx: 355, ty: 162, w: 92 },
+                { id: 'balaustres', label: 'Balaústres', x: 256, y: 118, tx: 256, ty: 170, w: 92 },
+                { id: 'vergueiros', label: 'Vergueiros', x: 432, y: 118, tx: 440, ty: 168, w: 92 },
                 { id: 'conves', label: 'Convés', x: 540, y: 118, tx: 525, ty: 192, w: 70 },
                 { id: 'verdugo', label: 'Verdugo', x: 660, y: 118, tx: 635, ty: 194, w: 76 },
                 { id: 'roda-de-proa', label: 'Roda de Proa', x: 786, y: 162, tx: 724, ty: 190, w: 108 },
@@ -839,7 +892,7 @@ export const BoatSideProfileGuide: React.FC<BoatSideProfileGuideProps> = ({
                 <g
                   key={tag.id}
                   className="cursor-pointer"
-                  onClick={() => setSelectedPart(tag.id)}
+                  {...partEvents(tag.id)}
                 >
                   <line
                     x1={tag.x}

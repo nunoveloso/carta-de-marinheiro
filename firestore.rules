@@ -58,6 +58,20 @@ service cloud.firestore {
              data.note is string && data.note.size() > 0 && data.note.size() <= 1500;
     }
 
+    function isValidContactMessage(data) {
+      return data.keys().hasAll(['name', 'email', 'subject', 'message', 'recipient', 'createdAt']) &&
+             data.keys().hasOnly(['name', 'email', 'subject', 'message', 'recipient', 'createdAt', 'userId', 'userEmail', 'userDisplayName']) &&
+             data.name is string && data.name.size() >= 2 && data.name.size() <= 120 &&
+             data.email is string && data.email.size() >= 5 && data.email.size() <= 160 &&
+             data.subject is string && data.subject.size() >= 2 && data.subject.size() <= 180 &&
+             data.message is string && data.message.size() >= 5 && data.message.size() <= 4000 &&
+             data.recipient == 'nuno@rippleseed.co' &&
+             data.createdAt == request.time &&
+             (!('userId' in data) || (isSignedIn() && data.userId == request.auth.uid)) &&
+             (!('userEmail' in data) || (isSignedIn() && 'userId' in data && data.userEmail is string && data.userEmail.size() <= 160)) &&
+             (!('userDisplayName' in data) || (isSignedIn() && 'userId' in data && data.userDisplayName is string && data.userDisplayName.size() <= 120));
+    }
+
     // Match rules for nautical terms
     match /terms/{termId} {
       allow get, list: if true;
@@ -88,6 +102,12 @@ service cloud.firestore {
         allow create, update: if isOwner(userId) && isValidId(attemptId);
         allow delete: if isOwner(userId);
       }
+    }
+
+    // Match rules for submitted contact messages (write-only from clients; PII protected)
+    match /contact_messages/{messageId} {
+      allow get, list, update, delete: if false;
+      allow create: if isValidId(messageId) && isValidContactMessage(incoming());
     }
   }
 }

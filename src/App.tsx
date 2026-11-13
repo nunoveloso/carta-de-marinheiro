@@ -42,18 +42,52 @@ import { QuizView } from './components/QuizView';
 import { TestSimulator } from './components/tests/TestSimulator';
 import { VisualGuideView } from './components/VisualGuideView';
 import { StudyProgressView } from './components/StudyProgressView';
+import { HomePage } from './components/HomePage';
+import { EstudoPage } from './components/EstudoPage';
+import { SobrePage } from './components/SobrePage';
+import { ContactoPage } from './components/ContactoPage';
 import { AddTermModal } from './components/AddTermModal';
 import { AuthModal } from './components/AuthModal';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { AlphabetFilter } from './components/AlphabetFilter';
 import { CategoryIcon } from './components/CategoryIcon';
+import {
+  RouteId,
+  ROUTES,
+  getRouteFromPathname,
+  normalizePathname,
+  applyRouteSEO,
+} from './utils/routes';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   const [authReady, setAuthReady] = useState(false);
 
-  // Active view tab
-  const [activeTab, setActiveTab] = useState<'glossario' | 'flashcards' | 'quiz' | 'guia' | 'progresso'>('glossario');
+  // Client-side URL route state
+  const [activeRoute, setActiveRoute] = useState<RouteId>(() =>
+    getRouteFromPathname(window.location.pathname).id
+  );
+
+  const navigateTo = (routeId: RouteId) => {
+    const targetPath = ROUTES[routeId].path;
+    if (normalizePathname(window.location.pathname) !== targetPath) {
+      window.history.pushState({}, '', targetPath);
+    }
+    setActiveRoute(routeId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setActiveRoute(getRouteFromPathname(window.location.pathname).id);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    applyRouteSEO(ROUTES[activeRoute]);
+  }, [activeRoute]);
 
   // Terms state loaded dynamically from Firestore (sole source of truth)
   const [terms, setTerms] = useState<NauticalTerm[]>([]);
@@ -488,8 +522,8 @@ export default function App() {
     <div className="min-h-screen bg-[#faf7f0] text-[#0b3a55] flex flex-col">
       {/* Top Navbar */}
       <Navbar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        activeRoute={activeRoute}
+        onNavigate={navigateTo}
         currentUser={currentUser}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         onOpenAddTerm={() => {
@@ -503,9 +537,17 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1">
-        
-        {/* GLOSSÁRIO INTERATIVO TAB */}
-        {activeTab === 'glossario' && (
+        {/* HOME (/) */}
+        {activeRoute === 'home' && (
+          <HomePage
+            onNavigate={navigateTo}
+            termsCount={terms.length}
+            bookmarksCount={bookmarkedIds.size}
+          />
+        )}
+
+        {/* GLOSSÁRIO INTERATIVO (/glossario) */}
+        {activeRoute === 'glossario' && (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
             
             {/* Hero / Quick Search Banner - Chart Paper & Admiralty Editorial Look */}
@@ -919,8 +961,18 @@ export default function App() {
           </div>
         )}
 
-        {/* FLASHCARDS TAB */}
-        {activeTab === 'flashcards' && (
+        {/* ESTUDO HUB (/estudo) */}
+        {activeRoute === 'estudo' && (
+          <EstudoPage
+            onNavigate={navigateTo}
+            termsCount={terms.length}
+            bookmarksCount={bookmarkedIds.size}
+            notesCount={Object.keys(userNotes).length}
+          />
+        )}
+
+        {/* FLASHCARDS (/estudo/flashcards) */}
+        {activeRoute === 'flashcards' && (
           <FlashcardsView
             terms={terms}
             bookmarkedIds={bookmarkedIds}
@@ -929,11 +981,11 @@ export default function App() {
           />
         )}
 
-        {/* QUIZ EXAM SIMULATOR TAB */}
-        {activeTab === 'quiz' && <TestSimulator />}
+        {/* QUIZ EXAM SIMULATOR (/estudo/testes) */}
+        {activeRoute === 'testes' && <TestSimulator />}
 
-        {/* VISUAL GUIDE TAB */}
-        {activeTab === 'guia' && (
+        {/* VISUAL GUIDE (/estudo/guias-visuais) */}
+        {activeRoute === 'guias-visuais' && (
           <VisualGuideView
             terms={terms}
             onSelectTerm={setSelectedTerm}
@@ -946,16 +998,30 @@ export default function App() {
           />
         )}
 
-        {/* STUDY PROGRESS TAB */}
-        {activeTab === 'progresso' && (
+        {/* STUDY PROGRESS (/estudo/progresso) */}
+        {activeRoute === 'progresso' && (
           <StudyProgressView
             terms={terms}
             userNotes={userNotes}
             bookmarkedIds={bookmarkedIds}
             onSelectTerm={setSelectedTerm}
-            onNavigateToTab={setActiveTab}
+            onNavigateToTab={(tab) => {
+              const map: Record<'glossario' | 'flashcards' | 'quiz' | 'guia', RouteId> = {
+                glossario: 'glossario',
+                flashcards: 'flashcards',
+                quiz: 'testes',
+                guia: 'guias-visuais',
+              };
+              navigateTo(map[tab]);
+            }}
           />
         )}
+
+        {/* SOBRE (/sobre) */}
+        {activeRoute === 'sobre' && <SobrePage onNavigate={navigateTo} />}
+
+        {/* CONTACTO (/contacto) */}
+        {activeRoute === 'contacto' && <ContactoPage currentUser={currentUser} />}
 
       </main>
 
@@ -964,15 +1030,35 @@ export default function App() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
             <p className="font-bold text-[#0b3a55] font-maritime text-base">
-              Carta de Marinheiro • Caderno de Estudo & Glossário Náutico
+              Carta de Marinheiro • Caderno de Estudo &amp; Glossário Náutico
             </p>
             <p className="mt-0.5 text-[#4f6e82]">
               Alinhado com o programa oficial DGRM, RIPAM (RIPEAM 1972) e Sistema de Balizamento IALA Região A.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
-            <span>Base de Dados: Cloud Firestore (<code className="text-[#0b3a55] font-semibold lowercase">carta-de-marinheiro</code>)</span>
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
+            <a
+              href={ROUTES.sobre.path}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('sobre');
+              }}
+              className="hover:text-[#0b3a55] transition"
+            >
+              Sobre
+            </a>
+            <span>•</span>
+            <a
+              href={ROUTES.contacto.path}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('contacto');
+              }}
+              className="hover:text-[#0b3a55] transition"
+            >
+              Contacto
+            </a>
             <span>•</span>
             <span>PWA Compatível</span>
           </div>

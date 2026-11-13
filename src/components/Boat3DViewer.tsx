@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {
   Box,
   Eye,
@@ -34,6 +35,7 @@ export type Boat3DPartId =
   | 'conves'
   | 'verdugo'
   | 'balaustres'
+  | 'vergueiros'
   | 'escovem'
   | 'leme'
   | 'robaletes'
@@ -195,11 +197,24 @@ const BOAT_3D_PARTS: Record<Boat3DPartId, Boat3DPartMeta> = {
     name: 'Balaústres',
     group: 'aparelho',
     pageRef: 'Pág. 5',
-    zoneLabel: 'Guarda da Borda',
+    zoneLabel: 'Prumos Verticais da Borda',
     definition:
-      'Peças normalmente em metal fixadas verticalmente à borda da embarcação, que recebem os vergueiros (cabos de segurança).',
+      'Peças normalmente em metal fixadas verticalmente à borda da embarcação, que recebem e sustentam os vergueiros (cabos de segurança).',
     examRule:
       'Conjunto de balaústres + vergueiros protege a tripulação de quedas ao mar ao circular no convés.',
+  },
+  vergueiros: {
+    id: 'vergueiros',
+    termId: 'vergueiros',
+    matchNames: ['vergueiros', 'vergueiro'],
+    name: 'Vergueiros',
+    group: 'aparelho',
+    pageRef: 'Pág. 5',
+    zoneLabel: 'Cabos da Guarda da Borda (Proa ↔ Popa)',
+    definition:
+      'Cabos (ou varões metálicos) que passam da proa à popa pelos olhais dos balaústres, formando a guarda de segurança ao longo das bordas da embarcação.',
+    examRule:
+      'Os vergueiros ligam os balaústres entre si da proa à popa para evitar quedas ao mar.',
   },
   escovem: {
     id: 'escovem',
@@ -475,7 +490,25 @@ function buildDeckGeometry(uSteps: number, wSteps: number): THREE.BufferGeometry
   return geo;
 }
 
-function buildSubdividedSeaDisc(radius = 20, radialSegments = 44, angularSegments = 72): THREE.BufferGeometry {
+function mergeStaticGeometries(geos: THREE.BufferGeometry[]): THREE.BufferGeometry {
+  if (geos.length === 1) return geos[0];
+  const merged = mergeGeometries(geos, false);
+  geos.forEach((g) => g.dispose());
+  if (merged) {
+    merged.computeBoundingSphere();
+    return merged;
+  }
+  return new THREE.BufferGeometry();
+}
+
+function freezeStaticTransforms(root: THREE.Object3D) {
+  root.traverse((obj) => {
+    obj.updateMatrix();
+    obj.matrixAutoUpdate = false;
+  });
+}
+
+function buildSubdividedSeaDisc(radius = 20, radialSegments = 32, angularSegments = 56): THREE.BufferGeometry {
   const positions: number[] = [];
   const normals: number[] = [];
   const uvs: number[] = [];
@@ -656,9 +689,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
   onOpenAuth = () => {},
 }) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  const badgeEyebrowRef = useRef<HTMLDivElement | null>(null);
+  const badgeTitleRef = useRef<HTMLDivElement | null>(null);
 
   const [selectedPart, setSelectedPart] = useState<Boat3DPartId>('quilha');
-  const [hoveredPart, setHoveredPart] = useState<Boat3DPartId | null>(null);
   const [activeGroup, setActiveGroup] = useState<'todos' | PartGroup3D>('todos');
   const [showCutaway, setShowCutaway] = useState<boolean>(false);
   const [showWater, setShowWater] = useState<boolean>(true);
@@ -671,7 +705,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
 
   // Refs synced into the WebGL loop cleanly without re-creating the Three.js scene
   const selectedPartRef = useRef<Boat3DPartId>(selectedPart);
-  const hoveredPartRef = useRef<Boat3DPartId | null>(hoveredPart);
+  const hoveredPartRef = useRef<Boat3DPartId | null>(null);
   const showCutawayRef = useRef<boolean>(showCutaway);
   const showWaterRef = useRef<boolean>(showWater);
   const showDimensionsRef = useRef<boolean>(showDimensions);
@@ -684,7 +718,6 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
   } | null>(null);
 
   selectedPartRef.current = selectedPart;
-  hoveredPartRef.current = hoveredPart;
   showCutawayRef.current = showCutaway;
   showWaterRef.current = showWater;
   showDimensionsRef.current = showDimensions;
@@ -733,11 +766,15 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     );
   };
 
-  // Sync state changes cleanly to 3D scene
+  // Sync state changes cleanly to 3D scene & badge without hover React re-renders
   useEffect(() => {
+    if (!hoveredPartRef.current) {
+      if (badgeEyebrowRef.current) badgeEyebrowRef.current.textContent = 'Peça selecionada';
+      if (badgeTitleRef.current) badgeTitleRef.current.textContent = BOAT_3D_PARTS[selectedPart].name;
+    }
     sceneApiRef.current?.updatePartHighlight();
     sceneApiRef.current?.requestRender();
-  }, [selectedPart, hoveredPart]);
+  }, [selectedPart]);
 
   useEffect(() => {
     sceneApiRef.current?.updateVisibility();
@@ -760,7 +797,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       alpha: false,
       powerPreference: 'high-performance',
     });
-    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -768,6 +805,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     renderer.shadowMap.enabled = !isSoftwareGl;
     if (!isSoftwareGl) {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.autoUpdate = false;
     }
     renderer.domElement.style.display = 'block';
     renderer.domElement.style.width = '100%';
@@ -831,8 +869,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     rimLight.position.set(-7.0, 4.0, -6.5);
     scene.add(rimLight);
 
-    // Track clickable parts & material original emissives
+    // Track clickable parts (dedicated raycast layer 1) & material original emissives
     const clickableMeshes: THREE.Object3D[] = [];
+    const dimInteractiveMeshes: THREE.Object3D[] = [];
+    const waterlineInteractiveMeshes: THREE.Object3D[] = [];
     const partMaterials = new Map<
       Boat3DPartId,
       Array<{
@@ -842,9 +882,16 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       }>
     >();
 
-    const registerPartMesh = (partId: Boat3DPartId, mesh: THREE.Mesh) => {
+    const registerPartMesh = (
+      partId: Boat3DPartId,
+      mesh: THREE.Mesh,
+      groupTag?: 'dim' | 'waterlinePtr'
+    ) => {
       mesh.userData.partId = partId;
+      mesh.layers.enable(1);
       clickableMeshes.push(mesh);
+      if (groupTag === 'dim') dimInteractiveMeshes.push(mesh);
+      if (groupTag === 'waterlinePtr') waterlineInteractiveMeshes.push(mesh);
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       const bucket = partMaterials.get(partId) || [];
       mats.forEach((m) => {
@@ -973,7 +1020,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     boatGroup.add(cadasteMesh);
     registerPartMesh('cadaste', cadasteMesh);
 
-    // ================= 3. BALIZAS (INTERNAL TRANSVERSE RIBS) =================
+    // ================= 3. BALIZAS (MERGED SINGLE DRAW CALL) =================
     const ribMat = new THREE.MeshStandardMaterial({
       color: '#8e6233',
       roughness: 0.62,
@@ -981,10 +1028,8 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     });
     disposables.push(ribMat);
 
-    const balizasGroup = new THREE.Group();
-    boatGroup.add(balizasGroup);
     const ribStations = [0.12, 0.21, 0.30, 0.39, 0.48, 0.57, 0.66, 0.75, 0.84];
-    ribStations.forEach((u) => {
+    const ribGeos = ribStations.map((u) => {
       const pts: THREE.Vector3[] = [];
       for (let i = 0; i <= 8; i++) {
         const vf = 1 - i / 8;
@@ -996,15 +1041,15 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
         const p = hullPoint(u, vf, 1);
         pts.push(new THREE.Vector3(p.x, p.y + 0.015, p.z * 0.94));
       }
-      const curve = new THREE.CatmullRomCurve3(pts);
-      const ribGeo = new THREE.TubeGeometry(curve, 24, 0.032, 8, false);
-      disposables.push(ribGeo);
-      const ribMesh = new THREE.Mesh(ribGeo, ribMat);
-      balizasGroup.add(ribMesh);
-      registerPartMesh('balizas', ribMesh);
+      return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 20, 0.032, 7, false);
     });
+    const balizasGeo = mergeStaticGeometries(ribGeos);
+    disposables.push(balizasGeo);
+    const balizasMesh = new THREE.Mesh(balizasGeo, ribMat);
+    boatGroup.add(balizasMesh);
+    registerPartMesh('balizas', balizasMesh);
 
-    // ================= 4. LINHA DE ÁGUA HULL STRIPE (LIGHT BLUE) =================
+    // ================= 4. LINHA DE ÁGUA HULL STRIPE (MERGED) =================
     const wlStripeMat = new THREE.MeshStandardMaterial({
       color: '#38bdf8',
       emissive: '#0284c7',
@@ -1014,7 +1059,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     });
     disposables.push(wlStripeMat);
 
-    for (const side of [1, -1] as const) {
+    const wlGeos = ([1, -1] as const).map((side) => {
       const wlPts: THREE.Vector3[] = [];
       for (let i = 0; i <= 32; i++) {
         const u = (i / 32) * 0.94;
@@ -1022,16 +1067,17 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
         const pt = hullPoint(u, vw, side);
         wlPts.push(new THREE.Vector3(pt.x, 0.01, pt.z * 1.012));
       }
-      const wlCurve = new THREE.CatmullRomCurve3(wlPts);
-      const wlGeo = new THREE.TubeGeometry(wlCurve, 36, 0.024, 8, false);
-      disposables.push(wlGeo);
-      const wlMesh = new THREE.Mesh(wlGeo, wlStripeMat);
-      boatGroup.add(wlMesh);
-      registerPartMesh('linha-de-agua', wlMesh);
-    }
+      return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(wlPts), 32, 0.024, 7, false);
+    });
+    const wlMergedGeo = mergeStaticGeometries(wlGeos);
+    disposables.push(wlMergedGeo);
+    const wlMesh = new THREE.Mesh(wlMergedGeo, wlStripeMat);
+    boatGroup.add(wlMesh);
+    registerPartMesh('linha-de-agua', wlMesh);
 
     // ================= 5. CONVÉS (TEAK DECK + LOW CABIN COAMING, NO SAILBOAT MAST) =================
     const teakTex = createTeakDeckTexture();
+    teakTex.anisotropy = isSoftwareGl ? 1 : Math.min(4, renderer.capabilities.getMaxAnisotropy());
     const deckMat = new THREE.MeshStandardMaterial({
       map: teakTex,
       roughness: 0.65,
@@ -1084,7 +1130,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     boatGroup.add(cabinMesh, windshieldMesh);
     registerPartMesh('conves', cabinMesh);
 
-    // ================= 6. VERDUGO (RUBBING STRAKE) =================
+    // ================= 6. VERDUGO (MERGED RUBBING STRAKE) =================
     const verdugoMat = new THREE.MeshStandardMaterial({
       color: '#475569',
       roughness: 0.48,
@@ -1092,32 +1138,37 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     });
     disposables.push(verdugoMat);
 
-    for (const side of [1, -1] as const) {
+    const verdGeos = ([1, -1] as const).map((side) => {
       const verdPts: THREE.Vector3[] = [];
       for (let i = 0; i <= 32; i++) {
         const u = i / 32;
         const pt = hullPoint(u, 0.995, side);
         verdPts.push(new THREE.Vector3(pt.x, pt.y - 0.02, pt.z * 1.028));
       }
-      const verdCurve = new THREE.CatmullRomCurve3(verdPts);
-      const verdGeo = new THREE.TubeGeometry(verdCurve, 40, 0.032, 8, false);
-      disposables.push(verdGeo);
-      const verdMesh = new THREE.Mesh(verdGeo, verdugoMat);
-      boatGroup.add(verdMesh);
-      registerPartMesh('verdugo', verdMesh);
-    }
-
-    // ================= 7. BALAÚSTRES & VERGUEIROS (STANCHIONS + LIFELINES) =================
-    const stanchionMat = new THREE.MeshStandardMaterial({
-      color: '#cbd5e1',
-      roughness: 0.25,
-      metalness: 0.85,
+      return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(verdPts), 36, 0.032, 7, false);
     });
-    disposables.push(stanchionMat);
+    const verdMergedGeo = mergeStaticGeometries(verdGeos);
+    disposables.push(verdMergedGeo);
+    const verdMesh = new THREE.Mesh(verdMergedGeo, verdugoMat);
+    boatGroup.add(verdMesh);
+    registerPartMesh('verdugo', verdMesh);
 
-    const postGeo = new THREE.CylinderGeometry(0.018, 0.022, 0.34, 8);
-    disposables.push(postGeo);
-    const stanchionStations = [0.1, 0.24, 0.38, 0.52, 0.66, 0.8, 0.92];
+    // ================= 7A. BALAÚSTRES (STANCHIONS) & 7B. VERGUEIROS (LIFELINES) =================
+    const balaustresMat = new THREE.MeshStandardMaterial({
+      color: '#64748b',
+      roughness: 0.28,
+      metalness: 0.8,
+    });
+    const vergueirosMat = new THREE.MeshStandardMaterial({
+      color: '#1e293b',
+      roughness: 0.38,
+      metalness: 0.52,
+    });
+    disposables.push(balaustresMat, vergueirosMat);
+
+    const stanchionStations = [0.04, 0.19, 0.34, 0.50, 0.66, 0.82, 0.96];
+    const balaustreGeos: THREE.BufferGeometry[] = [];
+    const vergueiroGeos: THREE.BufferGeometry[] = [];
 
     for (const side of [1, -1] as const) {
       const upperRailPts: THREE.Vector3[] = [];
@@ -1125,26 +1176,46 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
 
       stanchionStations.forEach((u) => {
         const edge = hullPoint(u, 1, side);
-        const post = new THREE.Mesh(postGeo, stanchionMat);
-        post.position.set(edge.x, edge.y + 0.16, edge.z * 0.96);
-        boatGroup.add(post);
-        registerPartMesh('balaustres', post);
+        const px = edge.x;
+        const py = edge.y;
+        const pz = edge.z * 0.96;
 
-        upperRailPts.push(new THREE.Vector3(edge.x, edge.y + 0.31, edge.z * 0.96));
-        lowerRailPts.push(new THREE.Vector3(edge.x, edge.y + 0.16, edge.z * 0.96));
+        // Vertical metallic stanchion post
+        const postGeo = new THREE.CylinderGeometry(0.022, 0.026, 0.38, 8);
+        postGeo.translate(px, py + 0.18, pz);
+        balaustreGeos.push(postGeo);
+
+        // Deck mounting base flange
+        const baseGeo = new THREE.CylinderGeometry(0.040, 0.045, 0.028, 8);
+        baseGeo.translate(px, py + 0.005, pz);
+        balaustreGeos.push(baseGeo);
+
+        // Top fairlead cap
+        const capGeo = new THREE.SphereGeometry(0.032, 8, 8);
+        capGeo.translate(px, py + 0.37, pz);
+        balaustreGeos.push(capGeo);
+
+        upperRailPts.push(new THREE.Vector3(px, py + 0.35, pz));
+        lowerRailPts.push(new THREE.Vector3(px, py + 0.18, pz));
       });
 
       [upperRailPts, lowerRailPts].forEach((pts) => {
-        const rCurve = new THREE.CatmullRomCurve3(pts);
-        const rGeo = new THREE.TubeGeometry(rCurve, 28, 0.012, 6, false);
-        disposables.push(rGeo);
-        const rMesh = new THREE.Mesh(rGeo, stanchionMat);
-        boatGroup.add(rMesh);
-        registerPartMesh('balaustres', rMesh);
+        const rGeo = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 28, 0.015, 7, false);
+        vergueiroGeos.push(rGeo);
       });
     }
 
-    // ================= 8. ESCOVÉM (BOW HAWSEHOLES ON PORT & STARBOARD) =================
+    const balaustresMergedGeo = mergeStaticGeometries(balaustreGeos);
+    const vergueirosMergedGeo = mergeStaticGeometries(vergueiroGeos);
+    disposables.push(balaustresMergedGeo, vergueirosMergedGeo);
+
+    const balaustresMesh = new THREE.Mesh(balaustresMergedGeo, balaustresMat);
+    const vergueirosMesh = new THREE.Mesh(vergueirosMergedGeo, vergueirosMat);
+    boatGroup.add(balaustresMesh, vergueirosMesh);
+    registerPartMesh('balaustres', balaustresMesh);
+    registerPartMesh('vergueiros', vergueirosMesh);
+
+    // ================= 8. ESCOVÉM (MERGED BOW HAWSEHOLES) =================
     const hawseMat = new THREE.MeshStandardMaterial({
       color: '#94a3b8',
       roughness: 0.3,
@@ -1155,25 +1226,33 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       roughness: 0.8,
       metalness: 0.1,
     });
-    const hawseTorusGeo = new THREE.TorusGeometry(0.072, 0.022, 10, 20);
-    const hawseDiscGeo = new THREE.CylinderGeometry(0.056, 0.056, 0.03, 16);
-    disposables.push(hawseMat, hawseHoleMat, hawseTorusGeo, hawseDiscGeo);
+    disposables.push(hawseMat, hawseHoleMat);
+
+    const collarGeos: THREE.BufferGeometry[] = [];
+    const holeGeos: THREE.BufferGeometry[] = [];
+    const rotMat = new THREE.Matrix4();
 
     for (const side of [1, -1] as const) {
       const hp = hullPoint(0.84, 0.82, side);
-      const escGroup = new THREE.Group();
-      escGroup.position.set(hp.x, hp.y, hp.z * 1.015);
-      // Align gently with forward bow curve
-      escGroup.rotation.y = side * 0.42;
+      const collarGeo = new THREE.TorusGeometry(0.072, 0.022, 10, 18);
+      rotMat.makeRotationY(side * 0.42);
+      rotMat.setPosition(hp.x, hp.y, hp.z * 1.015);
+      collarGeo.applyMatrix4(rotMat);
+      collarGeos.push(collarGeo);
 
-      const collar = new THREE.Mesh(hawseTorusGeo, hawseMat);
-      const hole = new THREE.Mesh(hawseDiscGeo, hawseHoleMat);
-      hole.rotation.x = Math.PI * 0.5;
-      escGroup.add(collar, hole);
-      boatGroup.add(escGroup);
-      registerPartMesh('escovem', collar);
-      registerPartMesh('escovem', hole);
+      const holeGeo = new THREE.CylinderGeometry(0.056, 0.056, 0.03, 14);
+      holeGeo.rotateX(Math.PI * 0.5);
+      holeGeo.applyMatrix4(rotMat);
+      holeGeos.push(holeGeo);
     }
+    const collarsMergedGeo = mergeStaticGeometries(collarGeos);
+    const holesMergedGeo = mergeStaticGeometries(holeGeos);
+    disposables.push(collarsMergedGeo, holesMergedGeo);
+    const escovemCollarsMesh = new THREE.Mesh(collarsMergedGeo, hawseMat);
+    const escovemHolesMesh = new THREE.Mesh(holesMergedGeo, hawseHoleMat);
+    boatGroup.add(escovemCollarsMesh, escovemHolesMesh);
+    registerPartMesh('escovem', escovemCollarsMesh);
+    registerPartMesh('escovem', escovemHolesMesh);
 
     // ================= 9. LEME (PORTA + MADRE + CACHOLA/CANA) =================
     const rudderBladeMat = new THREE.MeshStandardMaterial({
@@ -1181,12 +1260,17 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       roughness: 0.42,
       metalness: 0.3,
     });
+    const rudderShaftMat = new THREE.MeshStandardMaterial({
+      color: '#cbd5e1',
+      roughness: 0.25,
+      metalness: 0.85,
+    });
     const tillerMat = new THREE.MeshStandardMaterial({
       color: '#9a7413',
       roughness: 0.35,
       metalness: 0.45,
     });
-    disposables.push(rudderBladeMat, tillerMat);
+    disposables.push(rudderBladeMat, rudderShaftMat, tillerMat);
 
     const rudderShape = new THREE.Shape();
     rudderShape.moveTo(0, 0.04);
@@ -1211,7 +1295,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     const rudderGroup = new THREE.Group();
     rudderGroup.position.set(-2.90, 0.02, 0);
     const bladeMesh = new THREE.Mesh(rudderBladeGeo, rudderBladeMat);
-    const shaftMesh = new THREE.Mesh(rudderShaftGeo, stanchionMat);
+    const shaftMesh = new THREE.Mesh(rudderShaftGeo, rudderShaftMat);
     shaftMesh.position.set(-0.02, 0.34, 0);
     const tillerMesh = new THREE.Mesh(tillerGeo, tillerMat);
     tillerMesh.position.set(0.36, 0.72, 0);
@@ -1222,25 +1306,28 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     registerPartMesh('leme', shaftMesh);
     registerPartMesh('leme', tillerMesh);
 
-    // ================= 10. ROBALETES (BILGE KEELS ON LOWER QUERENA) =================
+    // ================= 10. ROBALETES (MERGED BILGE KEELS) =================
     const robaleteMat = new THREE.MeshStandardMaterial({
       color: '#0f2f42',
       roughness: 0.45,
       metalness: 0.2,
     });
-    const robaleteGeo = new THREE.BoxGeometry(2.15, 0.04, 0.14);
-    disposables.push(robaleteMat, robaleteGeo);
+    disposables.push(robaleteMat);
 
-    for (const side of [1, -1] as const) {
+    const robaleteGeos = ([1, -1] as const).map((side) => {
       const midBilge = hullPoint(0.42, 0.25, side);
-      const robMesh = new THREE.Mesh(robaleteGeo, robaleteMat);
-      robMesh.position.set(-0.2, midBilge.y - 0.01, midBilge.z + side * 0.04);
-      robMesh.rotation.x = side * 0.65;
-      boatGroup.add(robMesh);
-      registerPartMesh('robaletes', robMesh);
-    }
+      const geo = new THREE.BoxGeometry(2.15, 0.04, 0.14);
+      geo.rotateX(side * 0.65);
+      geo.translate(-0.2, midBilge.y - 0.01, midBilge.z + side * 0.04);
+      return geo;
+    });
+    const robaletesMergedGeo = mergeStaticGeometries(robaleteGeos);
+    disposables.push(robaletesMergedGeo);
+    const robaletesMesh = new THREE.Mesh(robaletesMergedGeo, robaleteMat);
+    boatGroup.add(robaletesMesh);
+    registerPartMesh('robaletes', robaletesMesh);
 
-    // ================= 11. ANIMATED SEA WITH SMALL WAVES =================
+    // ================= 11. ANIMATED SEA WITH SMALL WAVES (OPTIMIZED SHADER & MESH) =================
     const waterGroup = new THREE.Group();
     scene.add(waterGroup);
 
@@ -1248,11 +1335,12 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       uWaveTime: { value: 0 },
     };
 
-    const seaGeo = buildSubdividedSeaDisc(20, 44, 72);
+    const seaGeo = buildSubdividedSeaDisc(20, 32, 56);
     const seaMat = new THREE.MeshStandardMaterial({
       color: '#5ba9d6',
-      roughness: 0.16,
-      metalness: 0.14,
+      roughness: 0.18,
+      metalness: 0.12,
+      envMapIntensity: 0.45,
       transparent: true,
       opacity: 0.50,
       depthWrite: false,
@@ -1268,29 +1356,20 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
         .replace(
           '#include <beginnormal_vertex>',
           `#include <beginnormal_vertex>
-           float wDistN = length(position.xz);
-           float wAttenN = 1.0 - smoothstep(10.0, 19.0, wDistN);
-           float wDhDx = (
-             1.45 * cos(position.x * 1.45 + position.z * 0.65 + uWaveTime * 1.15) * 0.019
-             - 0.85 * sin(position.x * 0.85 - position.z * 1.35 + uWaveTime * 0.90) * 0.014
-             + 2.25 * cos((position.x + position.z) * 2.25 - uWaveTime * 1.55) * 0.008
-           ) * wAttenN;
-           float wDhDz = (
-             0.65 * cos(position.x * 1.45 + position.z * 0.65 + uWaveTime * 1.15) * 0.019
-             + 1.35 * sin(position.x * 0.85 - position.z * 1.35 + uWaveTime * 0.90) * 0.014
-             + 2.25 * cos((position.x + position.z) * 2.25 - uWaveTime * 1.55) * 0.008
-           ) * wAttenN;
+           float wDist = length(position.xz);
+           float wAtten = 1.0 - smoothstep(10.0, 19.0, wDist);
+           float p1 = position.x * 1.45 + position.z * 0.65 + uWaveTime * 1.15;
+           float p2 = position.x * 0.85 - position.z * 1.35 - uWaveTime * 1.05;
+           float dc1 = cos(p1) * 0.022;
+           float dc2 = cos(p2) * 0.015;
+           float wDhDx = (1.45 * dc1 + 0.85 * dc2) * wAtten;
+           float wDhDz = (0.65 * dc1 - 1.35 * dc2) * wAtten;
            objectNormal = normalize(vec3(-wDhDx, 1.0, -wDhDz));`
         )
         .replace(
           '#include <begin_vertex>',
           `#include <begin_vertex>
-           float wDist = length(position.xz);
-           float wAtten = 1.0 - smoothstep(10.0, 19.0, wDist);
-           float w1 = sin(position.x * 1.45 + position.z * 0.65 + uWaveTime * 1.15) * 0.019;
-           float w2 = cos(position.x * 0.85 - position.z * 1.35 + uWaveTime * 0.90) * 0.014;
-           float w3 = sin((position.x + position.z) * 2.25 - uWaveTime * 1.55) * 0.008;
-           transformed.y += (w1 + w2 + w3) * wAtten;`
+           transformed.y += (sin(p1) * 0.022 + sin(p2) * 0.015) * wAtten;`
         );
     };
     disposables.push(seaGeo, seaMat);
@@ -1300,7 +1379,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     seaMesh.receiveShadow = !isSoftwareGl;
     waterGroup.add(seaMesh);
 
-    // ================= 12. WATERLINE POINTER ARROWS (SHOWN WHEN WATER IS OFF) =================
+    // ================= 12. WATERLINE POINTER ARROWS (MERGED ARROWS) =================
     const waterlinePointerGroup = new THREE.Group();
     waterlinePointerGroup.visible = !showWaterRef.current;
     boatGroup.add(waterlinePointerGroup);
@@ -1312,37 +1391,44 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       roughness: 0.3,
       metalness: 0.15,
     });
-    const arrowConeGeo = new THREE.ConeGeometry(0.048, 0.13, 14);
-    const arrowShaftGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.32, 10);
-    disposables.push(arrowMat, arrowConeGeo, arrowShaftGeo);
+    disposables.push(arrowMat);
 
+    const arrowGeos: THREE.BufferGeometry[] = [];
+    const upVec = new THREE.Vector3(0, 1, 0);
     const wlAnchorPt = hullPoint(0.54, waterlineVAtStation(0.54), 1);
     for (const side of [1, -1] as const) {
       const tipPos = new THREE.Vector3(wlAnchorPt.x, 0.015, side * (wlAnchorPt.z * 1.015 + 0.07));
       const tailPos = new THREE.Vector3(wlAnchorPt.x, 0.16, side * (wlAnchorPt.z * 1.015 + 0.48));
       const dir = new THREE.Vector3().subVectors(tipPos, tailPos).normalize();
-      const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+      const quat = new THREE.Quaternion().setFromUnitVectors(upVec, dir);
+      const qMat = new THREE.Matrix4().makeRotationFromQuaternion(quat);
 
-      const head = new THREE.Mesh(arrowConeGeo, arrowMat);
-      head.position.copy(tipPos).addScaledVector(dir, -0.06);
-      head.quaternion.copy(quat);
+      const coneGeo = new THREE.ConeGeometry(0.048, 0.13, 12);
+      const headPos = tipPos.clone().addScaledVector(dir, -0.06);
+      qMat.setPosition(headPos);
+      coneGeo.applyMatrix4(qMat);
+      arrowGeos.push(coneGeo);
 
-      const shaft = new THREE.Mesh(arrowShaftGeo, arrowMat);
-      shaft.position.copy(tipPos).addScaledVector(dir, -0.27);
-      shaft.quaternion.copy(quat);
+      const shaftGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.32, 8);
+      const shaftPos = tipPos.clone().addScaledVector(dir, -0.27);
+      qMat.setPosition(shaftPos);
+      shaftGeo.applyMatrix4(qMat);
+      arrowGeos.push(shaftGeo);
 
       const ptrLabel = createSubtleCaptionSprite('Nível da água', '#0369a1');
       ptrLabel.position.set(wlAnchorPt.x, 0.25, side * (wlAnchorPt.z * 1.015 + 0.66));
       ptrLabel.renderOrder = 10;
       if (ptrLabel.material.map) disposables.push(ptrLabel.material.map);
       disposables.push(ptrLabel.material);
-
-      waterlinePointerGroup.add(head, shaft, ptrLabel);
-      registerPartMesh('linha-de-agua', head);
-      registerPartMesh('linha-de-agua', shaft);
+      waterlinePointerGroup.add(ptrLabel);
     }
+    const mergedArrowsGeo = mergeStaticGeometries(arrowGeos);
+    disposables.push(mergedArrowsGeo);
+    const arrowsMesh = new THREE.Mesh(mergedArrowsGeo, arrowMat);
+    waterlinePointerGroup.add(arrowsMesh);
+    registerPartMesh('linha-de-agua', arrowsMesh, 'waterlinePtr');
 
-    // ================= 13. 3D ARCHITECTURAL DIMENSIONS (COTAS 3D) =================
+    // ================= 13. 3D ARCHITECTURAL DIMENSIONS (MERGED BRACKETS) =================
     const dimGroup = new THREE.Group();
     dimGroup.visible = showDimensionsRef.current;
     boatGroup.add(dimGroup);
@@ -1366,19 +1452,21 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       const dir = new THREE.Vector3().subVectors(pB, pA);
       const len = dir.length();
       const mid = new THREE.Vector3().addVectors(pA, pB).multiplyScalar(0.5);
+      const barQuat = new THREE.Quaternion().setFromUnitVectors(upVec, dir.clone().normalize());
+      const barMat = new THREE.Matrix4().makeRotationFromQuaternion(barQuat);
+      barMat.setPosition(mid);
 
       const barGeo = new THREE.CylinderGeometry(0.022, 0.022, len, 8);
-      const capGeo = new THREE.SphereGeometry(0.055, 10, 10);
-      disposables.push(barGeo, capGeo);
+      barGeo.applyMatrix4(barMat);
 
-      const bar = new THREE.Mesh(barGeo, mat);
-      bar.position.copy(mid);
-      bar.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+      const capAGeo = new THREE.SphereGeometry(0.055, 8, 8);
+      capAGeo.translate(pA.x, pA.y, pA.z);
+      const capBGeo = new THREE.SphereGeometry(0.055, 8, 8);
+      capBGeo.translate(pB.x, pB.y, pB.z);
 
-      const capA = new THREE.Mesh(capGeo, mat);
-      capA.position.copy(pA);
-      const capB = new THREE.Mesh(capGeo, mat);
-      capB.position.copy(pB);
+      const bracketGeo = mergeStaticGeometries([barGeo, capAGeo, capBGeo]);
+      disposables.push(bracketGeo);
+      const bracketMesh = new THREE.Mesh(bracketGeo, mat);
 
       const labelSprite = createWaterRingLabelSprite(labelText, colorHex, '#fcfbf8');
       labelSprite.position.copy(mid).add(labelOffset);
@@ -1387,10 +1475,8 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       if (labelSprite.material.map) disposables.push(labelSprite.material.map);
       disposables.push(labelSprite.material);
 
-      dimGroup.add(bar, capA, capB, labelSprite);
-      registerPartMesh(partId, bar);
-      registerPartMesh(partId, capA);
-      registerPartMesh(partId, capB);
+      dimGroup.add(bracketMesh, labelSprite);
+      registerPartMesh(partId, bracketMesh, 'dim');
     };
 
     // Comprimento (Cadaste -2.85 to Roda de Proa +3.35 at lower side offset Z=+1.52)
@@ -1429,6 +1515,21 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       'CALADO',
       new THREE.Vector3(0, 0, 0.68)
     );
+
+    // Freeze static world matrices & bake static shadow map once
+    freezeStaticTransforms(boatGroup);
+    freezeStaticTransforms(waterGroup);
+    hemiLight.updateMatrix();
+    hemiLight.matrixAutoUpdate = false;
+    keyLight.updateMatrix();
+    keyLight.matrixAutoUpdate = false;
+    rimLight.updateMatrix();
+    rimLight.matrixAutoUpdate = false;
+
+    if (!isSoftwareGl) {
+      renderer.shadowMap.needsUpdate = true;
+      renderer.compile(scene, camera);
+    }
 
     // ================= HIGHLIGHT & VISIBILITY CONTROLLERS =================
     const updatePartHighlight = () => {
@@ -1477,6 +1578,16 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       waterGroup.visible = showWaterRef.current;
       waterlinePointerGroup.visible = !showWaterRef.current;
       dimGroup.visible = showDimensionsRef.current;
+
+      // Keep raycast layer 1 restricted only to visible interactive meshes
+      dimInteractiveMeshes.forEach((m) => {
+        if (showDimensionsRef.current) m.layers.enable(1);
+        else m.layers.disable(1);
+      });
+      waterlineInteractiveMeshes.forEach((m) => {
+        if (!showWaterRef.current) m.layers.enable(1);
+        else m.layers.disable(1);
+      });
     };
 
     updatePartHighlight();
@@ -1495,45 +1606,55 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
 
     let rafId: number | null = null;
     let timeoutId: number | null = null;
-    let renderScheduled = false;
+    let renderBusy = false;
+    let renderDirty = false;
+    let isDisposed = false;
+    let isViewportVisible = true;
+    let isTabVisible = typeof document !== 'undefined' ? !document.hidden : true;
+    let isUserOrbiting = false;
     let lastTickTime = performance.now();
-    let lastDrawCompleteAt = 0;
     const startTime = performance.now();
 
-    const afterDraw = () => {
+    const afterDraw = (done: () => void) => {
       const gl = renderer.getContext();
-      if (isSoftwareGl && gl) {
-        if ('fenceSync' in gl) {
-          const gl2 = gl as WebGL2RenderingContext;
-          const sync = gl2.fenceSync(gl2.SYNC_GPU_COMMANDS_COMPLETE, 0);
-          if (sync) {
-            gl2.flush();
-            gl2.deleteSync(sync);
-          }
-        }
-        lastDrawCompleteAt = performance.now();
+      if (!isSoftwareGl || !gl || !('fenceSync' in gl)) {
+        done();
+        return;
       }
+      const gl2 = gl as WebGL2RenderingContext;
+      const sync = gl2.fenceSync(gl2.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl2.flush();
+      const poll = () => {
+        if (isDisposed) {
+          if (sync) gl2.deleteSync(sync);
+          return;
+        }
+        const status = sync ? gl2.getSyncParameter(sync, gl2.SYNC_STATUS) : gl2.SIGNALED;
+        if (status === gl2.UNSIGNALED) {
+          timeoutId = window.setTimeout(poll, 5);
+        } else {
+          if (sync) gl2.deleteSync(sync);
+          timeoutId = window.setTimeout(() => {
+            timeoutId = null;
+            done();
+          }, 80);
+        }
+      };
+      timeoutId = window.setTimeout(poll, 5);
     };
 
     const renderTick = (now: number) => {
       rafId = null;
-      renderScheduled = false;
-
-      if (isSoftwareGl && now - lastDrawCompleteAt < 80) {
-        timeoutId = window.setTimeout(() => {
-          timeoutId = null;
-          requestRender();
-        }, 80);
-        return;
-      }
+      if (isDisposed) return;
 
       const dt = Math.min(0.05, Math.max(0.001, (now - lastTickTime) / 1000));
       lastTickTime = now;
 
       let stillAnimating = false;
+      const canAnimateWaves =
+        showWaterRef.current && !prefersReducedMotion && isViewportVisible && isTabVisible;
 
-      // Gentle small sea waves animation while water is enabled
-      if (showWaterRef.current && !prefersReducedMotion) {
+      if (canAnimateWaves) {
         waveUniforms.uWaveTime.value = (now - startTime) * 0.001;
         stillAnimating = true;
       }
@@ -1580,16 +1701,31 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
 
       const controlsMoved = controls.update();
       renderer.render(scene, camera);
-      afterDraw();
 
-      if (stillAnimating || (controlsMoved && !isSoftwareGl)) {
-        requestRender();
+      const finishFrame = () => {
+        renderBusy = false;
+        if (isDisposed) return;
+        if (renderDirty || stillAnimating || (controlsMoved && !isSoftwareGl)) {
+          renderDirty = false;
+          requestRender();
+        }
+      };
+
+      if (isSoftwareGl) {
+        afterDraw(finishFrame);
+      } else {
+        finishFrame();
       }
     };
 
     const requestRender = () => {
-      if (renderScheduled || timeoutId !== null) return;
-      renderScheduled = true;
+      if (isDisposed) return;
+      if (renderBusy) {
+        renderDirty = true;
+        return;
+      }
+      renderBusy = true;
+      renderDirty = false;
       lastTickTime = performance.now();
       rafId = requestAnimationFrame(renderTick);
     };
@@ -1611,37 +1747,59 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     };
 
     const onControlsStart = () => {
+      isUserOrbiting = true;
       cameraTransition = null;
       requestRender();
     };
     const onControlsChange = () => {
       requestRender();
     };
+    const onControlsEnd = () => {
+      isUserOrbiting = false;
+    };
     controls.addEventListener('start', onControlsStart);
     controls.addEventListener('change', onControlsChange);
+    controls.addEventListener('end', onControlsEnd);
 
     // ================= POINTER CLICK/TAP VS HORIZONTAL DRAG RAYCASTING =================
     const raycaster = new THREE.Raycaster();
+    raycaster.layers.set(1);
     const pointerNdc = new THREE.Vector2();
     let downPos: { x: number; y: number } | null = null;
     let lastHoverCheck = 0;
+    let cachedRect: DOMRect | null = null;
 
-    const pickPartAtClientPos = (clientX: number, clientY: number): Boat3DPartId | null => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) return null;
+    const refreshCanvasRect = () => {
+      cachedRect = renderer.domElement.getBoundingClientRect();
+    };
+
+    const setHoverPartImperative = (hitId: Boat3DPartId | null) => {
+      if (hitId === hoveredPartRef.current) return;
+      hoveredPartRef.current = hitId;
+      if (badgeEyebrowRef.current) {
+        badgeEyebrowRef.current.textContent = hitId ? 'Sob o cursor' : 'Peça selecionada';
+      }
+      if (badgeTitleRef.current) {
+        badgeTitleRef.current.textContent = hitId
+          ? BOAT_3D_PARTS[hitId].name
+          : BOAT_3D_PARTS[selectedPartRef.current].name;
+      }
+      updatePartHighlight();
+      requestRender();
+    };
+
+    const pickPartAtClientPos = (clientX: number, clientY: number, forceFreshRect = false): Boat3DPartId | null => {
+      if (forceFreshRect || !cachedRect || cachedRect.width <= 0) {
+        refreshCanvasRect();
+      }
+      const rect = cachedRect;
+      if (!rect || rect.width <= 0 || rect.height <= 0) return null;
       pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
       pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(pointerNdc, camera);
       const hits = raycaster.intersectObjects(clickableMeshes, false);
       for (const hit of hits) {
-        // Ignore hidden dimensions group when Cotas 3D are turned off
-        if (!showDimensionsRef.current && dimGroup.children.includes(hit.object)) {
-          continue;
-        }
-        // Ignore hidden waterline pointer arrow when water surface is visible
-        if (showWaterRef.current && waterlinePointerGroup.children.includes(hit.object)) {
-          continue;
-        }
+        if (!hit.object.layers.test(raycaster.layers)) continue;
         // In cutaway mode, skip faded outer shell if a crisp internal baliza/keel lies behind it!
         const pid = hit.object.userData.partId as Boat3DPartId | undefined;
         if (
@@ -1667,46 +1825,80 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     };
 
     const onPointerDown = (e: PointerEvent) => {
+      if (!e.isPrimary) {
+        downPos = null;
+        return;
+      }
+      refreshCanvasRect();
       downPos = { x: e.clientX, y: e.clientY };
     };
 
     const onPointerMove = (e: PointerEvent) => {
-      if (e.buttons !== 0) return;
+      if (isUserOrbiting || e.buttons !== 0 || e.pointerType === 'touch') return;
       const now = performance.now();
       if (now - lastHoverCheck < 55) return;
       lastHoverCheck = now;
-      const hitId = pickPartAtClientPos(e.clientX, e.clientY);
+      const hitId = pickPartAtClientPos(e.clientX, e.clientY, false);
       renderer.domElement.style.cursor = hitId ? 'pointer' : 'grab';
-      if (hitId !== hoveredPartRef.current) {
-        setHoveredPart(hitId);
-      }
+      setHoverPartImperative(hitId);
     };
 
     const onPointerLeave = () => {
       renderer.domElement.style.cursor = 'grab';
-      if (hoveredPartRef.current !== null) {
-        setHoveredPart(null);
-      }
+      setHoverPartImperative(null);
     };
 
     const onPointerUp = (e: PointerEvent) => {
-      if (!downPos) return;
+      if (!downPos || !e.isPrimary) {
+        downPos = null;
+        return;
+      }
       const dist = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
       downPos = null;
       if (dist < 6) {
-        const hitId = pickPartAtClientPos(e.clientX, e.clientY);
+        const hitId = pickPartAtClientPos(e.clientX, e.clientY, true);
         if (hitId) {
           setSelectedPart(hitId);
         }
       }
     };
 
-    renderer.domElement.addEventListener('pointerdown', onPointerDown);
-    renderer.domElement.addEventListener('pointermove', onPointerMove);
-    renderer.domElement.addEventListener('pointerleave', onPointerLeave);
-    renderer.domElement.addEventListener('pointerup', onPointerUp);
+    renderer.domElement.addEventListener('pointerdown', onPointerDown, { passive: true });
+    renderer.domElement.addEventListener('pointermove', onPointerMove, { passive: true });
+    renderer.domElement.addEventListener('pointerleave', onPointerLeave, { passive: true });
+    renderer.domElement.addEventListener('pointerup', onPointerUp, { passive: true });
 
-    // ================= RESIZE & WEBGL CONTEXT HANDLING =================
+    // ================= VISIBILITY, RESIZE & WEBGL CONTEXT HANDLING =================
+    const onScrollOrResize = () => {
+      cachedRect = null;
+    };
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+
+    const onVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible && isViewportVisible) {
+        requestRender();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    const io =
+      typeof IntersectionObserver !== 'undefined'
+        ? new IntersectionObserver(
+            (entries) => {
+              const visible = entries[0]?.isIntersecting ?? true;
+              if (visible !== isViewportVisible) {
+                isViewportVisible = visible;
+                if (visible && isTabVisible) {
+                  requestRender();
+                }
+              }
+            },
+            { threshold: 0.05 }
+          )
+        : null;
+    io?.observe(container);
+
     const ro = new ResizeObserver((entries) => {
       const entry = entries[0];
       if (!entry) return;
@@ -1715,6 +1907,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      cachedRect = null;
       requestRender();
     });
     ro.observe(container);
@@ -1725,6 +1918,9 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     };
     const onContextRestored = () => {
       setContextLost(false);
+      if (!isSoftwareGl) {
+        renderer.shadowMap.needsUpdate = true;
+      }
       requestRender();
     };
     renderer.domElement.addEventListener('webglcontextlost', onContextLost);
@@ -1734,11 +1930,16 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     requestRender();
 
     return () => {
+      isDisposed = true;
       if (rafId !== null) cancelAnimationFrame(rafId);
       if (timeoutId !== null) clearTimeout(timeoutId);
+      io?.disconnect();
       ro.disconnect();
+      window.removeEventListener('scroll', onScrollOrResize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       controls.removeEventListener('start', onControlsStart);
       controls.removeEventListener('change', onControlsChange);
+      controls.removeEventListener('end', onControlsEnd);
       controls.dispose();
 
       renderer.domElement.removeEventListener('pointerdown', onPointerDown);
@@ -1761,10 +1962,6 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
     activeGroup === 'todos'
       ? BOAT_3D_PART_LIST
       : BOAT_3D_PART_LIST.filter((p) => p.group === activeGroup);
-
-  const activeBadgeLabel = hoveredPart
-    ? BOAT_3D_PARTS[hoveredPart].name
-    : BOAT_3D_PARTS[selectedPart].name;
 
   return (
     <div className="space-y-6">
@@ -1816,13 +2013,13 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
             </div>
           )}
 
-          {/* Minimal Top-Left Part Indicator */}
+          {/* Minimal Top-Left Part Indicator (updated imperatively on hover for zero React re-renders) */}
           <div className="pointer-events-none absolute top-3 left-3 z-10 rounded-xs border border-[#d7d0c1] bg-[#faf7f0]/95 px-3 py-1.5 shadow-xs">
-            <div className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413]">
-              {hoveredPart ? 'Sob o cursor' : 'Peça selecionada'}
+            <div ref={badgeEyebrowRef} className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413]">
+              Peça selecionada
             </div>
-            <div className="font-maritime text-sm sm:text-base font-bold text-[#0b3a55] leading-tight">
-              {activeBadgeLabel}
+            <div ref={badgeTitleRef} className="font-maritime text-sm sm:text-base font-bold text-[#0b3a55] leading-tight">
+              {BOAT_3D_PARTS[selectedPart].name}
             </div>
           </div>
 
@@ -1932,7 +2129,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
             [
               { key: 'todos', label: `Todos (${BOAT_3D_PART_LIST.length})` },
               { key: 'estrutura', label: 'Casco & Estrutura (8)' },
-              { key: 'aparelho', label: 'Convés & Aparelho (6)' },
+              { key: 'aparelho', label: 'Convés & Aparelho (7)' },
               { key: 'dimensoes', label: 'Dimensões Principais (4)' },
             ] as { key: 'todos' | PartGroup3D; label: string }[]
           ).map((tab) => (
