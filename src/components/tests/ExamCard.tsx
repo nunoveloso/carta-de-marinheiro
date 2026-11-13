@@ -1,8 +1,10 @@
 import React from 'react';
 import { TestQuestion, UserAnswer } from '../../types/tests';
+import { getCategoryStyle } from '../../types/glossary';
 import { TestDiagram } from './TestDiagram';
 import { InlineFillBlankRenderer } from './InlineFillBlankRenderer';
 import { Bookmark, CheckCircle2, XCircle, Lightbulb } from 'lucide-react';
+import { CategoryIcon } from '../CategoryIcon';
 
 interface ExamCardProps {
   question: TestQuestion;
@@ -43,18 +45,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({
     }
   }
 
-  const getCategoryBadgeClass = (cat: string) => {
-    switch (cat) {
-      case 'RIEAM':
-        return 'bg-[#fef3c7] text-[#92400e] border-[#fde68a]';
-      case 'Segurança e Primeiros Socorros':
-        return 'bg-[#ffe4e6] text-[#9f1239] border-[#fecdd3]';
-      case 'Marinharia':
-        return 'bg-[#e0f2fe] text-[#0369a1] border-[#bae6fd]';
-      default:
-        return 'bg-[#ede9fe] text-[#5b21b6] border-[#ddd6fe]';
-    }
-  };
+  const catStyle = getCategoryStyle(category);
 
   const hasInlineBlanks = type === 'fill-blank' || /_{2,}/.test(statement);
   const currentBlankAnswers = userAnswer?.blankAnswers || (userAnswer?.textAnswer ? userAnswer.textAnswer.split(' | ') : []);
@@ -71,43 +62,51 @@ export const ExamCard: React.FC<ExamCardProps> = ({
   };
 
   return (
-    <div className={`rounded-2xl border p-5 sm:p-7 transition-all shadow-xs bg-white ${
+    <div className={`rounded-xs border p-5 sm:p-7 transition-all bg-[#fcfbf8] ${
       reviewMode
         ? isCorrect
-          ? 'border-[#86efac] bg-[#f0fdf4]'
-          : 'border-[#fca5a5] bg-[#fef2f2]'
+          ? 'border-[#1e7d4f] bg-[#dcebe1]/30'
+          : 'border-[#b3402f] bg-[#f3ded9]/30'
         : isBookmarked
-          ? 'border-[#f59e0b] bg-[#fffbeb]/40'
-          : 'border-[#ded5c2] hover:border-[#112338]/30'
+          ? 'border-[#ca9e1c] bg-[#f0e8cf]/35'
+          : 'border-[#d7d0c1]'
     }`}>
-      {/* Top Bar: Question Index, Category Badges & Bookmark */}
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-[#ede6d8]">
+      {/* Top Bar: Question Index, Category Metadata & Bookmark */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-[#d7d0c1]">
         <div className="flex items-center gap-2">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-[#112338] text-white font-bold text-sm shadow-2xs">
+          <span className="flex items-center justify-center w-8 h-8 rounded-xs bg-[#0b3a55] text-[#faf7f0] font-mono-naut font-bold text-sm">
             {questionIndex + 1}
           </span>
-          <span className="text-xs text-[#64748b] font-medium">
+          <span className="font-mono-naut text-xs text-[#4f6e82] font-medium">
             de {totalQuestions}
           </span>
-          <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold border bg-[#f4efe4] text-[#475569] border-[#ded5c2]">
+          <span className="font-mono-naut text-[11px] px-2 py-0.5 rounded-xs font-medium border bg-[#faf7f0] text-[#4f6e82] border-[#d7d0c1]">
             {points.toFixed(1)} {points === 1 ? 'valor' : 'valores'}
           </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          {/* 1. Main Category Badge */}
-          <span className={`text-xs px-2.5 py-0.5 rounded-full font-bold border ${getCategoryBadgeClass(category)}`}>
-            {category}
+          {/* 1. Main Category Label */}
+          <span
+            className="inline-flex items-center gap-1.5 font-mono-naut text-[11px] uppercase tracking-wider px-2.5 py-0.5 rounded-xs font-semibold border"
+            style={{
+              backgroundColor: catStyle.soft,
+              color: catStyle.solid,
+              borderColor: `${catStyle.solid}40`,
+            }}
+          >
+            <CategoryIcon category={category} className="w-3 h-3 shrink-0" />
+            <span>{category}</span>
           </span>
 
-          {/* 2. Subcategory Badge */}
-          <span className="text-xs px-2.5 py-0.5 rounded-full font-semibold border bg-[#f4efe4] text-[#475569] border-[#ded5c2]">
+          {/* 2. Subcategory Label */}
+          <span className="font-mono-naut text-[11px] px-2.5 py-0.5 rounded-xs font-medium border bg-[#faf7f0] text-[#4f6e82] border-[#d7d0c1]">
             {subcategory}
           </span>
 
           {/* 3. DB fields: Test# and Question# */}
           {question.testNumber && (
-            <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-[#64748b] bg-[#fdfcf9] border border-[#ded5c2] shadow-2xs">
+            <span className="font-mono-naut text-[11px] px-2 py-0.5 rounded-xs font-medium text-[#4f6e82] bg-[#faf7f0] border border-[#d7d0c1]">
               Teste {question.testNumber} • P.{question.questionNumber}
             </span>
           )}
@@ -116,21 +115,21 @@ export const ExamCard: React.FC<ExamCardProps> = ({
             <button
               onClick={onToggleBookmark}
               title={isBookmarked ? 'Remover marcação' : 'Marcar para rever mais tarde'}
-              className={`p-1.5 rounded-xl border transition-all ${
+              className={`p-1.5 rounded-xs border transition-all ${
                 isBookmarked
-                  ? 'bg-[#fef3c7] border-[#f59e0b] text-[#d97706]'
-                  : 'bg-white border-[#ded5c2] text-[#64748b] hover:text-[#d97706] hover:bg-[#fcfaf5]'
+                  ? 'bg-[#f0e8cf] border-[#ca9e1c] text-[#9a7413]'
+                  : 'bg-[#faf7f0] border-[#d7d0c1] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#9a7413]'
               }`}
             >
-              <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-[#d97706]' : ''}`} />
+              <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-[#ca9e1c]' : ''}`} />
             </button>
           )}
 
           {reviewMode && (
-            <span className={`flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full border ${
+            <span className={`flex items-center gap-1 font-mono-naut text-[11px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-xs border ${
               isCorrect
-                ? 'bg-[#dcfce7] text-[#166534] border-[#86efac]'
-                : 'bg-[#fee2e2] text-[#991b1b] border-[#fca5a5]'
+                ? 'bg-[#dcebe1] text-[#1e7d4f] border-[#1e7d4f]/40'
+                : 'bg-[#f3ded9] text-[#b3402f] border-[#b3402f]/40'
             }`}>
               {isCorrect ? (
                 <>
@@ -151,10 +150,10 @@ export const ExamCard: React.FC<ExamCardProps> = ({
       {/* Statement & In-line Fill-blank inputs */}
       {hasInlineBlanks ? (
         <div className="mb-4">
-          <div className="flex items-center gap-2 mb-2 text-xs font-bold text-[#a16207] uppercase tracking-wider">
+          <div className="flex items-center gap-2 mb-2 font-mono-naut text-[11px] font-semibold text-[#9a7413] uppercase tracking-wider">
             <span>Preencha as lacunas no enunciado (conforme a folha de exame):</span>
           </div>
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#fdfcf9] border border-[#e8dfcb]">
+          <div className="p-4 sm:p-5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
             <InlineFillBlankRenderer
               statement={statement}
               blankAnswers={currentBlankAnswers}
@@ -168,7 +167,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({
           </div>
         </div>
       ) : (
-        <h3 className="text-base sm:text-lg font-bold text-[#112338] leading-relaxed mb-4">
+        <h3 className="text-base sm:text-lg font-bold text-[#0b3a55] leading-relaxed mb-4">
           {statement}
         </h3>
       )}
@@ -184,28 +183,28 @@ export const ExamCard: React.FC<ExamCardProps> = ({
             const isSelected = userAnswer?.selectedOption === idx;
             const isOfficialCorrect = idx === correctOptionIndex;
 
-            let optionBorder = 'border-[#ded5c2] bg-white hover:bg-[#fcfaf5] hover:border-[#112338]/40';
-            let optionText = 'text-[#1e293b]';
+            let optionBorder = 'border-[#d7d0c1] bg-[#faf7f0] hover:bg-[#fcfbf8] hover:border-[#0b3a55]';
+            let optionText = 'text-[#0b3a55]';
 
             if (reviewMode) {
               if (isOfficialCorrect) {
-                optionBorder = 'border-[#22c55e] bg-[#f0fdf4] text-[#14532d] shadow-xs';
-                optionText = 'text-[#14532d] font-semibold';
+                optionBorder = 'border-[#1e7d4f] bg-[#dcebe1]/70 text-[#1e7d4f]';
+                optionText = 'text-[#1e7d4f] font-semibold';
               } else if (isSelected && !isOfficialCorrect) {
-                optionBorder = 'border-[#ef4444] bg-[#fef2f2] text-[#7f1d1d]';
-                optionText = 'text-[#7f1d1d]';
+                optionBorder = 'border-[#b3402f] bg-[#f3ded9]/70 text-[#b3402f]';
+                optionText = 'text-[#b3402f]';
               } else {
-                optionBorder = 'border-[#e2d9c8]/60 bg-white/50 opacity-60 text-[#64748b]';
+                optionBorder = 'border-[#d7d0c1]/70 bg-[#faf7f0]/50 opacity-60 text-[#4f6e82]';
               }
             } else if (isSelected) {
-              optionBorder = 'border-[#112338] bg-[#f0f4f8] shadow-2xs ring-1 ring-[#112338]';
-              optionText = 'text-[#112338] font-bold';
+              optionBorder = 'border-[#0b3a55] bg-[#dce8ef]/40 ring-1 ring-[#0b3a55]';
+              optionText = 'text-[#0b3a55] font-bold';
             }
 
             return (
               <label
                 key={idx}
-                className={`flex items-start gap-3 p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer ${optionBorder}`}
+                className={`flex items-start gap-3 p-3.5 sm:p-4 rounded-xs border transition-all cursor-pointer ${optionBorder}`}
               >
                 <div className="mt-0.5 shrink-0">
                   <input
@@ -214,23 +213,23 @@ export const ExamCard: React.FC<ExamCardProps> = ({
                     checked={isSelected}
                     disabled={reviewMode}
                     onChange={() => onSelectOption && onSelectOption(idx)}
-                    className="w-4 h-4 text-[#112338] bg-white border-[#ded5c2] focus:ring-[#112338]"
+                    className="w-4 h-4 accent-[#0b3a55] bg-[#fcfbf8] border-[#d3ccbb] focus:ring-[#0b3a55]"
                   />
                 </div>
                 <div className="flex-1">
-                  <span className="text-xs font-bold mr-2 text-[#475569]">
+                  <span className="font-mono-naut text-xs font-bold mr-2 text-[#4f6e82]">
                     {String.fromCharCode(97 + idx)})
                   </span>
                   <span className={`text-sm sm:text-base leading-snug ${optionText}`}>
                     {opt}
                   </span>
                   {reviewMode && isOfficialCorrect && (
-                    <span className="ml-2 inline-flex items-center text-xs font-bold text-[#166534] bg-[#dcfce7] px-2 py-0.5 rounded border border-[#86efac]">
+                    <span className="ml-2 inline-flex items-center font-mono-naut text-[11px] font-semibold text-[#1e7d4f] bg-[#dcebe1] px-2 py-0.5 rounded-xs border border-[#1e7d4f]/40">
                       ✓ Resposta Oficial DGRM
                     </span>
                   )}
                   {reviewMode && isSelected && !isOfficialCorrect && (
-                    <span className="ml-2 inline-flex items-center text-xs font-bold text-[#991b1b] bg-[#fee2e2] px-2 py-0.5 rounded border border-[#fca5a5]">
+                    <span className="ml-2 inline-flex items-center font-mono-naut text-[11px] font-semibold text-[#b3402f] bg-[#f3ded9] px-2 py-0.5 rounded-xs border border-[#b3402f]/40">
                       ✕ A sua escolha
                     </span>
                   )}
@@ -244,7 +243,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({
       {/* 2. Open Answer (Pergunta Aberta SEM lacunas no enunciado) */}
       {!hasInlineBlanks && type === 'open-answer' && (
         <div className="mt-4 space-y-2">
-          <label className="block text-xs font-semibold text-[#475569]">
+          <label className="block font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#4f6e82]">
             Responda por extenso:
           </label>
           <textarea
@@ -253,29 +252,29 @@ export const ExamCard: React.FC<ExamCardProps> = ({
             disabled={reviewMode}
             onChange={(e) => onChangeTextAnswer && onChangeTextAnswer(e.target.value)}
             placeholder="Escreva a resposta detalhada com as suas palavras..."
-            className="w-full px-4 py-3 rounded-xl border border-[#ded5c2] bg-[#fdfcf9] text-[#1e293b] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#112338] focus:border-transparent text-sm sm:text-base transition-all resize-y shadow-2xs"
+            className="w-full px-4 py-3 rounded-xs border border-[#d3ccbb] bg-[#faf7f0] text-[#0b3a55] placeholder-[#4f6e82]/60 focus:outline-none focus:border-[#0b3a55] focus:bg-[#fcfbf8] text-sm sm:text-base transition-all resize-y"
           />
         </div>
       )}
 
       {/* Review Mode: Detailed Feedback & Official Model Answer */}
       {reviewMode && (
-        <div className="mt-5 pt-4 border-t border-[#ede6d8] space-y-3">
+        <div className="mt-5 pt-4 border-t border-[#d7d0c1] space-y-3">
           {/* Official Expected Answer Box */}
-          <div className="p-4 rounded-xl bg-[#fbf8f2] border border-[#ded5c2]">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#a16207] mb-1.5 uppercase tracking-wide">
-              <CheckCircle2 className="w-4 h-4 text-[#16a34a]" />
+          <div className="p-4 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
+            <div className="flex items-center gap-2 font-mono-naut text-[11px] font-semibold text-[#9a7413] mb-1.5 uppercase tracking-wider">
+              <CheckCircle2 className="w-4 h-4 text-[#1e7d4f]" />
               Resposta Oficial Modelo (Manual do Marinheiro / DGRM):
             </div>
-            <p className="text-sm font-semibold text-[#112338] leading-relaxed pl-6">
+            <p className="text-sm font-semibold text-[#0b3a55] leading-relaxed pl-6">
               {expectedAnswer}
             </p>
 
             {acceptedKeywords && acceptedKeywords.length > 0 && (
               <div className="mt-2.5 pl-6 flex flex-wrap items-center gap-1.5">
-                <span className="text-xs text-[#64748b]">Palavras-chave esperadas:</span>
+                <span className="font-mono-naut text-[11px] text-[#4f6e82]">Palavras-chave esperadas:</span>
                 {acceptedKeywords.map((kw, kIdx) => (
-                  <span key={kIdx} className="text-xs px-2 py-0.5 rounded bg-white text-[#112338] font-medium border border-[#ded5c2]">
+                  <span key={kIdx} className="font-mono-naut text-xs px-2 py-0.5 rounded-xs bg-[#fcfbf8] text-[#0b3a55] font-medium border border-[#d7d0c1]">
                     {kw}
                   </span>
                 ))}
@@ -285,10 +284,10 @@ export const ExamCard: React.FC<ExamCardProps> = ({
 
           {/* Explanation / DGRM Trap Tip */}
           {explanation && (
-            <div className="p-3.5 rounded-xl bg-[#f0f4f8] border border-[#cbd5e1] text-xs sm:text-sm text-[#1e293b] flex items-start gap-2.5">
-              <Lightbulb className="w-4 h-4 text-[#a16207] shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xs bg-[#dce8ef]/50 border border-[#0b3a55]/25 text-xs sm:text-sm text-[#0b3a55] flex items-start gap-2.5">
+              <Lightbulb className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
               <div>
-                <strong className="text-[#a16207] font-bold mr-1">Rasteira / Explicação DGRM:</strong>
+                <strong className="text-[#9a7413] font-bold mr-1">Rasteira / Explicação DGRM:</strong>
                 {explanation}
               </div>
             </div>
@@ -296,18 +295,18 @@ export const ExamCard: React.FC<ExamCardProps> = ({
 
           {/* Self-evaluation controls for open/fill questions in review mode */}
           {(type === 'open-answer' || type === 'fill-blank') && onSelfEvaluate && (
-            <div className="p-3.5 rounded-xl bg-white border border-[#ded5c2] flex flex-wrap items-center justify-between gap-3 shadow-2xs">
-              <span className="text-xs font-semibold text-[#334155]">
+            <div className="p-3.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1] flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs font-semibold text-[#0b3a55]">
                 A sua resposta escrita corresponde à chave oficial?
               </span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => onSelfEvaluate(true)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
+                  className={`px-3 py-1.5 rounded-xs font-mono-naut text-[11px] uppercase tracking-wider font-semibold flex items-center gap-1.5 border transition-all ${
                     userAnswer?.selfEvaluatedCorrect === true
-                      ? 'bg-[#16a34a] text-white border-[#15803d] shadow-xs'
-                      : 'bg-white text-[#15803d] border-[#86efac] hover:bg-[#f0fdf4]'
+                      ? 'bg-[#1e7d4f] text-[#faf7f0] border-[#1e7d4f]'
+                      : 'bg-[#fcfbf8] text-[#1e7d4f] border-[#1e7d4f]/50 hover:bg-[#dcebe1]'
                   }`}
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
@@ -316,10 +315,10 @@ export const ExamCard: React.FC<ExamCardProps> = ({
                 <button
                   type="button"
                   onClick={() => onSelfEvaluate(false)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
+                  className={`px-3 py-1.5 rounded-xs font-mono-naut text-[11px] uppercase tracking-wider font-semibold flex items-center gap-1.5 border transition-all ${
                     userAnswer?.selfEvaluatedCorrect === false
-                      ? 'bg-[#dc2626] text-white border-[#b91c1c] shadow-xs'
-                      : 'bg-white text-[#b91c1c] border-[#fca5a5] hover:bg-[#fef2f2]'
+                      ? 'bg-[#b3402f] text-[#faf7f0] border-[#b3402f]'
+                      : 'bg-[#fcfbf8] text-[#b3402f] border-[#b3402f]/50 hover:bg-[#f3ded9]'
                   }`}
                 >
                   <XCircle className="w-3.5 h-3.5" />

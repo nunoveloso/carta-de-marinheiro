@@ -10,7 +10,7 @@ function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function buildAccentInsensitivePattern(query: string): string {
+function buildNormalizedHighlightPattern(query: string): string | null {
   const charMap: Record<string, string> = {
     a: '[aáàãâä]',
     e: '[eéèêë]',
@@ -19,13 +19,21 @@ function buildAccentInsensitivePattern(query: string): string {
     u: '[uúùûü]',
     c: '[cç]',
   };
-  return query
-    .split('')
-    .map((char) => {
-      const lower = char.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      return charMap[lower] || escapeRegex(char);
-    })
-    .join('');
+
+  const alphaNumChars = query
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]/g, '')
+    .split('');
+
+  if (alphaNumChars.length < 2) {
+    return null;
+  }
+
+  return alphaNumChars
+    .map((char) => charMap[char] || escapeRegex(char))
+    .join('[^\\p{L}\\p{N}]*');
 }
 
 export const HighlightText: React.FC<HighlightTextProps> = ({
@@ -38,23 +46,24 @@ export const HighlightText: React.FC<HighlightTextProps> = ({
     return <span className={className}>{text}</span>;
   }
 
-  const trimmed = query.trim();
-  if (trimmed.length < 2) {
+  const innerPattern = buildNormalizedHighlightPattern(query);
+  if (!innerPattern) {
     return <span className={className}>{text}</span>;
   }
 
   try {
-    const pattern = new RegExp(`(${buildAccentInsensitivePattern(trimmed)})`, 'gi');
-    const parts = text.split(pattern);
+    const normalizedText = text.normalize('NFC');
+    const pattern = new RegExp(`(${innerPattern})`, 'giu');
+    const parts = normalizedText.split(pattern);
 
     return (
       <span className={className}>
         {parts.map((part, index) => {
-          if (pattern.test(part)) {
+          if (index % 2 === 1) {
             return (
               <mark
                 key={index}
-                className="bg-[#fef08a] text-[#854d0e] font-bold px-0.5 py-0.2 rounded-xs"
+                className="bg-[#e3b505]/40 text-[#0b3a55] font-semibold px-0.5 rounded-xs"
               >
                 {part}
               </mark>

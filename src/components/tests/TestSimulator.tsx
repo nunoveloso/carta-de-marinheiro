@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { TestQuestion, UserAnswer, MainCategory, ExamAttempt, WeakTopicAnalysis } from '../../types/tests';
+import { getCategoryStyle } from '../../types/glossary';
 import { testsPT, generateOfficialExam } from '../../data/testsPT';
 import { saveExamAttempt, getAllExamAttempts, analyzeWeakTopics } from '../../services/examAttemptsService';
 import { ExamCard } from './ExamCard';
 import { ExamSummaryModal } from './ExamSummaryModal';
 import { PerformanceAnalytics } from './PerformanceAnalytics';
+import { CategoryIcon } from '../CategoryIcon';
 import { 
   Clock, 
   Compass, 
@@ -330,26 +332,26 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf8f2] text-[#1e293b] pb-16 font-sans">
+    <div className="min-h-screen bg-[#faf7f0] text-[#0b3a55] pb-16">
       {/* ==================================================================== */}
       {/* 1. HUB / MENU PRINCIPAL                                              */}
       {/* ==================================================================== */}
       {currentView === 'hub' && (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8 animate-in fade-in duration-300">
           
-          {/* Header Banner - Papyrus & Admiralty Navy */}
-          <div className="relative rounded-3xl border border-[#ded5c2] bg-[#f4efe4] p-6 sm:p-10 shadow-xs">
+          {/* Header Banner - Chart Paper & Admiralty Blue */}
+          <div className="relative rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-10">
             <div className="relative z-10 max-w-2xl space-y-3">
-              <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium">
-                <Compass className="w-4 h-4 text-[#a16207]" />
+              <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82]">
+                <Compass className="w-4 h-4 text-[#9a7413]" />
                 <span>DGRM Portugal</span>
-                <span className="text-[#cbd5e1]">·</span>
+                <span className="text-[#d7d0c1]">·</span>
                 <span>Simulador de Exame Oficial</span>
               </div>
-              <h1 className="font-maritime text-3xl sm:text-5xl font-bold text-[#112338] tracking-tight leading-tight">
+              <h1 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight">
                 Simulador de Testes
               </h1>
-              <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#4f6e82] leading-relaxed">
                 Pratique com as perguntas oficiais extraídas dos 13 testes da DGRM/IPTM. Teste os seus conhecimentos com a duração regulamentar de 60 minutos, esquemas técnicos sem legendas reveladoras e as regras eliminatórias reais (mínimo de 75% em RIEAM e 60% em Segurança).
               </p>
             </div>
@@ -357,56 +359,56 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
 
           {/* Statistics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] shadow-2xs text-center">
-              <div className="text-2xl font-bold text-[#112338]">{testsPT.length}</div>
-              <div className="text-xs text-[#64748b] font-medium mt-0.5">Perguntas Oficiais</div>
+            <div className="p-4 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1] text-center">
+              <div className="font-mono-naut text-2xl font-bold text-[#0b3a55]">{testsPT.length}</div>
+              <div className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82] mt-0.5">Perguntas Oficiais</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] shadow-2xs text-center">
-              <div className="text-2xl font-bold text-[#a16207]">13</div>
-              <div className="text-xs text-slate-500 font-medium mt-0.5">Testes DGRM Extraídos</div>
+            <div className="p-4 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1] text-center">
+              <div className="font-mono-naut text-2xl font-bold text-[#9a7413]">13</div>
+              <div className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82] mt-0.5">Testes DGRM Extraídos</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] shadow-2xs text-center">
-              <div className="text-2xl font-bold text-[#16a34a]">75%</div>
-              <div className="text-xs text-slate-500 font-medium mt-0.5">Mínimo RIEAM (4.5 v)</div>
+            <div className="p-4 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1] text-center">
+              <div className="font-mono-naut text-2xl font-bold text-[#1e7d4f]">75%</div>
+              <div className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82] mt-0.5">Mínimo RIEAM (4.5 v)</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-[#ded5c2] shadow-2xs text-center">
-              <div className="text-2xl font-bold text-[#dc2626]">60%</div>
-              <div className="text-xs text-slate-500 font-medium mt-0.5">Mínimo Seg. (2.4 v)</div>
+            <div className="p-4 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1] text-center">
+              <div className="font-mono-naut text-2xl font-bold text-[#b3402f]">60%</div>
+              <div className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82] mt-0.5">Mínimo Seg. (2.4 v)</div>
             </div>
           </div>
 
           {/* Tab Switcher: Exames & Treino VS Desempenho & Tópicos a Melhorar */}
-          <div className="flex border-b border-[#ded5c2] gap-2 pt-2">
+          <div className="flex border-b border-[#d7d0c1] gap-4 pt-2 overflow-x-auto scrollbar-none">
             <button
               type="button"
               onClick={() => setHubTab('tests')}
-              className={`pb-3 px-4 font-bold text-sm flex items-center gap-2 border-b-2 transition-all ${
+              className={`pb-3 px-2 font-mono-naut text-xs uppercase tracking-wider font-semibold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap shrink-0 ${
                 hubTab === 'tests'
-                  ? 'border-[#112338] text-[#112338]'
-                  : 'border-transparent text-[#64748b] hover:text-[#112338]'
+                  ? 'border-[#0b3a55] text-[#0b3a55]'
+                  : 'border-transparent text-[#4f6e82] hover:text-[#0b3a55]'
               }`}
             >
-              <Compass className="w-4 h-4 text-[#a16207]" />
+              <Compass className="w-4 h-4 text-[#9a7413]" />
               Simulador de Exames
             </button>
             <button
               type="button"
               onClick={() => setHubTab('analytics')}
-              className={`pb-3 px-4 font-bold text-sm flex items-center gap-2 border-b-2 transition-all ${
+              className={`pb-3 px-2 font-mono-naut text-xs uppercase tracking-wider font-semibold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap shrink-0 ${
                 hubTab === 'analytics'
-                  ? 'border-[#112338] text-[#112338]'
-                  : 'border-transparent text-[#64748b] hover:text-[#112338]'
+                  ? 'border-[#0b3a55] text-[#0b3a55]'
+                  : 'border-transparent text-[#4f6e82] hover:text-[#0b3a55]'
               }`}
             >
-              <TrendingUp className="w-4 h-4 text-[#a16207]" />
+              <TrendingUp className="w-4 h-4 text-[#9a7413]" />
               <span>Desempenho & Tópicos a Melhorar</span>
               {examAttempts.length > 0 && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] bg-[#112338] text-white font-semibold">
+                <span className="px-1.5 py-0.5 rounded-xs text-[10px] bg-[#0b3a55] text-[#faf7f0] font-semibold">
                   {examAttempts.length}
                 </span>
               )}
               {weakTopics.length > 0 && (
-                <span className="w-2 h-2 rounded-full bg-[#ef4444]" title="Existem tópicos com erros para rever" />
+                <span className="w-2 h-2 rounded-xs bg-[#b3402f]" title="Existem tópicos com erros para rever" />
               )}
             </button>
           </div>
@@ -416,43 +418,43 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-200">
               
               {/* CARD 1: Exame Oficial DGRM */}
-              <div className="rounded-3xl border border-[#ded5c2] bg-white p-6 sm:p-8 shadow-xs flex flex-col justify-between hover:border-[#112338]/40 transition-all">
+              <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 sm:p-8 flex flex-col justify-between hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition-all">
                 <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-[#f4efe4] border border-[#ded5c2] flex items-center justify-center text-[#112338]">
-                    <Clock className="w-6 h-6 text-[#a16207]" />
+                  <div className="w-12 h-12 rounded-xs bg-[#ede9de] border border-[#d7d0c1] flex items-center justify-center text-[#0b3a55]">
+                    <Clock className="w-6 h-6 text-[#9a7413]" />
                   </div>
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#112338] font-maritime">
+                    <h2 className="text-xl sm:text-2xl font-bold text-[#0b3a55] font-maritime">
                       Exame Oficial DGRM
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#4f6e82] mt-2 leading-relaxed">
                       30 perguntas oficiais rigorosamente sequenciadas de acordo com o enunciado, cronómetro de 60 minutos e ponderação oficial de 20 valores.
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#ded5c2] text-xs text-[#475569] space-y-1.5 font-medium">
-                    <div className="font-bold text-[#112338]">Critérios Oficiais de Aprovação:</div>
-                    <div className="flex items-center gap-1.5 text-[#92400e]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
+                  <div className="p-3.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1] text-xs text-[#4f6e82] space-y-1.5 font-medium">
+                    <div className="font-mono-naut text-[11px] uppercase tracking-wider font-semibold text-[#0b3a55]">Critérios Oficiais de Aprovação:</div>
+                    <div className="flex items-center gap-2 text-[#0b3a55]">
+                      <CategoryIcon category="R.I.E.A.M." className="w-3.5 h-3.5 shrink-0 text-[#0b3a55]" />
                       RIEAM: Mínimo 75% (4.5 valores)
                     </div>
-                    <div className="flex items-center gap-1.5 text-[#9f1239]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#f43f5e]" />
+                    <div className="flex items-center gap-2 text-[#b3402f]">
+                      <CategoryIcon category="Segurança e Primeiros Socorros" className="w-3.5 h-3.5 shrink-0 text-[#b3402f]" />
                       Segurança e 1º Socorros: Mínimo 60% (2.4 valores)
                     </div>
-                    <div className="flex items-center gap-1.5 text-[#166534]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
+                    <div className="flex items-center gap-2 text-[#1e7d4f]">
+                      <span className="w-2 h-2 rounded-xs bg-[#1e7d4f] shrink-0" />
                       Global: Mínimo 12.0 valores (sem reprovar em RIEAM ou Segurança)
                     </div>
                   </div>
 
                   {/* Specific Test Selector dropdown */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#64748b]">
+                    <label className="font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#4f6e82] block">
                       Selecionar Teste Específico (ou Aleatório):
                     </label>
                     <select
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#fdfcf9] border border-[#ded5c2] text-xs sm:text-sm text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-[#112338] font-medium shadow-2xs"
+                      className="w-full px-3.5 py-2.5 rounded-xs bg-[#faf7f0] border border-[#d3ccbb] text-xs sm:text-sm text-[#0b3a55] focus:outline-none focus:border-[#0b3a55] focus:bg-[#fcfbf8] font-medium"
                       onChange={(e) => {
                         const val = e.target.value;
                         setSelectedExamNumber(val ? parseInt(val) : undefined);
@@ -477,79 +479,91 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#ede6d8]">
+                <div className="mt-6 pt-4 border-t border-[#d7d0c1]">
                   <button
                     type="button"
                     onClick={() => handleStartOfficialExam(selectedExamNumber)}
-                    className="w-full py-3.5 px-6 rounded-2xl bg-[#112338] hover:bg-[#1c3858] text-white font-bold text-xs sm:text-sm shadow-xs flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+                    className="w-full py-3.5 px-6 rounded-xs bg-[#0b3a55] hover:bg-[#082b3f] text-[#faf7f0] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center justify-center gap-2 transition-all"
                   >
-                    <Clock className="w-4 h-4 text-[#d4af37]" />
+                    <Clock className="w-4 h-4 text-[#ca9e1c]" />
                     Iniciar Exame Oficial (60 min)
                   </button>
                 </div>
               </div>
 
               {/* CARD 2: Treino Livre por Matéria */}
-              <div className="rounded-3xl border border-[#ded5c2] bg-white p-6 sm:p-8 shadow-xs flex flex-col justify-between hover:border-[#112338]/40 transition-all">
+              <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 sm:p-8 flex flex-col justify-between hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition-all">
                 <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-[#f4efe4] border border-[#ded5c2] flex items-center justify-center text-[#112338]">
-                    <BookOpen className="w-6 h-6 text-[#a16207]" />
+                  <div className="w-12 h-12 rounded-xs bg-[#ede9de] border border-[#d7d0c1] flex items-center justify-center text-[#0b3a55]">
+                    <BookOpen className="w-6 h-6 text-[#9a7413]" />
                   </div>
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-[#112338] font-maritime">
+                    <h2 className="text-xl sm:text-2xl font-bold text-[#0b3a55] font-maritime">
                       Treino Livre por Matéria
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#475569] mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#4f6e82] mt-2 leading-relaxed">
                       Estudo flexível sem limite de tempo. Pratique por tópicos específicos com acesso imediato às soluções e dicas de exame.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 pt-2">
+                  <div className="grid grid-cols-2 gap-2.5 pt-2">
                     <button
                       type="button"
                       onClick={() => handleStartPractice('RIEAM')}
-                      className="p-3 rounded-xl bg-[#fbf8f2] border border-[#ded5c2] hover:border-[#112338] text-left transition-all"
+                      className="p-3 rounded-xs bg-[#faf7f0] border border-[#d7d0c1] hover:border-[#0b3a55] text-left transition-all"
                     >
-                      <div className="text-xs font-bold text-[#92400e]">1. RIEAM</div>
-                      <div className="text-[11px] text-[#64748b] mt-0.5">Abalroamentos, Balões e Apitos</div>
+                      <div className="flex items-center gap-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-semibold text-[#0b3a55]">
+                        <CategoryIcon category="R.I.E.A.M." className="w-3.5 h-3.5 shrink-0" />
+                        <span>1. RIEAM</span>
+                      </div>
+                      <div className="text-[11px] text-[#4f6e82] mt-1">Abalroamentos, Balões e Apitos</div>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleStartPractice('Segurança e Primeiros Socorros')}
-                      className="p-3 rounded-xl bg-[#fbf8f2] border border-[#ded5c2] hover:border-[#112338] text-left transition-all"
+                      className="p-3 rounded-xs bg-[#faf7f0] border border-[#d7d0c1] hover:border-[#b3402f] text-left transition-all"
                     >
-                      <div className="text-xs font-bold text-[#9f1239]">2. Segurança</div>
-                      <div className="text-[11px] text-[#64748b] mt-0.5">Homem ao Mar, Fogos e Socorros</div>
+                      <div className="flex items-center gap-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-semibold text-[#b3402f]">
+                        <CategoryIcon category="Segurança e Primeiros Socorros" className="w-3.5 h-3.5 shrink-0" />
+                        <span>2. Segurança</span>
+                      </div>
+                      <div className="text-[11px] text-[#4f6e82] mt-1">Homem ao Mar, Fogos e Socorros</div>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleStartPractice('Marinharia')}
-                      className="p-3 rounded-xl bg-[#fbf8f2] border border-[#ded5c2] hover:border-[#112338] text-left transition-all"
+                      className="p-3 rounded-xs bg-[#faf7f0] border border-[#d7d0c1] hover:border-[#1e7d4f] text-left transition-all"
                     >
-                      <div className="text-xs font-bold text-[#0369a1]">3. Marinharia</div>
-                      <div className="text-[11px] text-[#64748b] mt-0.5">Âncoras, Manobras e Nós</div>
+                      <div className="flex items-center gap-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-semibold text-[#1e7d4f]">
+                        <CategoryIcon category="Marinharia" className="w-3.5 h-3.5 shrink-0" />
+                        <span>3. Marinharia</span>
+                      </div>
+                      <div className="text-[11px] text-[#4f6e82] mt-1">Âncoras, Manobras e Nós</div>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleStartPractice('Outras Matérias')}
-                      className="p-3 rounded-xl bg-[#fbf8f2] border border-[#ded5c2] hover:border-[#112338] text-left transition-all"
+                      className="p-3 rounded-xs bg-[#faf7f0] border border-[#d7d0c1] hover:border-[#9a7413] text-left transition-all"
                     >
-                      <div className="text-xs font-bold text-[#5b21b6]">4. Outras Matérias</div>
-                      <div className="text-[11px] text-[#64748b] mt-0.5">Legislação, Marés, Motores e Balizagem</div>
+                      <div className="flex items-center gap-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-semibold text-[#9a7413]">
+                        <CategoryIcon category="Outras Matérias" className="w-3.5 h-3.5 shrink-0" />
+                        <span>4. Outras Matérias</span>
+                      </div>
+                      <div className="text-[11px] text-[#4f6e82] mt-1">Legislação, Marés, Motores e Balizagem</div>
                     </button>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#ede6d8]">
+                <div className="mt-6 pt-4 border-t border-[#d7d0c1]">
                   <button
                     type="button"
                     onClick={() => handleStartPractice('ALL')}
-                    className="w-full py-3.5 px-6 rounded-2xl bg-[#f4efe4] hover:bg-[#eae3d2] text-[#112338] font-bold text-xs sm:text-sm border border-[#ded5c2] shadow-2xs flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+                    className="w-full py-3.5 px-6 rounded-xs bg-[#ede9de] hover:bg-[#d7d0c1]/70 text-[#0b3a55] font-mono-naut uppercase tracking-wider font-semibold text-xs border border-[#d7d0c1] flex items-center justify-center gap-2 transition-all"
                   >
-                    <BookOpen className="w-4 h-4 text-[#a16207]" />
+                    <BookOpen className="w-4 h-4 text-[#9a7413]" />
                     Praticar Todas as Perguntas
                   </button>
                 </div>
@@ -570,13 +584,13 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
       )}
 
       {/* ==================================================================== */}
-      {/* 2. AMBIENTE DE EXAME / TREINO ATIVO (Fundo Claro Náutico)             */}
+      {/* 2. AMBIENTE DE EXAME / TREINO ATIVO                                  */}
       {/* ==================================================================== */}
       {(currentView === 'exam' || currentView === 'practice') && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6 animate-in fade-in duration-200">
           
           {/* Top Bar Navigation & Timer */}
-          <div className="sticky top-16 z-30 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="sticky top-16 z-30 p-4 rounded-xs bg-[#fcfbf8]/95 backdrop-blur-md border border-[#d7d0c1] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -587,24 +601,24 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                     setCurrentView('hub');
                   }
                 }}
-                className="p-2 rounded-xl border border-[#ded5c2] bg-[#fdfcf9] hover:bg-[#f4efe4] text-[#112338] transition-all shadow-2xs"
+                className="p-2 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] hover:border-[#0b3a55] text-[#0b3a55] transition-all"
                 title="Voltar ao Menu"
               >
                 <ArrowLeft className="w-4 h-4" />
               </button>
 
               <div>
-                <div className="text-xs font-semibold text-[#64748b]">
+                <div className="font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#4f6e82]">
                   {currentView === 'exam' ? (
                     selectedExamNumber ? `Exame DGRM - Teste ${selectedExamNumber}` : 'Exame Oficial DGRM'
                   ) : (
                     `Treino Livre: ${selectedCategoryFilter === 'ALL' ? 'Todas as Matérias' : selectedCategoryFilter}`
                   )}
                 </div>
-                <div className="text-sm font-bold text-[#112338] flex items-center gap-2">
-                  <span>Questão {currentIndex + 1} de {activeQuestions.length}</span>
+                <div className="text-sm font-bold text-[#0b3a55] flex items-center gap-2 flex-wrap">
+                  <span className="font-mono-naut">Questão {currentIndex + 1} de {activeQuestions.length}</span>
                   {unansweredCount > 0 && !isExamSubmitted && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#fef3c7] text-[#92400e] border border-[#fde68a] font-semibold">
+                    <span className="font-mono-naut text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-xs bg-[#f0e8cf] text-[#9a7413] border border-[#9a7413]/40 font-semibold">
                       {unansweredCount} por responder
                     </span>
                   )}
@@ -615,12 +629,12 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
             {/* Timer and Action Buttons */}
             <div className="flex items-center gap-3">
               {currentView === 'exam' && (
-                <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl border font-mono font-bold text-sm ${
+                <div className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xs border font-mono-naut font-bold text-sm ${
                   timeLeftSeconds < 600
-                    ? 'bg-[#fee2e2] border-[#ef4444] text-[#b91c1c] animate-pulse'
-                    : 'bg-[#f4efe4] border-[#ded5c2] text-[#112338]'
+                    ? 'bg-[#f3ded9] border-[#b3402f] text-[#b3402f] animate-pulse'
+                    : 'bg-[#ede9de]/70 border-[#d7d0c1] text-[#0b3a55]'
                 }`}>
-                  <Clock className="w-4 h-4 text-[#a16207]" />
+                  <Clock className={`w-4 h-4 ${timeLeftSeconds < 600 ? 'text-[#b3402f]' : 'text-[#9a7413]'}`} />
                   <span>{formatTimer(timeLeftSeconds)}</span>
                 </div>
               )}
@@ -629,9 +643,9 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                 <button
                   type="button"
                   onClick={() => setShowSummaryModal(true)}
-                  className="px-4 py-2 rounded-xl bg-[#112338] hover:bg-[#1c3858] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-xs"
+                  className="px-4 py-2 rounded-xs bg-[#0b3a55] hover:bg-[#082b3f] text-[#faf7f0] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center gap-1.5 whitespace-nowrap shrink-0"
                 >
-                  <Award className="w-4 h-4 text-[#d4af37]" />
+                  <Award className="w-4 h-4 text-[#ca9e1c]" />
                   Ver Pauta
                 </button>
               ) : (
@@ -645,7 +659,7 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                       handleSubmitExam();
                     }
                   }}
-                  className="px-4 py-2 rounded-xl bg-[#16a34a] hover:bg-[#15803d] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-xs transition-all"
+                  className="px-4 py-2 rounded-xs bg-[#1e7d4f] hover:bg-[#17633e] text-[#faf7f0] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center gap-1.5 transition-all whitespace-nowrap shrink-0"
                 >
                   <Send className="w-3.5 h-3.5" />
                   Submeter Exame
@@ -655,18 +669,18 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
           </div>
 
           {/* Quick Question Jump Palette (1 to 30) */}
-          <div className="p-3.5 rounded-2xl bg-white border border-[#ded5c2] shadow-2xs">
-            <div className="flex items-center justify-between text-xs text-[#64748b] mb-2 font-medium">
-              <span className="font-bold uppercase tracking-wider text-[#112338]">Grelha de Perguntas:</span>
-              <div className="flex items-center gap-3 text-[11px]">
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#112338]" /> Respondida
+          <div className="p-3.5 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1]">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#4f6e82] mb-2.5 font-medium">
+              <span className="font-mono-naut text-[11px] font-semibold uppercase tracking-wider text-[#0b3a55]">Grelha de Perguntas:</span>
+              <div className="flex items-center gap-3 font-mono-naut text-[10px] uppercase tracking-wider">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]" /> Respondida
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]" /> Marcada
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-xs bg-[#ca9e1c]" /> Marcada
                 </span>
-                <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#e2d9c8]" /> Pendente
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-xs bg-[#ede9de] border border-[#d7d0c1]" /> Pendente
                 </span>
               </div>
             </div>
@@ -682,7 +696,7 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                 const isBookmarked = bookmarkedIds.has(q.id);
                 const isCurrent = idx === currentIndex;
 
-                let btnBg = 'bg-[#fdfcf9] border-[#ded5c2] text-[#64748b] hover:border-[#112338]/40';
+                let btnBg = 'bg-[#faf7f0] border-[#d7d0c1] text-[#4f6e82] hover:border-[#0b3a55]';
 
                 if (isExamSubmitted) {
                   let isCorrect = false;
@@ -692,23 +706,23 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
                     isCorrect = !!ans?.selfEvaluatedCorrect;
                   }
                   btnBg = isCorrect
-                    ? 'bg-[#dcfce7] border-[#86efac] text-[#166534] font-bold'
-                    : 'bg-[#fee2e2] border-[#fca5a5] text-[#991b1b] font-bold';
+                    ? 'bg-[#dcebe1] border-[#1e7d4f] text-[#1e7d4f] font-bold'
+                    : 'bg-[#f3ded9] border-[#b3402f] text-[#b3402f] font-bold';
                 } else if (isAnswered) {
-                  btnBg = 'bg-[#112338] border-[#0a1827] text-white font-bold';
+                  btnBg = 'bg-[#0b3a55] border-[#0b3a55] text-[#faf7f0] font-bold';
                 }
 
                 return (
                   <button
                     key={q.id}
                     onClick={() => setCurrentIndex(idx)}
-                    className={`relative w-8 h-8 rounded-xl border text-xs font-semibold flex items-center justify-center transition-all ${btnBg} ${
-                      isCurrent ? 'ring-2 ring-[#a16207] ring-offset-2 ring-offset-[#fbf8f2] scale-105 shadow-2xs' : ''
+                    className={`relative w-8 h-8 rounded-xs border font-mono-naut text-xs flex items-center justify-center transition-all ${btnBg} ${
+                      isCurrent ? 'ring-2 ring-[#ca9e1c] ring-offset-2 ring-offset-[#faf7f0] scale-105' : ''
                     }`}
                   >
                     {idx + 1}
                     {isBookmarked && (
-                      <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#f59e0b] ring-1 ring-white" />
+                      <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-xs bg-[#ca9e1c] ring-1 ring-[#fcfbf8]" />
                     )}
                   </button>
                 );
@@ -739,13 +753,13 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
               type="button"
               disabled={currentIndex === 0}
               onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-              className="px-4 py-2.5 rounded-xl border border-[#ded5c2] bg-white hover:bg-[#fcfaf5] disabled:opacity-40 disabled:pointer-events-none text-[#112338] font-semibold text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-2xs"
+              className="px-4 py-2.5 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] hover:border-[#0b3a55] disabled:opacity-40 disabled:pointer-events-none text-[#0b3a55] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center gap-1.5 transition-all whitespace-nowrap shrink-0"
             >
               <ArrowLeft className="w-4 h-4" />
               Pergunta Anterior
             </button>
 
-            <span className="text-xs text-[#64748b] font-medium hidden sm:inline">
+            <span className="font-mono-naut text-[11px] text-[#4f6e82] hidden sm:inline">
               Utilize os botões ou a grelha superior para navegar
             </span>
 
@@ -753,7 +767,7 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
               type="button"
               disabled={currentIndex === activeQuestions.length - 1}
               onClick={() => setCurrentIndex((prev) => Math.min(activeQuestions.length - 1, prev + 1))}
-              className="px-4 py-2.5 rounded-xl border border-[#ded5c2] bg-white hover:bg-[#fcfaf5] disabled:opacity-40 disabled:pointer-events-none text-[#112338] font-semibold text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-2xs"
+              className="px-4 py-2.5 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] hover:border-[#0b3a55] disabled:opacity-40 disabled:pointer-events-none text-[#0b3a55] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center gap-1.5 transition-all whitespace-nowrap shrink-0"
             >
               Próxima Pergunta
               <ArrowRight className="w-4 h-4" />
@@ -764,20 +778,20 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
 
       {/* In-App Confirmation Modal to Submit Exam even with unanswered questions */}
       {showConfirmSubmitDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#112338]/60 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl border border-[#ded5c2] shadow-2xl max-w-md w-full p-6 text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-[#fef3c7] border border-[#fde68a] text-[#b45309] flex items-center justify-center mx-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b3a55]/60 backdrop-blur-xs">
+          <div className="bg-[#fcfbf8] rounded-xs border border-[#0b3a55] shadow-[6px_6px_0_0_#0b3a55] max-w-md w-full p-6 text-center space-y-4">
+            <div className="w-12 h-12 rounded-xs bg-[#f0e8cf] border border-[#9a7413]/40 text-[#9a7413] flex items-center justify-center mx-auto">
               <AlertCircle className="w-6 h-6" />
             </div>
 
-            <h3 className="font-maritime text-xl font-bold text-[#112338]">
+            <h3 className="font-maritime text-xl font-bold text-[#0b3a55]">
               Submeter Exame Agora?
             </h3>
 
-            <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#4f6e82] leading-relaxed">
               {unansweredCount > 0 ? (
                 <>
-                  Ainda tem <strong>{unansweredCount} perguntas</strong> por responder. Pode submeter de imediato: as perguntas em branco serão cotadas com <strong>0 valores</strong>.
+                  Ainda tem <strong className="text-[#0b3a55]">{unansweredCount} perguntas</strong> por responder. Pode submeter de imediato: as perguntas em branco serão cotadas com <strong className="text-[#0b3a55]">0 valores</strong>.
                 </>
               ) : (
                 'Respondeu a todas as perguntas. Deseja finalizar e ver a sua avaliação oficial DGRM?'
@@ -788,14 +802,14 @@ export const TestSimulator: React.FC<TestSimulatorProps> = () => {
               <button
                 type="button"
                 onClick={() => setShowConfirmSubmitDialog(false)}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-[#ded5c2] bg-[#f4efe4] hover:bg-[#eae3d2] text-[#475569] font-bold text-xs transition"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-xs border border-[#d7d0c1] bg-[#ede9de] hover:bg-[#d7d0c1]/70 text-[#0b3a55] font-mono-naut uppercase tracking-wider font-semibold text-xs transition"
               >
                 Continuar a Responder
               </button>
               <button
                 type="button"
                 onClick={handleSubmitExam}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#16a34a] hover:bg-[#15803d] text-white font-bold text-xs shadow-xs transition"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xs bg-[#1e7d4f] hover:bg-[#17633e] text-[#faf7f0] font-mono-naut uppercase tracking-wider font-semibold text-xs transition"
               >
                 Sim, Submeter Agora
               </button>

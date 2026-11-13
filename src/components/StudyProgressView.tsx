@@ -32,9 +32,10 @@ import {
   HelpCircle,
   FileText
 } from 'lucide-react';
-import { NauticalTerm, MainCategory } from '../types/glossary';
+import { NauticalTerm, MainCategory, getCategoryStyle } from '../types/glossary';
 import { ExamAttempt } from '../types/tests';
 import { getAllExamAttempts } from '../services/examAttemptsService';
+import { CategoryIcon } from './CategoryIcon';
 
 interface StudyProgressViewProps {
   terms: NauticalTerm[];
@@ -58,7 +59,7 @@ const SYLLABUS_CATEGORIES: {
     shortName: 'R.I.E.A.M.',
     minPassingPercent: 75, // DGRM mandate: 75% (4.5 / 6.0 val)
     officialPoints: 6.0,
-    color: '#0284c7', // Sky Blue
+    color: '#0b3a55',
     subcategories: ['Sinais Sonoros', 'Balões', 'Abalroamentos'],
   },
   {
@@ -66,7 +67,7 @@ const SYLLABUS_CATEGORIES: {
     shortName: 'Segurança & 1º Socorros',
     minPassingPercent: 60, // DGRM mandate: 60% (2.4 / 4.0 val)
     officialPoints: 4.0,
-    color: '#ea580c', // Orange
+    color: '#b3402f',
     subcategories: ['Incêndios', 'Segurança', 'Primeiros Socorros'],
   },
   {
@@ -74,7 +75,7 @@ const SYLLABUS_CATEGORIES: {
     shortName: 'Marinharia',
     minPassingPercent: 60,
     officialPoints: 6.0,
-    color: '#4f46e5', // Indigo
+    color: '#1e7d4f',
     subcategories: ['Cabos, Voltas e Nós', 'Âncoras e Amarras', 'Nomenclatura', 'Manobras'],
   },
   {
@@ -82,7 +83,7 @@ const SYLLABUS_CATEGORIES: {
     shortName: 'Outras Matérias',
     minPassingPercent: 60,
     officialPoints: 4.0,
-    color: '#0d9488', // Teal
+    color: '#9a7413',
     subcategories: ['Marés', 'Balizagem', 'Meteorologia', 'Motores', 'Legislação', 'Navegação', 'Siglas'],
   },
 ];
@@ -295,10 +296,20 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
         if (selectedCategoryFilter !== 'all' && t.category !== selectedCategoryFilter) {
           return false;
         }
-        if (notesSearch.trim()) {
-          const q = notesSearch.toLowerCase();
-          const noteText = (userNotes[t.id] || '').toLowerCase();
-          return t.term.toLowerCase().includes(q) || noteText.includes(q);
+        const normalizeStr = (s: string) =>
+          s
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]/g, '');
+        const q = normalizeStr(notesSearch);
+        if (q) {
+          const noteText = normalizeStr(userNotes[t.id] || '');
+          return (
+            normalizeStr(t.term).includes(q) ||
+            Boolean(t.synonyms?.some((s) => normalizeStr(s).includes(q))) ||
+            noteText.includes(q)
+          );
         }
         return true;
       });
@@ -308,31 +319,31 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-300">
       
       {/* 1. Header Banner */}
-      <div className="relative rounded-3xl border border-[#ded5c2] bg-[#f4efe4] p-6 sm:p-8 mb-8 shadow-xs overflow-hidden">
+      <div className="relative rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-8 mb-8 overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium mb-2.5">
-              <Compass className="w-4 h-4 text-[#a16207]" />
+            <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82] mb-2.5">
+              <Compass className="w-4 h-4 text-[#9a7413]" />
               <span>Painel de Desempenho & Cobertura</span>
-              <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
+              <span aria-hidden="true" className="text-[#d7d0c1]">·</span>
               <span>DGRM / Manual do Marinheiro</span>
             </div>
 
-            <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#112338] tracking-tight leading-tight">
+            <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight">
               Progresso de Estudo
             </h2>
 
-            <p className="mt-2 text-xs sm:text-sm text-[#475569] leading-relaxed">
+            <p className="mt-2 text-xs sm:text-sm text-[#4f6e82] leading-relaxed">
               Visualização analítica da sua preparação para o exame oficial de Carta de Marinheiro, integrando o aproveitamento nos testes, o volume de notas redigidas e os termos náuticos consolidados.
             </p>
           </div>
 
-          {/* Overall Readiness Pill / Metric */}
-          <div className="shrink-0 flex items-center gap-4 bg-white/90 border border-[#ded5c2] rounded-2xl p-4 sm:p-5 shadow-sm">
+          {/* Overall Readiness Box */}
+          <div className="shrink-0 flex items-center gap-4 bg-[#fcfbf8] border border-[#d7d0c1] rounded-xs p-4 sm:p-5">
             <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path
-                  className="text-[#e2e8f0]"
+                  className="text-[#ede9de]"
                   strokeWidth="3.5"
                   stroke="currentColor"
                   fill="none"
@@ -341,39 +352,39 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                 <path
                   className={
                     progressStats.overallReadinessScore >= 75
-                      ? 'text-[#059669]'
+                      ? 'text-[#1e7d4f]'
                       : progressStats.overallReadinessScore >= 50
-                      ? 'text-[#d97706]'
-                      : 'text-[#0284c7]'
+                      ? 'text-[#9a7413]'
+                      : 'text-[#0b3a55]'
                   }
                   strokeDasharray={`${progressStats.overallReadinessScore}, 100`}
                   strokeWidth="3.5"
-                  strokeLinecap="round"
+                  strokeLinecap="square"
                   stroke="currentColor"
                   fill="none"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
               <div className="absolute flex flex-col items-center justify-center">
-                <span className="text-lg sm:text-xl font-bold text-[#112338]">
+                <span className="font-mono-naut text-lg sm:text-xl font-bold text-[#0b3a55]">
                   {progressStats.overallReadinessScore}%
                 </span>
-                <span className="text-[9px] uppercase font-bold text-[#64748b] tracking-wider">
+                <span className="font-mono-naut text-[9px] uppercase font-semibold text-[#4f6e82] tracking-wider">
                   Prontidão
                 </span>
               </div>
             </div>
 
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[#64748b]">Estado Geral:</span>
-              <span className="text-sm sm:text-base font-bold text-[#112338]">
+              <span className="font-mono-naut text-[10px] uppercase tracking-wider font-medium text-[#4f6e82]">Estado Geral:</span>
+              <span className="text-sm sm:text-base font-bold text-[#0b3a55] font-maritime">
                 {progressStats.isFullyPrepared
-                  ? 'Apto para Exame DGRM 🎓'
+                  ? 'Apto para Exame DGRM'
                   : progressStats.overallReadinessScore >= 50
-                  ? 'Em Bom Progresso ⛵'
-                  : 'Fase Inicial de Estudo ⚓'}
+                  ? 'Em Bom Progresso'
+                  : 'Fase Inicial de Estudo'}
               </span>
-              <span className="text-[11px] text-[#475569] mt-0.5">
+              <span className="font-mono-naut text-[11px] text-[#4f6e82] mt-0.5">
                 {examAttempts.length} exame(s) · {progressStats.totalNotesCount} apontamento(s)
               </span>
             </div>
@@ -381,55 +392,55 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
         </div>
 
         {/* Quick KPI stats row */}
-        <div className="mt-6 pt-6 border-t border-[#ded5c2] grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="bg-white/80 rounded-xl p-3 border border-[#e5decb]">
-            <div className="text-[11px] font-semibold text-[#64748b] flex items-center gap-1.5">
-              <Award className="w-3.5 h-3.5 text-[#0284c7]" />
+        <div className="mt-6 pt-6 border-t border-[#d7d0c1] grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="bg-[#fcfbf8] rounded-xs p-3.5 border border-[#d7d0c1]">
+            <div className="font-mono-naut text-[10px] uppercase tracking-wider font-medium text-[#4f6e82] flex items-center gap-1.5">
+              <Award className="w-3.5 h-3.5 text-[#0b3a55]" />
               <span>Acurácia nos Testes</span>
             </div>
-            <div className="text-xl font-bold text-[#112338] mt-1">
+            <div className="font-mono-naut text-xl font-bold text-[#0b3a55] mt-1">
               {progressStats.hasExams ? `${progressStats.avgExamAccuracy}%` : 'Sem testes'}
             </div>
-            <div className="text-[10px] text-[#64748b] mt-0.5">
+            <div className="text-[11px] text-[#4f6e82] mt-0.5">
               {progressStats.hasExams ? 'Média ponderada oficial' : 'Faça um simulador para medir'}
             </div>
           </div>
 
-          <div className="bg-white/80 rounded-xl p-3 border border-[#e5decb]">
-            <div className="text-[11px] font-semibold text-[#64748b] flex items-center gap-1.5">
-              <Edit3 className="w-3.5 h-3.5 text-[#d97706]" />
+          <div className="bg-[#fcfbf8] rounded-xs p-3.5 border border-[#d7d0c1]">
+            <div className="font-mono-naut text-[10px] uppercase tracking-wider font-medium text-[#4f6e82] flex items-center gap-1.5">
+              <Edit3 className="w-3.5 h-3.5 text-[#9a7413]" />
               <span>Notas e Apontamentos</span>
             </div>
-            <div className="text-xl font-bold text-[#112338] mt-1">
+            <div className="font-mono-naut text-xl font-bold text-[#0b3a55] mt-1">
               {progressStats.totalNotesCount}
             </div>
-            <div className="text-[10px] text-[#64748b] mt-0.5">
+            <div className="text-[11px] text-[#4f6e82] mt-0.5">
               Termos anotados no caderno
             </div>
           </div>
 
-          <div className="bg-white/80 rounded-xl p-3 border border-[#e5decb]">
-            <div className="text-[11px] font-semibold text-[#64748b] flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 text-[#eab308]" />
+          <div className="bg-[#fcfbf8] rounded-xs p-3.5 border border-[#d7d0c1]">
+            <div className="font-mono-naut text-[10px] uppercase tracking-wider font-medium text-[#4f6e82] flex items-center gap-1.5">
+              <Star className="w-3.5 h-3.5 text-[#ca9e1c]" />
               <span>Termos Favoritados</span>
             </div>
-            <div className="text-xl font-bold text-[#112338] mt-1">
+            <div className="font-mono-naut text-xl font-bold text-[#0b3a55] mt-1">
               {progressStats.totalBookmarkedCount}
             </div>
-            <div className="text-[10px] text-[#64748b] mt-0.5">
+            <div className="text-[11px] text-[#4f6e82] mt-0.5">
               Sinalizados para revisão rápida
             </div>
           </div>
 
-          <div className="bg-white/80 rounded-xl p-3 border border-[#e5decb]">
-            <div className="text-[11px] font-semibold text-[#64748b] flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-[#059669]" />
+          <div className="bg-[#fcfbf8] rounded-xs p-3.5 border border-[#d7d0c1]">
+            <div className="font-mono-naut text-[10px] uppercase tracking-wider font-medium text-[#4f6e82] flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5 text-[#1e7d4f]" />
               <span>Universo do Programa</span>
             </div>
-            <div className="text-xl font-bold text-[#112338] mt-1">
+            <div className="font-mono-naut text-xl font-bold text-[#0b3a55] mt-1">
               {terms.length}
             </div>
-            <div className="text-[10px] text-[#64748b] mt-0.5">
+            <div className="text-[11px] text-[#4f6e82] mt-0.5">
               Conceitos e termos oficiais
             </div>
           </div>
@@ -440,17 +451,17 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
         
         {/* Radar Chart: 360° Syllabus Coverage */}
-        <div className="lg:col-span-6 rounded-3xl border border-[#ded5c2] bg-white p-6 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-1">
-              <h3 className="font-maritime text-xl font-bold text-[#112338]">
+              <h3 className="font-maritime text-xl font-bold text-[#0b3a55]">
                 Cobertura Global 360° do Programa
               </h3>
-              <span className="text-[11px] font-semibold text-[#0284c7] bg-[#f0f9ff] px-2.5 py-0.5 rounded-full border border-[#bae6fd]">
-                Recharts Radar
+              <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#0b3a55] bg-[#dce8ef] px-2.5 py-0.5 rounded-xs border border-[#0b3a55]/30">
+                Radar 360°
               </span>
             </div>
-            <p className="text-xs text-[#64748b] leading-relaxed mb-4">
+            <p className="text-xs text-[#4f6e82] leading-relaxed mb-4">
               Comparação multidimensional das 4 matérias-chave da DGRM: acerto em simuladores, índice de anotações no caderno e termos favoritados.
             </p>
           </div>
@@ -458,29 +469,29 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
           <div className="w-full h-[320px] sm:h-[360px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={progressStats.radarData}>
-                <PolarGrid stroke="#e2e8f0" />
+                <PolarGrid stroke="#d7d0c1" />
                 <PolarAngleAxis
                   dataKey="subject"
-                  tick={{ fill: '#1e293b', fontSize: 11, fontWeight: 600 }}
+                  tick={{ fill: '#0b3a55', fontSize: 11, fontWeight: 600 }}
                 />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#cbd5e1" fontSize={10} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#4f6e82" fontSize={10} />
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       const data = payload[0].payload;
                       return (
-                        <div className="rounded-xl border border-[#ded5c2] bg-[#fdfbf7] p-3 text-xs shadow-md">
-                          <p className="font-bold text-[#112338] mb-1">{data.fullName}</p>
-                          <p className="text-[#0284c7]">
-                            🎯 Acerto em Testes: <strong>{data.examAccuracy}%</strong>
+                        <div className="rounded-xs border border-[#0b3a55] bg-[#fcfbf8] p-3 text-xs shadow-[3px_3px_0_0_#0b3a55]">
+                          <p className="font-maritime font-bold text-[#0b3a55] mb-1">{data.fullName}</p>
+                          <p className="text-[#0b3a55]">
+                            Acerto em Testes: <strong>{data.examAccuracy}%</strong>
                           </p>
-                          <p className="text-[#d97706]">
-                            📝 Termos c/ Notas: <strong>{data.notesCoverage}%</strong> ({data.notesCount} termos)
+                          <p className="text-[#9a7413]">
+                            Termos c/ Notas: <strong>{data.notesCoverage}%</strong> ({data.notesCount} termos)
                           </p>
-                          <p className="text-[#059669]">
-                            ⭐ Favoritos: <strong>{data.bookmarksCoverage}%</strong> ({data.bookmarksCount} termos)
+                          <p className="text-[#1e7d4f]">
+                            Favoritos: <strong>{data.bookmarksCoverage}%</strong> ({data.bookmarksCount} termos)
                           </p>
-                          <p className="text-[#64748b] mt-1 pt-1 border-t border-[#ded5c2] text-[10px]">
+                          <p className="font-mono-naut text-[#4f6e82] mt-1 pt-1 border-t border-[#d7d0c1] text-[10px]">
                             Mínimo DGRM: <strong>{data.minPassing}%</strong>
                           </p>
                         </div>
@@ -492,50 +503,50 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                 <Radar
                   name="Acerto nos Testes (%)"
                   dataKey="examAccuracy"
-                  stroke="#0284c7"
-                  fill="#0284c7"
-                  fillOpacity={0.4}
+                  stroke="#0b3a55"
+                  fill="#0b3a55"
+                  fillOpacity={0.35}
                 />
                 <Radar
                   name="Termos c/ Notas (%)"
                   dataKey="notesCoverage"
-                  stroke="#d97706"
-                  fill="#d97706"
+                  stroke="#ca9e1c"
+                  fill="#ca9e1c"
                   fillOpacity={0.3}
                 />
                 <Radar
                   name="Termos Favoritos (%)"
                   dataKey="bookmarksCoverage"
-                  stroke="#059669"
-                  fill="#059669"
-                  fillOpacity={0.2}
+                  stroke="#1e7d4f"
+                  fill="#1e7d4f"
+                  fillOpacity={0.22}
                 />
                 <Legend
                   verticalAlign="bottom"
-                  iconType="circle"
+                  iconType="square"
                   wrapperStyle={{ paddingTop: '10px', fontSize: '11px' }}
                 />
               </RadarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="text-[11px] text-[#64748b] mt-2 pt-3 border-t border-[#f1f5f9] flex items-center justify-between">
+          <div className="text-[11px] text-[#4f6e82] mt-2 pt-3 border-t border-[#d7d0c1] flex items-center justify-between">
             <span>Dica: Matérias equilibradas aumentam a probabilidade de aprovação à 1ª tentativa.</span>
           </div>
         </div>
 
         {/* Bar Chart: Category Mastery vs. DGRM Passing Threshold */}
-        <div className="lg:col-span-6 rounded-3xl border border-[#ded5c2] bg-white p-6 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-1">
-              <h3 className="font-maritime text-xl font-bold text-[#112338]">
+              <h3 className="font-maritime text-xl font-bold text-[#0b3a55]">
                 Aproveitamento vs. Mínimo DGRM
               </h3>
-              <span className="text-[11px] font-semibold text-[#ea580c] bg-[#fff7ed] px-2.5 py-0.5 rounded-full border border-[#ffedd5]">
+              <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#b3402f] bg-[#f3ded9] px-2.5 py-0.5 rounded-xs border border-[#b3402f]/30">
                 Requisitos Oficiais
               </span>
             </div>
-            <p className="text-xs text-[#64748b] leading-relaxed mb-4">
+            <p className="text-xs text-[#4f6e82] leading-relaxed mb-4">
               Cada barra compara a sua percentagem de acerto atual com o limiar eliminatório exigido por lei (75% em R.I.E.A.M. e 60% em Segurança).
             </p>
           </div>
@@ -546,23 +557,23 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                 data={progressStats.radarData}
                 margin={{ top: 20, right: 20, left: -10, bottom: 20 }}
               >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#d7d0c1" />
                 <XAxis
                   dataKey="subject"
-                  tick={{ fill: '#334155', fontSize: 11, fontWeight: 600 }}
+                  tick={{ fill: '#0b3a55', fontSize: 11, fontWeight: 600 }}
                   interval={0}
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fill: '#64748b', fontSize: 10 }}
+                  tick={{ fill: '#4f6e82', fontSize: 10 }}
                   unit="%"
                 />
                 <Tooltip
                   formatter={(val: any, name: any) => [`${val}%`, name]}
                   contentStyle={{
-                    backgroundColor: '#fdfbf7',
-                    borderColor: '#ded5c2',
-                    borderRadius: '12px',
+                    backgroundColor: '#fcfbf8',
+                    borderColor: '#0b3a55',
+                    borderRadius: '2px',
                     fontSize: '12px',
                   }}
                 />
@@ -574,7 +585,7 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                 <Bar
                   name="Aproveitamento Atual"
                   dataKey="examAccuracy"
-                  radius={[6, 6, 0, 0]}
+                  radius={[2, 2, 0, 0]}
                   barSize={28}
                 >
                   {progressStats.radarData.map((entry, index) => {
@@ -582,7 +593,7 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                     return (
                       <Cell
                         key={`cell-${index}`}
-                        fill={entry.examAccuracy === 0 ? '#cbd5e1' : isPassing ? '#059669' : '#e11d48'}
+                        fill={entry.examAccuracy === 0 ? '#d7d0c1' : isPassing ? '#1e7d4f' : '#b3402f'}
                       />
                     );
                   })}
@@ -590,36 +601,36 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                 <Bar
                   name="Mínimo DGRM Obrigatório"
                   dataKey="minPassing"
-                  fill="#94a3b8"
-                  radius={[6, 6, 0, 0]}
+                  fill="#4f6e82"
+                  radius={[2, 2, 0, 0]}
                   barSize={28}
                 />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] text-[#64748b] mt-2 pt-3 border-t border-[#f1f5f9]">
-            <span className="flex items-center gap-1.5 text-[#059669] font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#059669]"></span> Acima do Limiar
+          <div className="flex flex-wrap items-center gap-4 font-mono-naut text-[11px] text-[#4f6e82] mt-2 pt-3 border-t border-[#d7d0c1]">
+            <span className="flex items-center gap-1.5 text-[#1e7d4f] font-medium">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#1e7d4f]"></span> Acima do Limiar
             </span>
-            <span className="flex items-center gap-1.5 text-[#e11d48] font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#e11d48]"></span> Abaixo do Limiar
+            <span className="flex items-center gap-1.5 text-[#b3402f] font-medium">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#b3402f]"></span> Abaixo do Limiar
             </span>
-            <span className="flex items-center gap-1.5 text-[#64748b]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#94a3b8]"></span> Mínimo Obrigatório
+            <span className="flex items-center gap-1.5 text-[#4f6e82]">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#4f6e82]"></span> Mínimo Obrigatório
             </span>
           </div>
         </div>
       </div>
 
       {/* 3. Detailed Matrix: 17 Subcategories Breakdown */}
-      <div className="rounded-3xl border border-[#ded5c2] bg-white p-6 sm:p-8 mb-8 shadow-xs">
+      <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 sm:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h3 className="font-maritime text-2xl font-bold text-[#112338]">
+            <h3 className="font-maritime text-2xl font-bold text-[#0b3a55]">
               Desagregação por Subcategorias do Programa
             </h3>
-            <p className="text-xs text-[#64748b] mt-1">
+            <p className="text-xs text-[#4f6e82] mt-1">
               Acompanhamento minucioso de cada ramo temático avaliado no exame oficial e coberto pelo manual.
             </p>
           </div>
@@ -627,7 +638,7 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
           {onNavigateToTab && (
             <button
               onClick={() => onNavigateToTab('quiz')}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1d4e6d] transition shadow-xs self-start sm:self-auto"
+              className="inline-flex items-center gap-1.5 rounded-xs bg-[#0b3a55] px-4 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition self-start sm:self-auto whitespace-nowrap shrink-0"
             >
               <span>Fazer Simulador Oficial</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -640,14 +651,21 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
             return (
               <div
                 key={cat.id}
-                className="rounded-2xl border border-[#ded5c2] bg-[#fdfbf7] p-4 flex flex-col justify-between"
+                className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-4 flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-[#e5decb]">
-                    <span className="font-maritime text-base font-bold text-[#112338]">
-                      {cat.shortName}
-                    </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-white border border-[#ded5c2] text-[#64748b]">
+                  <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-[#d7d0c1]">
+                    <div className="flex items-center gap-2">
+                      <CategoryIcon
+                        category={cat.id}
+                        className="w-4 h-4 shrink-0"
+                        style={{ color: cat.color }}
+                      />
+                      <span className="font-maritime text-base font-bold text-[#0b3a55]">
+                        {cat.shortName}
+                      </span>
+                    </div>
+                    <span className="font-mono-naut text-[10px] font-semibold px-2 py-0.5 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82]">
                       Min. {cat.minPassingPercent}%
                     </span>
                   </div>
@@ -662,39 +680,39 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
                         : null;
 
                       return (
-                        <div key={sub} className="bg-white rounded-xl p-3 border border-[#ede6d8]">
+                        <div key={sub} className="bg-[#fcfbf8] rounded-xs p-3 border border-[#d7d0c1]">
                           <div className="flex items-center justify-between text-xs mb-1.5">
-                            <span className="font-semibold text-[#1e293b] truncate max-w-[150px]" title={sub}>
+                            <span className="font-semibold text-[#0b3a55] truncate max-w-[150px]" title={sub}>
                               {sub}
                             </span>
-                            <span className="font-bold text-[11px] text-[#64748b]">
+                            <span className="font-mono-naut font-semibold text-[11px] text-[#4f6e82]">
                               {accuracy !== null ? `${accuracy}%` : 'Sem testes'}
                             </span>
                           </div>
 
                           {/* Progress bar */}
-                          <div className="w-full bg-[#f1f5f9] h-1.5 rounded-full overflow-hidden mb-2">
+                          <div className="w-full bg-[#ede9de] h-1.5 rounded-xs overflow-hidden mb-2">
                             <div
-                              className={`h-full rounded-full transition-all duration-500 ${
+                              className={`h-full rounded-xs transition-all duration-500 ${
                                 accuracy === null
-                                  ? 'bg-[#cbd5e1]'
+                                  ? 'bg-[#d7d0c1]'
                                   : accuracy >= 75
-                                  ? 'bg-[#059669]'
+                                  ? 'bg-[#1e7d4f]'
                                   : accuracy >= 60
-                                  ? 'bg-[#d97706]'
-                                  : 'bg-[#e11d48]'
+                                  ? 'bg-[#ca9e1c]'
+                                  : 'bg-[#b3402f]'
                               }`}
                               style={{ width: `${accuracy !== null ? accuracy : 0}%` }}
                             />
                           </div>
 
-                          <div className="flex items-center justify-between text-[10px] text-[#64748b]">
+                          <div className="flex items-center justify-between font-mono-naut text-[10px] text-[#4f6e82]">
                             <span className="flex items-center gap-1">
-                              <Edit3 className="w-3 h-3 text-[#d97706]" />
+                              <Edit3 className="w-3 h-3 text-[#9a7413]" />
                               {notesStat.notesCount} / {totalTerms} termos
                             </span>
                             <span className="flex items-center gap-1">
-                              <Star className="w-3 h-3 text-[#eab308]" />
+                              <Star className="w-3 h-3 text-[#ca9e1c]" />
                               {notesStat.bookmarksCount} favs
                             </span>
                           </div>
@@ -710,45 +728,58 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
       </div>
 
       {/* 4. Notes & Annotations Explorer */}
-      <div className="rounded-3xl border border-[#ded5c2] bg-white p-6 sm:p-8 shadow-xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-[#ded5c2]">
+      <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-[#d7d0c1]">
           <div>
             <div className="flex items-center gap-2">
-              <Edit3 className="w-5 h-5 text-[#d97706]" />
-              <h3 className="font-maritime text-2xl font-bold text-[#112338]">
+              <Edit3 className="w-5 h-5 text-[#9a7413]" />
+              <h3 className="font-maritime text-2xl font-bold text-[#0b3a55]">
                 Caderno de Apontamentos Pessoais
               </h3>
             </div>
-            <p className="text-xs text-[#64748b] mt-1">
+            <p className="text-xs text-[#4f6e82] mt-1">
               Todos os termos do glossário anotados por si ({annotatedTerms.length} de {progressStats.totalNotesCount}), organizados pelas matérias do exame.
             </p>
           </div>
 
-          {/* Category Filter Chips for Notes */}
+          {/* Category Filter Buttons for Notes */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
             <button
               onClick={() => setSelectedCategoryFilter('all')}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
+              className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-medium border whitespace-nowrap shrink-0 transition ${
                 selectedCategoryFilter === 'all'
-                  ? 'bg-[#112338] text-[#fbf8f2]'
-                  : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2]'
+                  ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
+                  : 'border-[#d7d0c1] bg-[#faf7f0] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
               }`}
             >
               Todas ({progressStats.totalNotesCount})
             </button>
-            {SYLLABUS_CATEGORIES.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setSelectedCategoryFilter(c.id)}
-                className={`rounded-xl px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
-                  selectedCategoryFilter === c.id
-                    ? 'bg-[#112338] text-[#fbf8f2]'
-                    : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2]'
-                }`}
-              >
-                {c.shortName}
-              </button>
-            ))}
+            {SYLLABUS_CATEGORIES.map((c) => {
+              const isSelected = selectedCategoryFilter === c.id;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedCategoryFilter(c.id)}
+                  style={
+                    isSelected
+                      ? { backgroundColor: c.color, borderColor: c.color, color: '#faf7f0' }
+                      : undefined
+                  }
+                  className={`inline-flex items-center gap-1.5 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-medium border whitespace-nowrap shrink-0 transition ${
+                    isSelected
+                      ? 'shadow-xs'
+                      : 'border-[#d7d0c1] bg-[#faf7f0] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+                  }`}
+                >
+                  <CategoryIcon
+                    category={c.id}
+                    className="w-3.5 h-3.5 shrink-0"
+                    style={{ color: isSelected ? '#faf7f0' : c.color }}
+                  />
+                  <span>{c.shortName}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -759,7 +790,7 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
             value={notesSearch}
             onChange={(e) => setNotesSearch(e.target.value)}
             placeholder="Filtrar notas por palavra-chave ou termo..."
-            className="w-full rounded-xl border border-[#ded5c2] bg-white px-3.5 py-2 text-xs text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+            className="w-full rounded-xs border border-[#d3ccbb] bg-[#faf7f0] px-3.5 py-2 text-xs text-[#0b3a55] placeholder:text-[#4f6e82]/60 focus:border-[#0b3a55] focus:bg-[#fcfbf8] focus:outline-none"
           />
         </div>
 
@@ -768,40 +799,42 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {annotatedTerms.map((t) => {
               const noteContent = userNotes[t.id];
+              const catStyle = getCategoryStyle(t.category);
               return (
                 <div
                   key={t.id}
                   onClick={() => onSelectTerm && onSelectTerm(t)}
-                  className="rounded-2xl border border-[#ded5c2] bg-[#fdfbf7] p-4.5 hover:shadow-md hover:border-[#b8a88a] transition cursor-pointer flex flex-col justify-between group"
+                  className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-4.5 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition cursor-pointer flex flex-col justify-between group"
                 >
                   <div>
-                    <div className="flex items-center justify-between text-[11px] text-[#64748b] mb-1.5">
-                      <span className="font-semibold text-[#112338] truncate max-w-[160px]">
-                        {t.category}
+                    <div className="flex items-center justify-between gap-2 font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82] mb-1.5">
+                      <span className="inline-flex items-center gap-1 font-semibold truncate max-w-[175px]" style={{ color: catStyle.solid }}>
+                        <CategoryIcon category={t.category} className="w-3 h-3 shrink-0" />
+                        <span className="truncate">{t.category}</span>
                       </span>
                       {t.subCategory && (
-                        <span className="text-[10px] text-[#854d0e] bg-[#fef3c7] px-2 py-0.5 rounded font-medium">
+                        <span className="text-[#9a7413] bg-[#f0e8cf] px-2 py-0.5 rounded-xs border border-[#9a7413]/30 font-medium truncate">
                           {t.subCategory}
                         </span>
                       )}
                     </div>
 
-                    <h4 className="font-maritime text-lg font-bold text-[#112338] group-hover:text-[#0284c7] transition">
+                    <h4 className="font-maritime text-lg font-bold text-[#0b3a55] group-hover:underline transition">
                       {t.term}
                     </h4>
 
-                    <div className="mt-2.5 rounded-xl bg-white p-3 border border-[#e5decb] text-xs text-[#334155] leading-relaxed">
-                      <div className="flex items-center gap-1 text-[10px] font-bold text-[#d97706] uppercase tracking-wider mb-1">
+                    <div className="mt-2.5 rounded-xs bg-[#fcfbf8] p-3 border border-[#d7d0c1] text-xs text-[#0b3a55]/90 leading-relaxed">
+                      <div className="flex items-center gap-1 font-mono-naut text-[10px] font-semibold text-[#9a7413] uppercase tracking-wider mb-1">
                         <Edit3 className="w-3 h-3" />
                         <span>A sua anotação:</span>
                       </div>
-                      <p className="line-clamp-4 italic text-[#1e293b]">
+                      <p className="line-clamp-4 italic text-[#0b3a55]">
                         "{noteContent}"
                       </p>
                     </div>
                   </div>
 
-                  <div className="mt-3 pt-2.5 border-t border-[#ede6d8] flex items-center justify-between text-[11px] text-[#0284c7] font-semibold">
+                  <div className="mt-3 pt-2.5 border-t border-[#d7d0c1] flex items-center justify-between font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55] font-medium">
                     <span>Ver termo completo</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -810,20 +843,20 @@ export const StudyProgressView: React.FC<StudyProgressViewProps> = ({
             })}
           </div>
         ) : (
-          <div className="text-center py-12 bg-[#f4efe4]/50 rounded-2xl border border-dashed border-[#ded5c2] p-8">
-            <Edit3 className="w-10 h-10 text-[#a16207] mx-auto mb-3 opacity-60" />
-            <h4 className="font-maritime text-lg font-bold text-[#112338]">
+          <div className="text-center py-12 bg-[#ede9de]/40 rounded-xs border border-dashed border-[#d7d0c1] p-8">
+            <Edit3 className="w-10 h-10 text-[#9a7413] mx-auto mb-3 opacity-60" />
+            <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">
               {progressStats.totalNotesCount === 0
                 ? 'Ainda não adicionou notas pessoais'
                 : 'Nenhuma anotação encontrada para este filtro'}
             </h4>
-            <p className="text-xs text-[#64748b] max-w-md mx-auto mt-1 mb-4 leading-relaxed">
+            <p className="text-xs text-[#4f6e82] max-w-md mx-auto mt-1 mb-4 leading-relaxed">
               Ao consultar qualquer termo no Glossário, pode clicar no botão <strong>«Adicionar Apontamento»</strong> para registar fórmulas, mnemónicas ou dicas para o exame oficial.
             </p>
             {onNavigateToTab && (
               <button
                 onClick={() => onNavigateToTab('glossario')}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1d4e6d] transition shadow-xs"
+                className="inline-flex items-center gap-2 rounded-xs bg-[#0b3a55] px-4 py-2 font-mono-naut text-xs uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition"
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Explorar Glossário e Fazer Apontamentos</span>

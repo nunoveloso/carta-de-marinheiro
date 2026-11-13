@@ -598,56 +598,56 @@ const AnimatedBuoyItem: React.FC<{
       onClick={() => {
         if (targetTerm && onSelectTerm) onSelectTerm(targetTerm);
       }}
-      className={`group relative flex flex-col justify-between rounded-2xl bg-white p-4 border border-[#ded5c2] transition ${
-        targetTerm ? 'hover:border-[#112338] hover:shadow-md cursor-pointer' : 'shadow-2xs'
+      className={`group relative flex flex-col justify-between rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] transition ${
+        targetTerm ? 'hover:border-[#0b3a55] hover:shadow-[3px_3px_0_0_#0b3a55] cursor-pointer' : ''
       }`}
     >
       {/* Top Header info */}
-      <div className="flex items-center justify-between gap-1.5 pb-2 border-b border-[#f0ebd9] text-xs">
-        <span className="font-bold text-[#112338] text-[12px] truncate">{buoy.name}</span>
+      <div className="flex items-center justify-between gap-1.5 pb-2 border-b border-[#d7d0c1] text-xs">
+        <span className="font-bold text-[#0b3a55] text-[12px] truncate">{buoy.name}</span>
         {targetTerm && (
-          <span className="text-[10px] text-[#112338] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5 font-semibold shrink-0">
+          <span className="font-mono-naut text-[10px] text-[#0b3a55] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5 font-medium shrink-0">
             Ver carta <ArrowRight className="w-2.5 h-2.5" />
           </span>
         )}
       </div>
 
       {/* SVG Buoy Illustration with Waterline */}
-      <div className="my-3 flex flex-col items-center justify-center rounded-xl bg-radial from-[#f4efe4] to-[#ebe4d4] py-3 border border-[#ded5c2]/60 group-hover:scale-102 transition-transform">
+      <div className="my-3 flex flex-col items-center justify-center rounded-xs bg-[#faf7f0] py-3 border border-[#d7d0c1] group-hover:scale-102 transition-transform">
         {renderBuoySVG(buoy, isLightOn, 1)}
       </div>
 
       {/* Specs / Light & Topmark badge */}
       <div className="space-y-2">
         {/* Night Light Spec Badge */}
-        <div className="rounded-xl bg-[#112338] p-2.5 text-white">
+        <div className="rounded-xs bg-[#0b3a55] p-2.5 text-[#faf7f0]">
           <div className="flex items-center justify-between text-[11px] mb-1">
-            <span className="font-semibold text-[#94a3b8] flex items-center gap-1">
-              <Moon className="w-3 h-3 text-[#facc15]" />
+            <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#dce8ef] flex items-center gap-1">
+              <Moon className="w-3 h-3 text-[#e3b505]" />
               Luz Noturna:
             </span>
-            <span className="font-mono font-bold text-xs" style={{ color: buoy.lightColorHex }}>
+            <span className="font-mono-naut font-bold text-xs" style={{ color: buoy.lightColorHex }}>
               {buoy.lightRhythm}
             </span>
           </div>
-          <p className="text-[11px] text-[#cbd5e1] leading-tight">
+          <p className="text-[11px] text-[#dce8ef] leading-tight">
             {buoy.lightDescription}
           </p>
         </div>
 
         {/* Daytime Characteristics */}
-        <div className="rounded-xl bg-[#fbf9f4] p-2.5 border border-[#e5decb] text-xs text-[#334155] space-y-1">
+        <div className="rounded-xs bg-[#faf7f0] p-2.5 border border-[#d7d0c1] text-xs text-[#0b3a55]/90 space-y-1">
           <p className="text-[11px] leading-tight">
-            <strong className="text-[#112338]">Tope Diurno:</strong> {buoy.topmarkDescription}
+            <strong className="text-[#0b3a55]">Tope Diurno:</strong> {buoy.topmarkDescription}
           </p>
           <p className="text-[11px] leading-tight">
-            <strong className="text-[#112338]">Corpo:</strong> {buoy.colorsDescription}
+            <strong className="text-[#0b3a55]">Corpo:</strong> {buoy.colorsDescription}
           </p>
         </div>
 
         {/* Exam Tip */}
-        <p className="text-[11px] text-[#854d0e] bg-[#fefce8] p-2 rounded-lg border border-[#fef08a] leading-tight">
-          <strong>Regra de Exame:</strong> {buoy.examTip}
+        <p className="text-[11px] text-[#0b3a55] bg-[#f0e8cf]/65 p-2 rounded-xs border border-[#ca9e1c]/40 leading-tight">
+          <strong className="text-[#9a7413]">Regra de Exame:</strong> {buoy.examTip}
         </p>
       </div>
     </div>
@@ -687,29 +687,29 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
     if (variant === 'card') {
       return (
-        <div className="mt-3.5 rounded-xl border border-[#d8cdb8] bg-[#fbf9f4] p-3 text-xs">
+        <div className="mt-3.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 bg-white p-1 rounded-xl border border-[#ded5c2] shadow-2xs">
+            <div className="shrink-0 bg-[#fcfbf8] p-1 rounded-xs border border-[#d7d0c1]">
               {renderBuoySVG(specificBuoy, true, 0.75)}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-[#112338] text-[11px] block truncate">
+                <span className="font-bold text-[#0b3a55] text-[11px] block truncate">
                   {specificBuoy.name}
                 </span>
               </div>
               <div className="mt-1 flex items-center gap-1.5 flex-wrap">
                 <span
-                  className="font-mono font-bold text-[10px] px-1.5 py-0.5 rounded bg-[#112338] text-white"
+                  className="font-mono-naut font-bold text-[10px] px-1.5 py-0.5 rounded-xs bg-[#0b3a55] text-[#faf7f0]"
                   style={{ color: specificBuoy.lightColor === 'branco' ? '#facc15' : specificBuoy.lightColorHex }}
                 >
                   Luz: {specificBuoy.lightRhythm}
                 </span>
-                <span className="text-[10px] text-[#854d0e] font-medium bg-[#fefce8] px-1.5 py-0.5 rounded border border-[#fef08a]">
+                <span className="text-[10px] text-[#9a7413] font-medium bg-[#f0e8cf] px-1.5 py-0.5 rounded-xs border border-[#ca9e1c]/40">
                   Tope: {specificBuoy.topmarkDescription}
                 </span>
               </div>
-              <p className="mt-1 text-[10px] text-[#64748b] line-clamp-2 leading-tight">
+              <p className="mt-1 text-[10px] text-[#4f6e82] line-clamp-2 leading-tight">
                 {specificBuoy.meaning}
               </p>
             </div>
@@ -720,74 +720,74 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
     // Modal detailed view for single specific buoy
     return (
-      <div className="rounded-2xl border border-[#d8cdb8] bg-[#fbf9f4] p-5 shadow-sm">
-        <div className="flex items-center justify-between pb-3 border-b border-[#ded5c2]">
-          <h4 className="text-sm font-bold text-[#112338] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#112338]"></span>
+      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1] gap-2">
+          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
             Ilustração Oficial: {specificBuoy.name}
           </h4>
           <button
             onClick={() => setIsSimulatingLights(!isSimulatingLights)}
-            className={`inline-flex items-center gap-1.5 rounded-xl px-2.5 py-1 text-xs font-semibold transition shadow-2xs shrink-0 ${
+            className={`inline-flex items-center gap-1.5 rounded-xs px-2.5 py-1 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition shrink-0 whitespace-nowrap cursor-pointer ${
               isSimulatingLights
-                ? 'bg-[#112338] text-white'
-                : 'border border-[#ded5c2] bg-white text-[#475569]'
+                ? 'bg-[#0b3a55] text-[#faf7f0]'
+                : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:text-[#0b3a55]'
             }`}
           >
-            <Zap className={`w-3.5 h-3.5 ${isSimulatingLights ? 'text-[#facc15] fill-[#facc15]' : ''}`} />
+            <Zap className={`w-3.5 h-3.5 ${isSimulatingLights ? 'text-[#e3b505] fill-[#e3b505]' : ''}`} />
             <span>{isSimulatingLights ? 'Luz a Piscar' : 'Luz Fixa'}</span>
           </button>
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Big Buoy Preview Box */}
-          <div className="rounded-xl bg-white p-5 border border-[#ded5c2] flex flex-col items-center justify-center text-center">
+          <div className="rounded-xs bg-[#fcfbf8] p-5 border border-[#d7d0c1] flex flex-col items-center justify-center text-center">
             <div className="my-2">{renderBuoySVG(specificBuoy, isSimulatingLights, 1.25)}</div>
             <div className="mt-3">
-              <span className="text-base font-bold text-[#112338] block">{specificBuoy.name}</span>
-              <span className="text-xs text-[#64748b]">{specificBuoy.colorsDescription}</span>
+              <span className="text-base font-bold text-[#0b3a55] block">{specificBuoy.name}</span>
+              <span className="text-xs text-[#4f6e82]">{specificBuoy.colorsDescription}</span>
             </div>
           </div>
 
           {/* Details & Specs Box */}
-          <div className="rounded-xl bg-white p-5 border border-[#ded5c2] flex flex-col justify-between space-y-3">
+          <div className="rounded-xs bg-[#fcfbf8] p-5 border border-[#d7d0c1] flex flex-col justify-between space-y-3">
             <div>
-              <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider block">
+              <span className="font-mono-naut text-[10px] font-medium text-[#4f6e82] uppercase tracking-wider block">
                 Sinalização Noturna (Luz & Ritmo):
               </span>
-              <div className="mt-1.5 rounded-xl bg-[#112338] p-3 text-white">
+              <div className="mt-1.5 rounded-xs bg-[#0b3a55] p-3 text-[#faf7f0]">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-[#94a3b8] flex items-center gap-1">
-                    <Moon className="w-3.5 h-3.5 text-[#facc15]" />
+                  <span className="text-xs text-[#dce8ef] flex items-center gap-1">
+                    <Moon className="w-3.5 h-3.5 text-[#e3b505]" />
                     Ritmo Regulamentar:
                   </span>
                   <span
-                    className="font-mono text-sm font-bold"
+                    className="font-mono-naut text-sm font-bold"
                     style={{ color: specificBuoy.lightColor === 'branco' ? '#facc15' : specificBuoy.lightColorHex }}
                   >
                     {specificBuoy.lightRhythm}
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-[#cbd5e1] leading-relaxed">
+                <p className="mt-1 text-xs text-[#dce8ef] leading-relaxed">
                   {specificBuoy.lightDescription}
                 </p>
               </div>
 
-              <div className="mt-3 space-y-1.5 text-xs text-[#334155]">
+              <div className="mt-3 space-y-1.5 text-xs text-[#0b3a55]/90">
                 <p>
-                  <strong className="text-[#112338]">Tope Diurno:</strong> {specificBuoy.topmarkDescription}
+                  <strong className="text-[#0b3a55]">Tope Diurno:</strong> {specificBuoy.topmarkDescription}
                 </p>
                 <p>
-                  <strong className="text-[#112338]">Cor do Corpo:</strong> {specificBuoy.colorsDescription}
+                  <strong className="text-[#0b3a55]">Cor do Corpo:</strong> {specificBuoy.colorsDescription}
                 </p>
                 <p>
-                  <strong className="text-[#112338]">Regra de Passagem:</strong> {specificBuoy.meaning}
+                  <strong className="text-[#0b3a55]">Regra de Passagem:</strong> {specificBuoy.meaning}
                 </p>
               </div>
             </div>
 
-            <div className="rounded-xl bg-[#fefce8] p-3 border border-[#fef08a] text-xs text-[#854d0e]">
-              <strong className="text-[#92400e] block mb-0.5">Pergunta Frequente no Exame da DGRM:</strong>
+            <div className="rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
+              <strong className="text-[#9a7413] block mb-0.5">Pergunta Frequente no Exame da DGRM:</strong>
               {specificBuoy.examTip}
             </div>
           </div>
@@ -808,13 +808,13 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
   if (variant === 'card') {
     return (
-      <div className="mt-3.5 rounded-xl border border-[#d8cdb8] bg-[#fbf9f4] p-3 text-xs">
+      <div className="mt-3.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
         <div className="flex items-center justify-between mb-2">
-          <span className="font-bold text-[#112338] text-[11px] uppercase tracking-wider flex items-center gap-1.5">
-            <span className="inline-block w-2 h-2 rounded-full bg-[#112338]"></span>
+          <span className="font-mono-naut font-medium text-[#0b3a55] text-[10px] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="inline-block w-2 h-2 rounded-xs bg-[#0b3a55]"></span>
             Bóias & Luzes ({categoryType === 'cardeais' ? 'Marcas Cardeais' : categoryType === 'laterais' ? 'Marcas Laterais' : 'Sistema IALA A'})
           </span>
-          <span className="text-[10px] text-[#64748b] font-medium">Toque para ver</span>
+          <span className="font-mono-naut text-[10px] text-[#4f6e82]">Toque para ver</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
@@ -828,17 +828,17 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
                   if (target && onSelectTerm) onSelectTerm(target);
                 }
               }}
-              className="group/b flex flex-col items-center justify-between rounded-lg bg-white p-2 border border-[#ded5c2] hover:border-[#112338] hover:bg-[#f4efe4] transition cursor-pointer shadow-2xs"
+              className="group/b flex flex-col items-center justify-between rounded-xs bg-[#fcfbf8] p-2 border border-[#d7d0c1] hover:border-[#0b3a55] hover:bg-[#ede9de]/50 transition cursor-pointer"
             >
               <div className="h-16 flex items-center justify-center scale-75 group-hover/b:scale-80 transition-transform">
                 {renderBuoySVG(b, true, 0.75)}
               </div>
-              <span className="font-bold text-[10px] text-[#112338] leading-tight truncate w-full">
+              <span className="font-bold text-[10px] text-[#0b3a55] leading-tight truncate w-full">
                 {b.name.replace('Marca ', '').replace('Lateral de ', '')}
               </span>
               <span
-                className="text-[9px] font-mono font-bold leading-tight mt-0.5"
-                style={{ color: b.lightColor === 'branco' ? '#0f172a' : b.lightColorHex }}
+                className="text-[9px] font-mono-naut font-bold leading-tight mt-0.5"
+                style={{ color: b.lightColor === 'branco' ? '#0b3a55' : b.lightColorHex }}
               >
                 {b.lightRhythm}
               </span>
@@ -846,8 +846,8 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
           ))}
         </div>
 
-        <p className="mt-2 text-[11px] text-[#854d0e] bg-[#fefce8] px-2.5 py-1.5 rounded-lg border border-[#fef08a] leading-tight">
-          <strong>Regra IALA Região A (Manual pág. 65-67):</strong> Cores e marcas de tope de dia, ritmo e cor da luz à noite.
+        <p className="mt-2 text-[11px] text-[#0b3a55] bg-[#f0e8cf]/65 px-2.5 py-1.5 rounded-xs border border-[#ca9e1c]/40 leading-tight">
+          <strong className="text-[#9a7413]">Regra IALA Região A (Manual pág. 65-67):</strong> Cores e marcas de tope de dia, ritmo e cor da luz à noite.
         </p>
       </div>
     );
@@ -855,70 +855,70 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
   // Category Detailed Modal View
   return (
-    <div className="rounded-2xl border border-[#d8cdb8] bg-[#fbf9f4] p-5 shadow-sm">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#ded5c2]">
+    <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#d7d0c1]">
         <div>
-          <h4 className="text-sm font-bold text-[#112338] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#112338]"></span>
+          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
             Esquema Oficial das Bóias, Sinais de Tope e Ritmos de Luz (Manual pág. 65, 66 e 67)
           </h4>
-          <p className="text-xs text-[#64748b] mt-0.5">
+          <p className="text-xs text-[#4f6e82] mt-0.5">
             Forma da boia, marcas de tope diurnas, cor da luz e ritmo característico dos clarões para exame da DGRM.
           </p>
         </div>
 
         <button
           onClick={() => setIsSimulatingLights(!isSimulatingLights)}
-          className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition shadow-2xs shrink-0 ${
+          className={`inline-flex items-center gap-1.5 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition shrink-0 whitespace-nowrap cursor-pointer ${
             isSimulatingLights
-              ? 'bg-[#112338] text-white hover:bg-[#1c3858]'
-              : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#f4efe4]'
+              ? 'bg-[#0b3a55] text-[#faf7f0] hover:bg-[#082b3f]'
+              : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:text-[#0b3a55]'
           }`}
           title="Ativar/desativar animação do ritmo dos clarões da luz"
         >
-          <Zap className={`w-3.5 h-3.5 ${isSimulatingLights ? 'text-[#facc15] fill-[#facc15]' : ''}`} />
+          <Zap className={`w-3.5 h-3.5 ${isSimulatingLights ? 'text-[#e3b505] fill-[#e3b505]' : ''}`} />
           <span>{isSimulatingLights ? 'Luzes a Piscar (Ativo)' : 'Luzes Fixas'}</span>
         </button>
       </div>
 
       {categoryType === 'todas' && (
-        <div className="mt-3 flex flex-wrap gap-1.5 border-b border-[#e5decb] pb-2.5">
+        <div className="mt-3 flex flex-wrap gap-1.5 border-b border-[#d7d0c1] pb-2.5">
           <button
             onClick={() => setActiveTab('todas')}
-            className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'todas'
-                ? 'bg-[#112338] text-white'
-                : 'bg-white border border-[#ded5c2] text-[#64748b] hover:text-[#112338]'
+                ? 'bg-[#0b3a55] text-[#faf7f0]'
+                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
             }`}
           >
             Todas ({BUOYS_DATA.length})
           </button>
           <button
             onClick={() => setActiveTab('laterais')}
-            className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'laterais'
-                ? 'bg-[#112338] text-white'
-                : 'bg-white border border-[#ded5c2] text-[#64748b] hover:text-[#112338]'
+                ? 'bg-[#0b3a55] text-[#faf7f0]'
+                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
             }`}
           >
             Marcas Laterais & Canais (4)
           </button>
           <button
             onClick={() => setActiveTab('cardeais')}
-            className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'cardeais'
-                ? 'bg-[#112338] text-white'
-                : 'bg-white border border-[#ded5c2] text-[#64748b] hover:text-[#112338]'
+                ? 'bg-[#0b3a55] text-[#faf7f0]'
+                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
             }`}
           >
             Marcas Cardeais (4)
           </button>
           <button
             onClick={() => setActiveTab('outras')}
-            className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'outras'
-                ? 'bg-[#112338] text-white'
-                : 'bg-white border border-[#ded5c2] text-[#64748b] hover:text-[#112338]'
+                ? 'bg-[#0b3a55] text-[#faf7f0]'
+                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
             }`}
           >
             Perigo Isolado, Águas Limpas e Especiais (3)
@@ -940,11 +940,11 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
       </div>
 
       {/* Summary Reference Table */}
-      <div className="mt-5 rounded-xl bg-[#fefce8] p-4 border border-[#fef08a] text-xs text-[#854d0e]">
+      <div className="mt-5 rounded-xs bg-[#f0e8cf]/65 p-4 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
         <div className="flex items-start gap-2.5">
-          <AlertCircle className="w-4 h-4 text-[#b45309] shrink-0 mt-0.5" />
+          <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
           <div className="space-y-1.5">
-            <span className="font-bold text-[#92400e] text-sm">
+            <span className="font-bold text-[#9a7413] text-sm">
               Mnemónicas do Manual do Marinheiro 2021 (pág. 65, 66 e 67):
             </span>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 list-disc list-inside text-[11px] leading-relaxed">

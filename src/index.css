@@ -1,15 +1,55 @@
 @import "tailwindcss";
 
+:root {
+  --background: 46 47% 96%;
+  --foreground: 202 77% 19%;
+  --card: 48 43% 98%;
+  --card-foreground: 202 77% 19%;
+  --popover: 48 43% 98%;
+  --popover-foreground: 202 77% 19%;
+  --primary: 202 77% 19%;
+  --primary-foreground: 46 47% 96%;
+  --secondary: 44 30% 90%;
+  --secondary-foreground: 202 77% 19%;
+  --muted: 44 26% 89%;
+  --muted-foreground: 203 24% 41%;
+  --accent: 45 76% 45%;
+  --accent-foreground: 202 77% 14%;
+  --destructive: 8 59% 44%;
+  --destructive-foreground: 46 47% 96%;
+  --border: 42 22% 80%;
+  --input: 42 22% 78%;
+  --ring: 202 77% 19%;
+}
+
 @layer base {
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #fbf8f2;
-    color: #1e293b;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    background-color: #faf7f0;
+    color: #0b3a55;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
 
   h1, h2, h3, .font-maritime {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
   }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"],
+  select:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.font-mono-naut {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 .perspective-1000 {

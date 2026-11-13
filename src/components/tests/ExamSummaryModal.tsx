@@ -84,46 +84,46 @@ export const ExamSummaryModal: React.FC<ExamSummaryModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#112338]/60 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
-      <div className="bg-white border border-[#ded5c2] rounded-3xl shadow-2xl max-w-2xl w-full p-6 sm:p-8 my-8 text-[#1e293b]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b3a55]/60 backdrop-blur-xs animate-in fade-in duration-200 overflow-y-auto">
+      <div className="bg-[#fcfbf8] border border-[#0b3a55] rounded-xs shadow-[6px_6px_0_0_#0b3a55] max-w-2xl w-full p-6 sm:p-8 my-8 text-[#0b3a55]">
         {/* Header Banner */}
-        <div className="text-center pb-6 border-b border-[#ede6d8]">
-          <div className="inline-flex p-3 rounded-full mb-3 shadow-xs">
+        <div className="text-center pb-6 border-b border-[#d7d0c1]">
+          <div className="inline-flex mb-3">
             {isPassed ? (
-              <div className="w-16 h-16 rounded-full bg-[#dcfce7] border-2 border-[#22c55e] flex items-center justify-center text-[#15803d]">
+              <div className="w-16 h-16 rounded-xs bg-[#dcebe1] border-2 border-[#1e7d4f] flex items-center justify-center text-[#1e7d4f]">
                 <Award className="w-8 h-8" />
               </div>
             ) : (
-              <div className="w-16 h-16 rounded-full bg-[#fee2e2] border-2 border-[#ef4444] flex items-center justify-center text-[#b91c1c]">
+              <div className="w-16 h-16 rounded-xs bg-[#f3ded9] border-2 border-[#b3402f] flex items-center justify-center text-[#b3402f]">
                 <AlertTriangle className="w-8 h-8" />
               </div>
             )}
           </div>
 
           <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-maritime ${
-            isPassed ? 'text-[#166534]' : 'text-[#991b1b]'
+            isPassed ? 'text-[#1e7d4f]' : 'text-[#b3402f]'
           }`}>
             {isPassed ? 'APTO NO EXAME TEÓRICO DGRM' : 'NÃO APTO'}
           </h2>
-          <p className="text-xs sm:text-sm text-[#64748b] mt-1 font-medium">
-            Tempo despendido: <span className="text-[#112338] font-bold">{formatTime(timeSpentSeconds)}</span>
+          <p className="font-mono-naut text-xs text-[#4f6e82] mt-1 font-medium">
+            Tempo despendido: <span className="text-[#0b3a55] font-bold">{formatTime(timeSpentSeconds)}</span>
           </p>
 
-          <div className="mt-4 inline-flex items-baseline gap-2 px-6 py-2.5 rounded-2xl bg-[#fbf8f2] border border-[#ded5c2] shadow-2xs">
-            <span className="text-3xl font-black text-[#112338]">{totalEarned.toFixed(1)}</span>
-            <span className="text-[#64748b] text-sm font-bold">/ 20.0 valores</span>
-            <span className="text-xs text-[#a16207] font-bold ml-2">({((totalEarned / totalPossible) * 100).toFixed(0)}%)</span>
+          <div className="mt-4 inline-flex items-baseline gap-2 px-6 py-2.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
+            <span className="font-mono-naut text-3xl font-bold text-[#0b3a55]">{totalEarned.toFixed(1)}</span>
+            <span className="font-mono-naut text-[#4f6e82] text-sm font-medium">/ 20.0 valores</span>
+            <span className="font-mono-naut text-xs text-[#9a7413] font-bold ml-2">({((totalEarned / totalPossible) * 100).toFixed(0)}%)</span>
           </div>
         </div>
 
         {/* Fail Reasons (if any) */}
         {!isPassed && failReasons.length > 0 && (
-          <div className="mt-5 p-4 rounded-2xl bg-[#fef2f2] border border-[#fca5a5] text-xs sm:text-sm text-[#991b1b] space-y-1.5">
-            <div className="font-bold flex items-center gap-1.5 text-[#b91c1c]">
+          <div className="mt-5 p-4 rounded-xs bg-[#f3ded9] border border-[#b3402f]/50 text-xs sm:text-sm text-[#b3402f] space-y-1.5">
+            <div className="font-mono-naut uppercase tracking-wider text-xs font-bold flex items-center gap-1.5">
               <XCircle className="w-4 h-4 shrink-0" />
               Critérios Oficiais Não Cumpridos:
             </div>
-            <ul className="list-disc list-inside space-y-1 pl-1 font-medium">
+            <ul className="list-disc list-inside space-y-1 pl-1 font-medium text-[#0b3a55]">
               {failReasons.map((reason, rIdx) => (
                 <li key={rIdx}>{reason}</li>
               ))}
@@ -133,89 +133,89 @@ export const ExamSummaryModal: React.FC<ExamSummaryModalProps> = ({
 
         {/* Category Breakdown Cards */}
         <div className="mt-6 space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748b]">
+          <h3 className="font-mono-naut text-[11px] font-semibold uppercase tracking-wider text-[#4f6e82]">
             Avaliação por Secção Oficial DGRM:
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* RIEAM */}
-            <div className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#ded5c2]">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-bold text-[#92400e]">1. RIEAM (Abalroamentos)</span>
-                <span className={`text-xs font-bold ${rieamPct >= 75 ? 'text-[#16a34a]' : 'text-[#dc2626]'}`}>
+            <div className="p-3.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="font-mono-naut text-xs font-bold text-[#0b3a55]">1. RIEAM (Abalroamentos)</span>
+                <span className={`font-mono-naut text-[11px] font-bold ${rieamPct >= 75 ? 'text-[#1e7d4f]' : 'text-[#b3402f]'}`}>
                   {rieamPct.toFixed(0)}% (mín. 75%)
                 </span>
               </div>
-              <div className="w-full bg-[#e2d9c8] h-2 rounded-full overflow-hidden mb-1.5">
+              <div className="w-full bg-[#ede9de] h-2 rounded-xs overflow-hidden mb-1.5">
                 <div
-                  className={`h-full ${rieamPct >= 75 ? 'bg-[#16a34a]' : 'bg-[#dc2626]'}`}
+                  className={`h-full ${rieamPct >= 75 ? 'bg-[#1e7d4f]' : 'bg-[#b3402f]'}`}
                   style={{ width: `${Math.min(100, rieamPct)}%` }}
                 />
               </div>
-              <div className="text-xs text-[#64748b] flex justify-between font-medium">
+              <div className="font-mono-naut text-[11px] text-[#4f6e82] flex justify-between font-medium">
                 <span>Obtido: {categoryScores['RIEAM'].earned.toFixed(1)} / {categoryScores['RIEAM'].total.toFixed(1)} val</span>
-                <span className={rieamPct >= 75 ? 'text-[#16a34a] font-bold' : 'text-[#dc2626] font-bold'}>
+                <span className={rieamPct >= 75 ? 'text-[#1e7d4f] font-bold' : 'text-[#b3402f] font-bold'}>
                   {rieamPct >= 75 ? '✓ Aprovado' : '✕ Reprovado'}
                 </span>
               </div>
             </div>
 
             {/* Segurança e Primeiros Socorros */}
-            <div className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#ded5c2]">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-bold text-[#9f1239]">2. Segurança e 1º Socorros</span>
-                <span className={`text-xs font-bold ${segPct >= 60 ? 'text-[#16a34a]' : 'text-[#dc2626]'}`}>
+            <div className="p-3.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="font-mono-naut text-xs font-bold text-[#b3402f]">2. Segurança e 1º Socorros</span>
+                <span className={`font-mono-naut text-[11px] font-bold ${segPct >= 60 ? 'text-[#1e7d4f]' : 'text-[#b3402f]'}`}>
                   {segPct.toFixed(0)}% (mín. 60%)
                 </span>
               </div>
-              <div className="w-full bg-[#e2d9c8] h-2 rounded-full overflow-hidden mb-1.5">
+              <div className="w-full bg-[#ede9de] h-2 rounded-xs overflow-hidden mb-1.5">
                 <div
-                  className={`h-full ${segPct >= 60 ? 'bg-[#16a34a]' : 'bg-[#dc2626]'}`}
+                  className={`h-full ${segPct >= 60 ? 'bg-[#1e7d4f]' : 'bg-[#b3402f]'}`}
                   style={{ width: `${Math.min(100, segPct)}%` }}
                 />
               </div>
-              <div className="text-xs text-[#64748b] flex justify-between font-medium">
+              <div className="font-mono-naut text-[11px] text-[#4f6e82] flex justify-between font-medium">
                 <span>Obtido: {categoryScores['Segurança e Primeiros Socorros'].earned.toFixed(1)} / {categoryScores['Segurança e Primeiros Socorros'].total.toFixed(1)} val</span>
-                <span className={segPct >= 60 ? 'text-[#16a34a] font-bold' : 'text-[#dc2626] font-bold'}>
+                <span className={segPct >= 60 ? 'text-[#1e7d4f] font-bold' : 'text-[#b3402f] font-bold'}>
                   {segPct >= 60 ? '✓ Aprovado' : '✕ Reprovado'}
                 </span>
               </div>
             </div>
 
             {/* Marinharia */}
-            <div className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#ded5c2]">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-bold text-[#0369a1]">3. Marinharia & Manobras</span>
-                <span className="text-xs font-bold text-[#112338]">
+            <div className="p-3.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="font-mono-naut text-xs font-bold text-[#1e7d4f]">3. Marinharia & Manobras</span>
+                <span className="font-mono-naut text-[11px] font-bold text-[#0b3a55]">
                   {((categoryScores['Marinharia'].earned / (categoryScores['Marinharia'].total || 1)) * 100).toFixed(0)}%
                 </span>
               </div>
-              <div className="w-full bg-[#e2d9c8] h-2 rounded-full overflow-hidden mb-1.5">
+              <div className="w-full bg-[#ede9de] h-2 rounded-xs overflow-hidden mb-1.5">
                 <div
-                  className="h-full bg-[#0284c7]"
+                  className="h-full bg-[#1e7d4f]"
                   style={{ width: `${Math.min(100, (categoryScores['Marinharia'].earned / (categoryScores['Marinharia'].total || 1)) * 100)}%` }}
                 />
               </div>
-              <div className="text-xs text-[#64748b] font-medium">
+              <div className="font-mono-naut text-[11px] text-[#4f6e82] font-medium">
                 Obtido: {categoryScores['Marinharia'].earned.toFixed(1)} / {categoryScores['Marinharia'].total.toFixed(1)} val
               </div>
             </div>
 
             {/* Outras Matérias */}
-            <div className="p-3.5 rounded-2xl bg-[#fbf8f2] border border-[#ded5c2]">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-bold text-[#5b21b6]">4. Outras Matérias</span>
-                <span className="text-xs font-bold text-[#112338]">
+            <div className="p-3.5 rounded-xs bg-[#faf7f0] border border-[#d7d0c1]">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="font-mono-naut text-xs font-bold text-[#9a7413]">4. Outras Matérias</span>
+                <span className="font-mono-naut text-[11px] font-bold text-[#0b3a55]">
                   {((categoryScores['Outras Matérias'].earned / (categoryScores['Outras Matérias'].total || 1)) * 100).toFixed(0)}%
                 </span>
               </div>
-              <div className="w-full bg-[#e2d9c8] h-2 rounded-full overflow-hidden mb-1.5">
+              <div className="w-full bg-[#ede9de] h-2 rounded-xs overflow-hidden mb-1.5">
                 <div
-                  className="h-full bg-[#7c3aed]"
+                  className="h-full bg-[#9a7413]"
                   style={{ width: `${Math.min(100, (categoryScores['Outras Matérias'].earned / (categoryScores['Outras Matérias'].total || 1)) * 100)}%` }}
                 />
               </div>
-              <div className="text-xs text-[#64748b] font-medium">
+              <div className="font-mono-naut text-[11px] text-[#4f6e82] font-medium">
                 Obtido: {categoryScores['Outras Matérias'].earned.toFixed(1)} / {categoryScores['Outras Matérias'].total.toFixed(1)} val
               </div>
             </div>
@@ -223,11 +223,11 @@ export const ExamSummaryModal: React.FC<ExamSummaryModalProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-8 pt-5 border-t border-[#ede6d8] flex flex-col sm:flex-row items-center justify-end gap-3">
+        <div className="mt-8 pt-5 border-t border-[#d7d0c1] flex flex-col sm:flex-row items-center justify-end gap-3">
           <button
             type="button"
             onClick={onBackToMenu}
-            className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-[#ded5c2] bg-[#f4efe4] hover:bg-[#eae3d2] text-[#475569] font-bold text-xs sm:text-sm transition-all"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-xs border border-[#d7d0c1] bg-[#ede9de] hover:bg-[#d7d0c1]/70 text-[#0b3a55] font-mono-naut uppercase tracking-wider font-semibold text-xs transition-all whitespace-nowrap shrink-0"
           >
             Menu de Testes
           </button>
@@ -235,7 +235,7 @@ export const ExamSummaryModal: React.FC<ExamSummaryModalProps> = ({
           <button
             type="button"
             onClick={onRetry}
-            className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-[#ded5c2] bg-white hover:bg-[#fcfaf5] text-[#112338] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-2xs"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] hover:border-[#0b3a55] text-[#0b3a55] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center justify-center gap-2 transition-all whitespace-nowrap shrink-0"
           >
             <RotateCcw className="w-4 h-4" />
             Repetir Exame
@@ -244,9 +244,9 @@ export const ExamSummaryModal: React.FC<ExamSummaryModalProps> = ({
           <button
             type="button"
             onClick={onReviewAnswers}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#112338] hover:bg-[#1c3858] text-white font-bold text-xs sm:text-sm shadow-xs flex items-center justify-center gap-2 transition-all"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xs bg-[#0b3a55] hover:bg-[#082b3f] text-[#faf7f0] font-mono-naut uppercase tracking-wider font-semibold text-xs flex items-center justify-center gap-2 transition-all whitespace-nowrap shrink-0"
           >
-            <Eye className="w-4 h-4 text-[#d4af37]" />
+            <Eye className="w-4 h-4 text-[#ca9e1c]" />
             Rever com Chave Oficial
           </button>
         </div>

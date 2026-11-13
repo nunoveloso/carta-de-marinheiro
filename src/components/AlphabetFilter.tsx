@@ -18,13 +18,13 @@ export const AlphabetFilter: React.FC<AlphabetFilterProps> = ({
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+        <span className="font-mono-naut text-[10px] font-medium uppercase tracking-[0.14em] text-[#4f6e82]">
           Navegar por Letra Inicial
         </span>
         {selectedLetter !== 'all' && (
           <button
             onClick={() => onSelectLetter('all')}
-            className="text-[11px] font-semibold text-[#a16207] hover:text-[#854d0e] transition underline underline-offset-2 cursor-pointer"
+            className="font-mono-naut text-[11px] font-medium text-[#9a7413] hover:text-[#0b3a55] transition underline underline-offset-2 cursor-pointer"
           >
             Limpar filtro (A-Z)
           </button>
@@ -35,10 +35,10 @@ export const AlphabetFilter: React.FC<AlphabetFilterProps> = ({
         {/* 'Todos' Button */}
         <button
           onClick={() => onSelectLetter('all')}
-          className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition shadow-2xs ${
+          className={`shrink-0 whitespace-nowrap rounded-xs px-3 py-1.5 font-mono-naut text-xs font-medium transition cursor-pointer ${
             selectedLetter === 'all'
-              ? 'bg-[#112338] text-[#fbf8f2]'
-              : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] hover:text-[#112338]'
+              ? 'bg-[#0b3a55] text-[#faf7f0] border border-[#0b3a55]'
+              : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
           title="Ver todos os termos"
         >
@@ -56,18 +56,18 @@ export const AlphabetFilter: React.FC<AlphabetFilterProps> = ({
               key={letter}
               onClick={() => hasTerms && onSelectLetter(letter)}
               disabled={!hasTerms}
-              className={`shrink-0 min-w-[34px] sm:min-w-[38px] h-9 rounded-xl flex items-center justify-center text-xs font-bold transition shadow-2xs ${
+              className={`shrink-0 min-w-[34px] sm:min-w-[38px] h-8 rounded-xs flex items-center justify-center font-mono-naut text-xs font-medium transition ${
                 isSelected
-                  ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
+                  ? 'bg-[#0b3a55] text-[#faf7f0] border border-[#0b3a55] cursor-pointer'
                   : hasTerms
-                  ? 'border border-[#ded5c2] bg-white text-[#112338] hover:bg-[#eae3d2] hover:border-[#112338]/40'
-                  : 'border border-[#e8e2d4] bg-[#fbf9f4] text-[#cbd5e1] opacity-50 cursor-not-allowed'
+                  ? 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#0b3a55] hover:bg-[#ede9de] hover:border-[#0b3a55] cursor-pointer'
+                  : 'border border-[#d7d0c1]/50 bg-[#faf7f0] text-[#4f6e82]/40 opacity-50 cursor-not-allowed'
               }`}
               title={hasTerms ? `${letter}: ${count} ${count === 1 ? 'termo' : 'termos'}` : `${letter}: sem termos`}
             >
               <span>{letter}</span>
               {hasTerms && (
-                <span className={`ml-1 text-[9px] font-semibold opacity-75 ${isSelected ? 'text-[#fbf8f2]' : 'text-[#854d0e]'}`}>
+                <span className={`ml-1 text-[9px] font-semibold ${isSelected ? 'text-[#ca9e1c]' : 'text-[#4f6e82]'}`}>
                   {count}
                 </span>
               )}

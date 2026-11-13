@@ -9,7 +9,7 @@ export const TestDiagram: React.FC<TestDiagramProps> = ({ diagram }) => {
   const { type, variant } = diagram;
 
   return (
-    <div className="my-4 p-4 rounded-xl border border-[#ded5c2] bg-white shadow-2xs flex flex-col items-center justify-center">
+    <div className="my-4 p-4 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] flex flex-col items-center justify-center">
       
       {/* 1. Rumos Cruzados / Colisão (Abalroamentos - Questão 2) */}
       {/* Reprodução fiel dos esquemas técnicos em papel dos testes da DGRM */}

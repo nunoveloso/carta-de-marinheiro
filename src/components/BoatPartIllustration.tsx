@@ -18,6 +18,7 @@ interface HighlightConfig {
   'alheta-bb'?: boolean;
   'meia-nau'?: boolean;
   'meio-navio'?: boolean;
+  isAftBeamAngles?: boolean;
   badgeLabel: string;
   badgeSide: string;
   summaryNote: string;
@@ -87,6 +88,15 @@ export const BOAT_PART_HIGHLIGHTS: Record<string, HighlightConfig> = {
     badgeSide: 'Plano Longitudinal Médio',
     summaryNote: 'Plano longitudinal vertical que divide o barco em Bombordo e Estibordo.',
   },
+  're-do-traves': {
+    'alheta-eb': true,
+    'alheta-bb': true,
+    popa: true,
+    isAftBeamAngles: true,
+    badgeLabel: 'Ré do Través (Ângulos R.I.E.A.M.)',
+    badgeSide: '> 22,5° para ré do través (135°)',
+    summaryNote: '90° (Través) + 22,5° = 112,5° da proa · Setor de Alcance: 135° (67,5° EB + 67,5° BB).',
+  },
 };
 
 export function isBoatPartTerm(termId: string): boolean {
@@ -118,21 +128,19 @@ export const BoatPartIllustration: React.FC<BoatPartIllustrationProps> = ({
 
   return (
     <div
-      className={`relative mx-auto w-full overflow-hidden ${
-        isModal
-          ? 'my-4 rounded-3xl border-2 border-[#7dd3fc] bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] shadow-md'
-          : 'my-3 rounded-2xl border border-[#7dd3fc] bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] shadow-xs'
+      className={`relative mx-auto w-full overflow-hidden rounded-xs border border-[#0b3a55]/30 bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] ${
+        isModal ? 'my-4' : 'my-3'
       }`}
     >
       {isModal && (
-        <div className="px-4 py-2 bg-white/75 backdrop-blur-xs border-b border-[#bae6fd] flex items-center justify-between flex-wrap gap-2">
+        <div className="px-4 py-2 bg-[#fcfbf8]/95 border-b border-[#d7d0c1] flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0284c7] animate-pulse" />
-            <span className="text-xs font-bold text-[#112338] uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-xs bg-[#0b3a55]" />
+            <span className="font-mono-naut text-[11px] font-medium text-[#0b3a55] uppercase tracking-wider">
               Esquema Náutico: {config.badgeLabel}
             </span>
           </div>
-          <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-[#e0f2fe] text-[#0369a1] border border-[#7dd3fc]">
+          <span className="font-mono-naut text-[10px] font-medium px-2 py-0.5 rounded-xs bg-[#dce8ef] text-[#0b3a55] border border-[#0b3a55]/30">
             {config.badgeSide}
           </span>
         </div>
@@ -141,7 +149,13 @@ export const BoatPartIllustration: React.FC<BoatPartIllustrationProps> = ({
       <svg
         viewBox="0 0 600 740"
         className={`w-full h-auto mx-auto select-none block drop-shadow-sm ${
-          isModal ? 'max-h-[290px]' : 'max-h-[185px]'
+          isModal
+            ? config.isAftBeamAngles
+              ? 'max-h-[360px]'
+              : 'max-h-[290px]'
+            : config.isAftBeamAngles
+            ? 'max-h-[225px]'
+            : 'max-h-[185px]'
         }`}
       >
         <defs>
@@ -297,7 +311,111 @@ export const BoatPartIllustration: React.FC<BoatPartIllustrationProps> = ({
           className="pointer-events-none"
         />
 
+        {/* ================= RIEAM "RÉ DO TRAVÉS" ANGLE SECTORS ================= */}
+        {config.isAftBeamAngles && (
+          <g className="pointer-events-none">
+            {/* Setor Luz de Estibordo (0° a 112,5° EB) */}
+            <path
+              d="M 300 370 L 300 110 A 260 260 0 0 1 540.2 469.5 Z"
+              fill="#16a34a"
+              fillOpacity="0.11"
+            />
+            {/* Setor Luz de Bombordo (0° a 112,5° BB) */}
+            <path
+              d="M 300 370 L 300 110 A 260 260 0 0 0 59.8 469.5 Z"
+              fill="#dc2626"
+              fillOpacity="0.11"
+            />
+
+            {/* Cunhas de transição 22,5° para ré do través (90° -> 112,5°) */}
+            <path
+              d="M 300 370 L 560 370 A 260 260 0 0 1 540.2 469.5 Z"
+              fill="#0b3a55"
+              fillOpacity="0.12"
+            />
+            <path
+              d="M 300 370 L 40 370 A 260 260 0 0 0 59.8 469.5 Z"
+              fill="#0b3a55"
+              fillOpacity="0.12"
+            />
+
+            {/* Setor de Alcance / > 22,5° para ré do través (135° = 67,5° EB + 67,5° BB) */}
+            <path
+              d="M 300 370 L 540.2 469.5 A 260 260 0 0 1 59.8 469.5 Z"
+              fill="#f59e0b"
+              fillOpacity="0.24"
+            />
+            <path
+              d="M 540.2 469.5 A 260 260 0 0 1 59.8 469.5"
+              fill="none"
+              stroke="#b45309"
+              strokeWidth="3"
+            />
+
+            {/* Eixos de referência: Proa-Popa (0°-180°) e Través (90°) */}
+            <line
+              x1="300"
+              y1="94"
+              x2="300"
+              y2="646"
+              stroke="#0b3a55"
+              strokeWidth="2"
+              strokeDasharray="6 4"
+            />
+            <line
+              x1="36"
+              y1="370"
+              x2="564"
+              y2="370"
+              stroke="#0b3a55"
+              strokeWidth="2.5"
+              strokeDasharray="7 5"
+            />
+
+            {/* Semirretas limite a 22,5° para ré do través (112,5° da proa) */}
+            <line
+              x1="300"
+              y1="370"
+              x2="546"
+              y2="472"
+              stroke="#b45309"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            <line
+              x1="300"
+              y1="370"
+              x2="54"
+              y2="472"
+              stroke="#b45309"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+
+            {/* Arcos internos de medição angular (r = 200) */}
+            <path
+              d="M 500 370 A 200 200 0 0 1 484.8 446.5"
+              fill="none"
+              stroke="#0b3a55"
+              strokeWidth="2.2"
+            />
+            <path
+              d="M 100 370 A 200 200 0 0 0 115.2 446.5"
+              fill="none"
+              stroke="#0b3a55"
+              strokeWidth="2.2"
+            />
+            <path
+              d="M 484.8 446.5 A 200 200 0 0 1 115.2 446.5"
+              fill="none"
+              stroke="#b45309"
+              strokeWidth="2.5"
+            />
+          </g>
+        )}
+
         {/* ================= WHITE HULL ASSEMBLY ================= */}
+        <g transform={config.isAftBeamAngles ? 'translate(300, 370) scale(0.56) translate(-300, -370)' : undefined}>
         <g id="boat-hull-body">
           <path
             d="M 300 115
@@ -465,51 +583,56 @@ export const BoatPartIllustration: React.FC<BoatPartIllustrationProps> = ({
           />
         </g>
 
-        {/* MEIA-NAU (LONGITUDINAL AXIS) */}
-        <g>
-          <line
-            x1="300"
-            y1="85"
-            x2="300"
-            y2="645"
-            stroke={isLit('meia-nau') ? '#f59e0b' : '#d97706'}
-            strokeWidth={isLit('meia-nau') ? '8' : '2.5'}
-            strokeDasharray={isLit('meia-nau') ? 'none' : '8 5'}
-            strokeLinecap="round"
-            filter={isLit('meia-nau') ? `url(#${glowYellowId})` : undefined}
-          />
-          <circle
-            cx="300"
-            cy="100"
-            r={isLit('meia-nau') ? '8' : '4.5'}
-            fill="#f59e0b"
-            stroke="#ffffff"
-            strokeWidth="1.5"
-          />
-          <circle
-            cx="300"
-            cy="635"
-            r={isLit('meia-nau') ? '8' : '4.5'}
-            fill="#f59e0b"
-            stroke="#ffffff"
-            strokeWidth="1.5"
-          />
-        </g>
+        {/* MEIA-NAU & MEIO-NAVIO (omit when showing clean RIEAM compass axes) */}
+        {!config.isAftBeamAngles && (
+          <>
+            {/* MEIA-NAU (LONGITUDINAL AXIS) */}
+            <g>
+              <line
+                x1="300"
+                y1="85"
+                x2="300"
+                y2="645"
+                stroke={isLit('meia-nau') ? '#f59e0b' : '#d97706'}
+                strokeWidth={isLit('meia-nau') ? '8' : '2.5'}
+                strokeDasharray={isLit('meia-nau') ? 'none' : '8 5'}
+                strokeLinecap="round"
+                filter={isLit('meia-nau') ? `url(#${glowYellowId})` : undefined}
+              />
+              <circle
+                cx="300"
+                cy="100"
+                r={isLit('meia-nau') ? '8' : '4.5'}
+                fill="#f59e0b"
+                stroke="#ffffff"
+                strokeWidth="1.5"
+              />
+              <circle
+                cx="300"
+                cy="635"
+                r={isLit('meia-nau') ? '8' : '4.5'}
+                fill="#f59e0b"
+                stroke="#ffffff"
+                strokeWidth="1.5"
+              />
+            </g>
 
-        {/* MEIO-NAVIO (TRANSVERSAL AXIS) */}
-        <g>
-          <line
-            x1="110"
-            y1="370"
-            x2="490"
-            y2="370"
-            stroke={isLit('meio-navio') ? '#d97706' : '#b45309'}
-            strokeWidth={isLit('meio-navio') ? '8' : '2.5'}
-            strokeDasharray={isLit('meio-navio') ? 'none' : '8 5'}
-            strokeLinecap="round"
-            filter={isLit('meio-navio') ? `url(#${glowYellowId})` : undefined}
-          />
-        </g>
+            {/* MEIO-NAVIO (TRANSVERSAL AXIS) */}
+            <g>
+              <line
+                x1="110"
+                y1="370"
+                x2="490"
+                y2="370"
+                stroke={isLit('meio-navio') ? '#d97706' : '#b45309'}
+                strokeWidth={isLit('meio-navio') ? '8' : '2.5'}
+                strokeDasharray={isLit('meio-navio') ? 'none' : '8 5'}
+                strokeLinecap="round"
+                filter={isLit('meio-navio') ? `url(#${glowYellowId})` : undefined}
+              />
+            </g>
+          </>
+        )}
 
         {/* Intersection Hub */}
         <circle
@@ -521,14 +644,63 @@ export const BoatPartIllustration: React.FC<BoatPartIllustrationProps> = ({
           strokeWidth="2"
           filter={isLit('meia-nau') || isLit('meio-navio') ? `url(#${glowYellowId})` : undefined}
         />
+        </g>
+
+        {/* ================= RIEAM ANGLE LABELS ================= */}
+        {config.isAftBeamAngles && (
+          <g className="pointer-events-none" fontFamily="'IBM Plex Mono', monospace" fontWeight="700">
+            {/* 0° Proa */}
+            <rect x="242" y="54" width="116" height="28" rx="3" fill="#fcfbf8" stroke="#0b3a55" strokeWidth="1.5" />
+            <text x="300" y="73" textAnchor="middle" fill="#0b3a55" fontSize="14">0° PROA</text>
+
+            {/* Setores de Bordo 112,5° */}
+            <rect x="74" y="196" width="102" height="26" rx="3" fill="#fcfbf8" fillOpacity="0.92" stroke="#b91c1c" strokeWidth="1.2" />
+            <text x="125" y="214" textAnchor="middle" fill="#b91c1c" fontSize="13">112,5° BB</text>
+
+            <rect x="424" y="196" width="102" height="26" rx="3" fill="#fcfbf8" fillOpacity="0.92" stroke="#15803d" strokeWidth="1.2" />
+            <text x="475" y="214" textAnchor="middle" fill="#15803d" fontSize="13">112,5° EB</text>
+
+            {/* 90° Través BB e EB */}
+            <rect x="14" y="330" width="120" height="26" rx="3" fill="#fcfbf8" stroke="#0b3a55" strokeWidth="1.5" />
+            <text x="74" y="348" textAnchor="middle" fill="#0b3a55" fontSize="12.5">90° TRAVÉS BB</text>
+
+            <rect x="466" y="330" width="120" height="26" rx="3" fill="#fcfbf8" stroke="#0b3a55" strokeWidth="1.5" />
+            <text x="526" y="348" textAnchor="middle" fill="#0b3a55" fontSize="12.5">90° TRAVÉS EB</text>
+
+            {/* Ângulo crítico 22,5° (entre 90° e 112,5°) */}
+            <rect x="108" y="394" width="60" height="24" rx="3" fill="#0b3a55" />
+            <text x="138" y="411" textAnchor="middle" fill="#faf7f0" fontSize="13">22,5°</text>
+
+            <rect x="432" y="394" width="60" height="24" rx="3" fill="#0b3a55" />
+            <text x="462" y="411" textAnchor="middle" fill="#faf7f0" fontSize="13">22,5°</text>
+
+            {/* Limite 112,5° da Proa */}
+            <rect x="14" y="478" width="128" height="24" rx="3" fill="#fcfbf8" stroke="#b45309" strokeWidth="1.5" />
+            <text x="78" y="495" textAnchor="middle" fill="#92400e" fontSize="12">112,5° DA PROA</text>
+
+            <rect x="458" y="478" width="128" height="24" rx="3" fill="#fcfbf8" stroke="#b45309" strokeWidth="1.5" />
+            <text x="522" y="495" textAnchor="middle" fill="#92400e" fontSize="12">112,5° DA PROA</text>
+
+            {/* 67,5° de cada bordo da Popa */}
+            <rect x="168" y="514" width="62" height="24" rx="3" fill="#fcfbf8" fillOpacity="0.92" stroke="#b45309" strokeWidth="1.2" />
+            <text x="199" y="531" textAnchor="middle" fill="#92400e" fontSize="13">67,5°</text>
+
+            <rect x="370" y="514" width="62" height="24" rx="3" fill="#fcfbf8" fillOpacity="0.92" stroke="#b45309" strokeWidth="1.2" />
+            <text x="401" y="531" textAnchor="middle" fill="#92400e" fontSize="13">67,5°</text>
+
+            {/* Setor 135° + 180° Popa */}
+            <rect x="128" y="652" width="344" height="32" rx="3" fill="#0b3a55" stroke="#ca9e1c" strokeWidth="1.5" />
+            <text x="300" y="673" textAnchor="middle" fill="#faf7f0" fontSize="13">135° · &gt; 22,5° RÉ DO TRAVÉS (POPA 180°)</text>
+          </g>
+        )}
       </svg>
 
       {/* Clean Unboxed Caption Strip - NO LABELS on the SVG, simple clean card banner */}
-      <div className="px-3.5 py-1.5 bg-[#f0f9ff]/90 border-t border-[#bae6fd] flex items-center justify-between text-[11px] text-[#0369a1] font-medium">
+      <div className="px-3.5 py-1.5 bg-[#fcfbf8]/95 border-t border-[#d7d0c1] flex items-center justify-between text-[11px] text-[#4f6e82] font-medium gap-2 flex-wrap">
         <span>
-          Destaque: <strong className="text-[#112338]">{config.badgeLabel}</strong>
+          Destaque: <strong className="text-[#0b3a55]">{config.badgeLabel}</strong>
         </span>
-        <span className="text-[10px] text-[#0284c7]">{config.badgeSide}</span>
+        <span className="font-mono-naut text-[10px] text-[#9a7413] uppercase tracking-wider">{config.badgeSide}</span>
       </div>
     </div>
   );

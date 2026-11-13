@@ -5,7 +5,7 @@ export const CATEGORIES: CategoryMeta[] = [
     "id": "R.I.E.A.M.",
     "name": "R.I.E.A.M.",
     "description": "Sinais Sonoros, Balões e Abalroamentos.",
-    "iconName": "ShieldAlert",
+    "iconName": "Ship",
     "color": "from-emerald-600 to-teal-600"
   },
   {
@@ -26,7 +26,7 @@ export const CATEGORIES: CategoryMeta[] = [
     "id": "Outras Matérias",
     "name": "Outras Matérias",
     "description": "Marés, Balizagem, Meteorologia, Motores, Legislação, Navegação e Siglas.",
-    "iconName": "Compass",
+    "iconName": "Map",
     "color": "from-cyan-600 to-sky-700"
   }
 ];

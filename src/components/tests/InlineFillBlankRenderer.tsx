@@ -44,12 +44,12 @@ export const InlineFillBlankRenderer: React.FC<InlineFillBlankRendererProps> = (
 
     return (
       <div className="space-y-3 mt-4">
-        <p className="text-base sm:text-lg font-bold text-[#112338] leading-relaxed">
+        <p className="text-base sm:text-lg font-bold text-[#0b3a55] leading-relaxed">
           {statement}
         </p>
 
         <div className="flex flex-col sm:flex-row items-baseline gap-2 pt-2">
-          <span className="text-xs font-bold text-[#64748b] uppercase tracking-wider shrink-0">
+          <span className="font-mono-naut text-[11px] font-semibold text-[#4f6e82] uppercase tracking-wider shrink-0">
             Resposta:
           </span>
           <div className="flex-1 w-full max-w-xl">
@@ -59,18 +59,18 @@ export const InlineFillBlankRenderer: React.FC<InlineFillBlankRendererProps> = (
               disabled={disabled}
               onChange={(e) => onChangeBlank(0, e.target.value)}
               placeholder="Escreva a resposta aqui..."
-              className={`w-full border-b-2 font-medium text-sm sm:text-base px-3 py-1.5 rounded-t outline-none transition-all ${
+              className={`w-full border-b-2 font-medium text-sm sm:text-base px-3 py-1.5 rounded-t-xs outline-none transition-all ${
                 reviewMode
                   ? isCorrect
-                    ? 'border-[#16a34a] bg-[#dcfce7]/70 text-[#14532d]'
-                    : 'border-[#dc2626] bg-[#fee2e2]/70 text-[#991b1b]'
-                  : 'border-dashed border-[#112338]/60 focus:border-solid focus:border-[#112338] bg-[#f8f5ee] focus:bg-white text-[#112338] shadow-2xs'
+                    ? 'border-[#1e7d4f] bg-[#dcebe1] text-[#1e7d4f]'
+                    : 'border-[#b3402f] bg-[#f3ded9] text-[#b3402f]'
+                  : 'border-dashed border-[#0b3a55]/60 focus:border-solid focus:border-[#0b3a55] bg-[#faf7f0] focus:bg-[#fcfbf8] text-[#0b3a55]'
               }`}
             />
             {reviewMode && expected && (
-              <div className="mt-1 text-xs flex items-center gap-1.5">
-                <span className="text-[#64748b]">Resposta oficial:</span>
-                <span className="font-bold text-[#166534] bg-[#dcfce7] px-2 py-0.5 rounded border border-[#86efac]">
+              <div className="mt-1.5 font-mono-naut text-xs flex items-center gap-1.5">
+                <span className="text-[#4f6e82]">Resposta oficial:</span>
+                <span className="font-semibold text-[#1e7d4f] bg-[#dcebe1] px-2 py-0.5 rounded-xs border border-[#1e7d4f]/40">
                   {expected}
                 </span>
               </div>
@@ -103,12 +103,12 @@ export const InlineFillBlankRenderer: React.FC<InlineFillBlankRendererProps> = (
         return (
           <div
             key={lineIdx}
-            className={`flex flex-wrap items-baseline text-sm sm:text-base text-[#1e293b] leading-loose ${
+            className={`flex flex-wrap items-baseline text-sm sm:text-base text-[#0b3a55] leading-loose ${
               isBullet ? 'pl-4 sm:pl-6 relative' : ''
             }`}
           >
             {isBullet && (
-              <span className="absolute left-0 text-[#a16207] font-black select-none text-base">
+              <span className="absolute left-0 text-[#9a7413] font-black select-none text-base">
                 •
               </span>
             )}
@@ -143,7 +143,7 @@ export const InlineFillBlankRenderer: React.FC<InlineFillBlankRendererProps> = (
                 <React.Fragment key={partIdx}>
                   {/* Text fragment preceding the blank */}
                   {part && (
-                    <span className="font-medium text-[#112338]">
+                    <span className="font-medium text-[#0b3a55]">
                       {part}
                     </span>
                   )}
@@ -158,12 +158,12 @@ export const InlineFillBlankRenderer: React.FC<InlineFillBlankRendererProps> = (
                         onChange={(e) => onChangeBlank(currentBlank, e.target.value)}
                         placeholder="________"
                         aria-label={`Espaço ${currentBlank + 1} para preenchimento`}
-                        className={`border-b-2 font-semibold text-sm sm:text-base px-2.5 py-0.5 rounded-t transition-all outline-none text-[#112338] ${
+                        className={`border-b-2 font-semibold text-sm sm:text-base px-2.5 py-0.5 rounded-t-xs transition-all outline-none text-[#0b3a55] ${
                           reviewMode
                             ? isBlankCorrect
-                              ? 'border-solid border-[#16a34a] bg-[#dcfce7] text-[#14532d]'
-                              : 'border-solid border-[#dc2626] bg-[#fee2e2] text-[#991b1b]'
-                            : 'border-dashed border-[#112338]/60 focus:border-solid focus:border-[#112338] bg-[#fdfaf3] focus:bg-white focus:ring-2 focus:ring-[#112338]/15 shadow-2xs hover:border-[#112338]'
+                              ? 'border-solid border-[#1e7d4f] bg-[#dcebe1] text-[#1e7d4f]'
+                              : 'border-solid border-[#b3402f] bg-[#f3ded9] text-[#b3402f]'
+                            : 'border-dashed border-[#0b3a55]/60 focus:border-solid focus:border-[#0b3a55] bg-[#fcfbf8] focus:bg-[#fcfbf8] focus:ring-2 focus:ring-[#0b3a55]/15 hover:border-[#0b3a55]'
                         }`}
                         style={{
                           width: `${inputWidth}px`,
@@ -172,17 +172,17 @@ export const InlineFillBlankRenderer: React.FC<InlineFillBlankRendererProps> = (
 
                       {/* Review Mode Answer Helper Badge */}
                       {reviewMode && expectedForBlank && (
-                        <div className="mt-1 flex items-center gap-1 text-[11px] font-sans">
+                        <div className="mt-1 flex items-center gap-1 font-mono-naut text-[11px]">
                           {isBlankCorrect ? (
-                            <span className="inline-flex items-center gap-1 font-bold text-[#166534] bg-[#dcfce7] border border-[#86efac] rounded px-1.5 py-0.5 shadow-2xs">
+                            <span className="inline-flex items-center gap-1 font-semibold text-[#1e7d4f] bg-[#dcebe1] border border-[#1e7d4f]/40 rounded-xs px-1.5 py-0.5">
                               <Check className="w-3 h-3" />
                               {expectedForBlank}
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 font-bold text-[#991b1b] bg-[#fee2e2] border border-[#fca5a5] rounded px-1.5 py-0.5 shadow-2xs">
+                            <span className="inline-flex items-center gap-1 font-semibold text-[#b3402f] bg-[#f3ded9] border border-[#b3402f]/40 rounded-xs px-1.5 py-0.5">
                               <X className="w-3 h-3" />
-                              <span className="text-[#64748b] font-normal">Oficial:</span>
-                              <span className="text-[#166534] font-bold">{expectedForBlank}</span>
+                              <span className="text-[#4f6e82] font-normal">Oficial:</span>
+                              <span className="text-[#1e7d4f] font-bold">{expectedForBlank}</span>
                             </span>
                           )}
                         </div>

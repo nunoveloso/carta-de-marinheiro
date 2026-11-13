@@ -31,6 +31,7 @@ import {
   SubCategory,
   TAXONOMY_TREE,
   getMainCategoryForSubCategory,
+  getCategoryStyle,
 } from './types/glossary';
 import { CATEGORIES } from './data/initialTerms';
 import { Navbar } from './components/Navbar';
@@ -45,6 +46,7 @@ import { AddTermModal } from './components/AddTermModal';
 import { AuthModal } from './components/AuthModal';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { AlphabetFilter } from './components/AlphabetFilter';
+import { CategoryIcon } from './components/CategoryIcon';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
@@ -134,7 +136,7 @@ export default function App() {
           id: catId,
           name: catId,
           description: catId,
-          iconName: 'Compass',
+          iconName: 'Map',
           color: 'from-blue-600 to-indigo-700',
         });
       }
@@ -175,6 +177,10 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setAuthReady(true);
+      if (!user) {
+        setOnlyBookmarked(false);
+        setOnlyWithNotes(false);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -345,7 +351,8 @@ export default function App() {
     str
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
 
   const sortTerms = (list: NauticalTerm[]) => {
     return list.slice().sort((a, b) => {
@@ -412,11 +419,10 @@ export default function App() {
   ]);
 
   // Search Results Split: Section 1 (Direct name matches) & Section 2 (Content matches)
-  const isSearching = Boolean(searchQuery.trim());
+  const queryNorm = useMemo(() => normalize(searchQuery), [searchQuery]);
+  const isSearching = Boolean(queryNorm);
 
   const { directNameMatches, contentMatches, nonSearchFilteredTerms } = useMemo(() => {
-    const queryNorm = normalize(searchQuery.trim());
-
     if (!queryNorm) {
       return {
         directNameMatches: [] as NauticalTerm[],
@@ -450,7 +456,7 @@ export default function App() {
       contentMatches: sortTerms(content),
       nonSearchFilteredTerms: [] as NauticalTerm[],
     };
-  }, [baseFilteredTerms, searchQuery, sortBy]);
+  }, [baseFilteredTerms, queryNorm, sortBy]);
 
   // Active cards list for the bottom cards grid
   const activeCardsList = isSearching ? contentMatches : nonSearchFilteredTerms;
@@ -479,7 +485,7 @@ export default function App() {
   }, [hasMore, activeCardsList.length]);
 
   return (
-    <div className="min-h-screen bg-[#fbf8f2] text-[#1e293b] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#faf7f0] text-[#0b3a55] flex flex-col">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -502,42 +508,42 @@ export default function App() {
         {activeTab === 'glossario' && (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
             
-            {/* Hero / Quick Search Banner - Papyrus & Maritime Admiralty Look */}
-            <div className="relative rounded-3xl border border-[#ded5c2] bg-[#f4efe4] p-6 sm:p-8 mb-8 shadow-xs">
+            {/* Hero / Quick Search Banner - Chart Paper & Admiralty Editorial Look */}
+            <div className="relative rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-8 mb-8">
               <div className="relative z-10 max-w-2xl">
                 
-                {/* Clean unboxed subtitle */}
-                <div className="flex items-center gap-2 text-xs text-[#64748b] font-medium mb-2.5">
-                  <Compass className="w-4 h-4 text-[#a16207]" />
+                {/* Clean monospaced archival kicker */}
+                <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82] mb-2.5">
+                  <Compass className="w-4 h-4 text-[#9a7413]" />
                   <span>DGRM Portugal</span>
-                  <span aria-hidden="true" className="text-[#cbd5e1]">·</span>
+                  <span aria-hidden="true" className="text-[#d7d0c1]">·</span>
                   <span>Manual do Marinheiro (2021)</span>
                 </div>
 
-                <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#112338] tracking-tight leading-tight">
+                <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight">
                   Glossário Náutico Interativo
                 </h2>
 
-                <p className="mt-2 text-xs sm:text-sm text-[#475569] leading-relaxed">
-                  Consulte os termos e definições oficiais extraídos integralmente do <strong>Manual do Marinheiro</strong>, organizados pelas suas secções e subsecções originais, com pronúncia áudio, regras do R.I.E.A.M. e dicas de exame.
+                <p className="mt-2 text-xs sm:text-sm text-[#4f6e82] leading-relaxed">
+                  Consulte os termos e definições oficiais extraídos integralmente do <strong className="text-[#0b3a55]">Manual do Marinheiro</strong>, organizados pelas suas secções e subsecções originais, com pronúncia áudio, regras do R.I.E.A.M. e dicas de exame.
                 </p>
 
                 {/* Instant Search Bar */}
                 <div className="mt-5 relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-[#64748b]">
-                    <Search className="w-5 h-5 text-[#a16207]" />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-[#4f6e82]">
+                    <Search className="w-5 h-5 text-[#9a7413]" />
                   </div>
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Pesquisar termo, secção, manobra (ex: Quilha, Barlavento, Butakow, Ferro, Marés, IALA, Navtex)..."
-                    className="w-full rounded-2xl border border-[#ded5c2] bg-white py-3.5 pl-12 pr-10 text-xs sm:text-sm text-[#1e293b] placeholder:text-[#94a3b8] focus:border-[#112338] focus:outline-none focus:ring-1 focus:ring-[#112338] shadow-2xs transition"
+                    className="w-full rounded-xs border border-[#d3ccbb] bg-[#fcfbf8] py-3.5 pl-12 pr-10 text-xs sm:text-sm text-[#0b3a55] placeholder:text-[#4f6e82]/60 focus:border-[#0b3a55] focus:outline-none focus:ring-1 focus:ring-[#0b3a55] transition"
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-[#94a3b8] hover:text-[#112338]"
+                      className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-[#4f6e82] hover:text-[#0b3a55] cursor-pointer"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -546,7 +552,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Filter and Category Pills */}
+            {/* Filter and Category Controls */}
             <div className="space-y-4 mb-8">
               
               {/* Alphabet Navigation (A-Z) */}
@@ -557,14 +563,14 @@ export default function App() {
                 totalCount={terms.length}
               />
 
-              {/* Category selector chips */}
+              {/* Category selector buttons */}
               <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
                 <button
                   onClick={() => setSelectedCategory('all')}
-                  className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
+                  className={`rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium whitespace-nowrap shrink-0 border transition cursor-pointer ${
                     selectedCategory === 'all'
-                      ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
-                      : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] hover:text-[#112338]'
+                      ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
+                      : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
                   }`}
                 >
                   Todas as Categorias ({terms.length})
@@ -572,31 +578,43 @@ export default function App() {
 
                 {availableCategories.map((cat) => {
                   const count = terms.filter((t) => t.category === cat.id).length;
+                  const catStyle = getCategoryStyle(cat.id);
+                  const isActive = selectedCategory === cat.id;
                   return (
                     <button
                       key={cat.id}
                       onClick={() => setSelectedCategory(cat.id)}
-                      className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
-                        selectedCategory === cat.id
-                          ? 'bg-[#112338] text-[#fbf8f2] shadow-xs'
-                          : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] hover:text-[#112338]'
+                      style={
+                        isActive
+                          ? { backgroundColor: catStyle.solid, borderColor: catStyle.solid, color: '#faf7f0' }
+                          : undefined
+                      }
+                      className={`inline-flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium whitespace-nowrap shrink-0 border transition cursor-pointer ${
+                        isActive
+                          ? ''
+                          : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
                       }`}
                     >
-                      {cat.name} ({count})
+                      <CategoryIcon
+                        category={cat.id}
+                        className="w-3.5 h-3.5 shrink-0"
+                        style={{ color: isActive ? '#faf7f0' : catStyle.solid }}
+                      />
+                      <span>{cat.name} ({count})</span>
                     </button>
                   );
                 })}
               </div>
 
               {/* Secondary Sub-filters */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#ede6d8] text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#d7d0c1] text-xs">
                 
                 <div className="flex flex-wrap items-center gap-2">
                   {/* SubCategory Filter */}
                   <select
                     value={selectedSubCategory}
                     onChange={(e) => setSelectedSubCategory(e.target.value)}
-                    className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs font-semibold max-w-[220px] truncate"
+                    className="rounded-xs border border-[#d3ccbb] bg-[#fcfbf8] px-3 py-1.5 text-[#0b3a55] hover:border-[#0b3a55] focus:border-[#0b3a55] focus:outline-none font-semibold max-w-[240px] truncate cursor-pointer transition"
                     title="Filtrar por Subcategoria"
                   >
                     <option value="all">
@@ -614,7 +632,7 @@ export default function App() {
                   <select
                     value={selectedImportance}
                     onChange={(e) => setSelectedImportance(e.target.value)}
-                    className="rounded-xl border border-[#ded5c2] bg-white px-3 py-1.5 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs font-medium"
+                    className="rounded-xs border border-[#d3ccbb] bg-[#fcfbf8] px-3 py-1.5 text-[#0b3a55] hover:border-[#0b3a55] focus:border-[#0b3a55] focus:outline-none font-medium cursor-pointer transition"
                   >
                     <option value="all">Todas as Importâncias</option>
                     <option value="essencial">★ Apenas Exame Obrigatório</option>
@@ -623,37 +641,49 @@ export default function App() {
                   </select>
 
                   <button
-                    onClick={() => setOnlyBookmarked(!onlyBookmarked)}
-                    className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-semibold transition ${
+                    onClick={() => {
+                      if (!currentUser) {
+                        setIsAuthModalOpen(true);
+                        return;
+                      }
+                      setOnlyBookmarked(!onlyBookmarked);
+                    }}
+                    className={`flex items-center gap-1.5 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.04em] font-medium whitespace-nowrap shrink-0 border transition cursor-pointer ${
                       onlyBookmarked
-                        ? 'bg-[#112338] text-[#fbf8f2]'
-                        : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] shadow-2xs'
+                        ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
+                        : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
                     }`}
                   >
-                    <Star className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-[#d97706]' : 'text-[#64748b]'}`} />
+                    <Star className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-[#ca9e1c] text-[#ca9e1c]' : 'text-[#9a7413]'}`} />
                     <span>Favoritos ({bookmarkedIds.size})</span>
                   </button>
 
                   <button
-                    onClick={() => setOnlyWithNotes(!onlyWithNotes)}
-                    className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 font-semibold transition ${
+                    onClick={() => {
+                      if (!currentUser) {
+                        setIsAuthModalOpen(true);
+                        return;
+                      }
+                      setOnlyWithNotes(!onlyWithNotes);
+                    }}
+                    className={`flex items-center gap-1.5 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.04em] font-medium whitespace-nowrap shrink-0 border transition cursor-pointer ${
                       onlyWithNotes
-                        ? 'bg-[#112338] text-[#fbf8f2]'
-                        : 'border border-[#ded5c2] bg-white text-[#475569] hover:bg-[#eae3d2] shadow-2xs'
+                        ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
+                        : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
                     }`}
                   >
-                    <FileText className="w-3.5 h-3.5 text-[#64748b]" />
+                    <FileText className={`w-3.5 h-3.5 ${onlyWithNotes ? 'text-[#ca9e1c]' : 'text-[#4f6e82]'}`} />
                     <span>Minhas Notas ({Object.keys(userNotes).length})</span>
                   </button>
                 </div>
 
-                <div className="flex items-center gap-2 text-[#64748b]">
+                <div className="flex items-center gap-2 text-[#4f6e82]">
                   <ArrowUpDown className="w-3.5 h-3.5" />
-                  <span>Ordenar:</span>
+                  <span className="font-mono-naut text-[11px] uppercase tracking-wider">Ordenar:</span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'alpha' | 'importance' | 'category')}
-                    className="rounded-xl border border-[#ded5c2] bg-white px-2.5 py-1 text-[#1e293b] focus:border-[#112338] focus:outline-none shadow-2xs"
+                    className="rounded-xs border border-[#d3ccbb] bg-[#fcfbf8] px-2.5 py-1 text-[#0b3a55] hover:border-[#0b3a55] focus:border-[#0b3a55] focus:outline-none font-medium cursor-pointer transition"
                   >
                     <option value="alpha">Ordem Alfabética (A-Z)</option>
                     <option value="importance">Importância no Exame</option>
@@ -668,13 +698,13 @@ export default function App() {
             {/* Loading State */}
             {isLoadingTerms && terms.length === 0 ? (
               <div className="py-20 text-center max-w-md mx-auto">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f4efe4] border border-[#ded5c2] text-[#112338]">
-                  <Compass className="w-8 h-8 animate-spin text-[#a16207]" />
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
+                  <Compass className="w-8 h-8 animate-spin text-[#9a7413]" />
                 </div>
-                <h3 className="mt-4 font-maritime text-xl font-bold text-[#112338]">
+                <h3 className="mt-4 font-maritime text-xl font-bold text-[#0b3a55]">
                   A carregar termos náuticos...
                 </h3>
-                <p className="mt-1 text-xs text-[#64748b]">
+                <p className="mt-1 font-mono-naut text-xs text-[#4f6e82]">
                   A sincronizar os dados da Cloud Firestore.
                 </p>
               </div>
@@ -684,14 +714,14 @@ export default function App() {
                 {/* SECTION 1: Direct matches in the term name */}
                 {directNameMatches.length > 0 && (
                   <div>
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-[#ded5c2] pb-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-[#d7d0c1] pb-2.5">
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-[#a16207]" />
-                        <h3 className="font-maritime text-base sm:text-lg font-bold text-[#112338]">
+                        <Sparkles className="w-4 h-4 text-[#9a7413]" />
+                        <h3 className="font-maritime text-base sm:text-lg font-bold text-[#0b3a55]">
                           Correspondências Diretas no Nome do Termo ({directNameMatches.length})
                         </h3>
                       </div>
-                      <span className="text-xs text-[#64748b]">
+                      <span className="font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
                         {directNameMatches.length === 1
                           ? '1 termo com nome coincidente'
                           : `${directNameMatches.length} termos com nomes coincidentes`}
@@ -718,14 +748,14 @@ export default function App() {
                 {/* SECTION 2: Matches inside the card content (definition, examTip, example) */}
                 {contentMatches.length > 0 ? (
                   <div>
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-[#ded5c2] pb-2.5">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-[#d7d0c1] pb-2.5">
                       <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-[#a16207]" />
-                        <h3 className="font-maritime text-base sm:text-lg font-bold text-[#112338]">
+                        <BookOpen className="w-4 h-4 text-[#9a7413]" />
+                        <h3 className="font-maritime text-base sm:text-lg font-bold text-[#0b3a55]">
                           Termos com correspondência no conteúdo ({contentMatches.length})
                         </h3>
                       </div>
-                      <span className="text-xs text-[#64748b]">
+                      <span className="font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
                         A mostrar {visibleCards.length} de {contentMatches.length}
                       </span>
                     </div>
@@ -753,28 +783,28 @@ export default function App() {
                       <div className="mt-6 text-center">
                         <button
                           onClick={() => setVisibleCount((prev) => Math.min(prev + 12, contentMatches.length))}
-                          className="inline-flex items-center gap-2 rounded-xl border border-[#ded5c2] bg-white px-5 py-2.5 text-xs font-semibold text-[#112338] shadow-2xs hover:bg-[#f4efe4] transition"
+                          className="inline-flex items-center gap-2 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] px-5 py-2.5 font-mono-naut text-xs uppercase tracking-wider font-medium text-[#0b3a55] hover:border-[#0b3a55] hover:bg-[#ede9de]/50 transition"
                         >
                           <span>Carregar mais 12 termos</span>
-                          <span className="text-[#a16207] font-bold">({contentMatches.length - visibleCount} restantes)</span>
+                          <span className="text-[#9a7413] font-semibold">({contentMatches.length - visibleCount} restantes)</span>
                         </button>
                       </div>
                     )}
                   </div>
                 ) : directNameMatches.length > 0 ? (
-                  <div className="rounded-2xl border border-dashed border-[#ded5c2] bg-[#fcfaf7] p-6 text-center text-xs text-[#64748b]">
+                  <div className="rounded-xs border border-dashed border-[#d7d0c1] bg-[#fcfbf8] p-6 text-center text-xs text-[#4f6e82]">
                     Não foram encontradas menções adicionais a "{searchQuery}" nas definições ou dicas de exame de outros termos.
                   </div>
                 ) : (
                   /* No direct matches and no content matches */
                   <div className="py-16 text-center max-w-md mx-auto">
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f4efe4] border border-[#ded5c2] text-[#64748b]">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#4f6e82]">
                       <Search className="w-7 h-7" />
                     </div>
-                    <h3 className="mt-4 font-maritime text-2xl font-bold text-[#112338]">
+                    <h3 className="mt-4 font-maritime text-2xl font-bold text-[#0b3a55]">
                       Nenhum termo náutico encontrado
                     </h3>
-                    <p className="mt-1.5 text-xs sm:text-sm text-[#64748b]">
+                    <p className="mt-1.5 text-xs sm:text-sm text-[#4f6e82]">
                       Não existem termos que correspondam à sua pesquisa "{searchQuery}".
                     </p>
                     <button
@@ -787,7 +817,7 @@ export default function App() {
                         setOnlyBookmarked(false);
                         setOnlyWithNotes(false);
                       }}
-                      className="mt-4 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1c3858] transition"
+                      className="mt-4 rounded-xs bg-[#0b3a55] px-4 py-2 font-mono-naut text-xs uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition"
                     >
                       Limpar Todos os Filtros
                     </button>
@@ -798,18 +828,18 @@ export default function App() {
               /* REGULAR BROWSING VIEW (NO SEARCH QUERY) WITH LAZY LOAD */
               <div>
                 {/* Result count bar */}
-                <div className="flex items-center justify-between mb-4 text-xs text-[#64748b] border-b border-[#ede6d8] pb-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-4 font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82] border-b border-[#d7d0c1] pb-2.5">
                   <div className="flex items-center gap-2">
                     <span>
-                      A mostrar <strong>{visibleCards.length}</strong> de <strong>{activeCardsList.length}</strong> termos
+                      A mostrar <strong className="text-[#0b3a55]">{visibleCards.length}</strong> de <strong className="text-[#0b3a55]">{activeCardsList.length}</strong> termos
                       {selectedLetter !== 'all' && (
-                        <span className="ml-1 text-[#a16207] font-semibold">(Letra {selectedLetter})</span>
+                        <span className="ml-1 text-[#9a7413] font-semibold">(Letra {selectedLetter})</span>
                       )}
                       {selectedCategory !== 'all' && (
-                        <span className="ml-1 text-[#112338]">· {selectedCategory}</span>
+                        <span className="ml-1 text-[#0b3a55]">· {selectedCategory}</span>
                       )}
                       {selectedSubCategory !== 'all' && (
-                        <span className="ml-1 text-[#64748b]">› {selectedSubCategory}</span>
+                        <span className="ml-1 text-[#4f6e82]">› {selectedSubCategory}</span>
                       )}
                     </span>
                   </div>
@@ -847,23 +877,23 @@ export default function App() {
                       <div className="mt-8 text-center">
                         <button
                           onClick={() => setVisibleCount((prev) => Math.min(prev + 12, activeCardsList.length))}
-                          className="inline-flex items-center gap-2 rounded-xl border border-[#ded5c2] bg-white px-6 py-2.5 text-xs font-semibold text-[#112338] shadow-2xs hover:bg-[#f4efe4] transition"
+                          className="inline-flex items-center gap-2 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] px-6 py-2.5 font-mono-naut text-xs uppercase tracking-wider font-medium text-[#0b3a55] hover:border-[#0b3a55] hover:bg-[#ede9de]/50 transition"
                         >
                           <span>Carregar mais 12 termos</span>
-                          <span className="text-[#a16207] font-bold">({activeCardsList.length - visibleCount} restantes)</span>
+                          <span className="text-[#9a7413] font-semibold">({activeCardsList.length - visibleCount} restantes)</span>
                         </button>
                       </div>
                     )}
                   </>
                 ) : (
                   <div className="py-16 text-center max-w-md mx-auto">
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f4efe4] border border-[#ded5c2] text-[#64748b]">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#4f6e82]">
                       <Search className="w-7 h-7" />
                     </div>
-                    <h3 className="mt-4 font-maritime text-2xl font-bold text-[#112338]">
+                    <h3 className="mt-4 font-maritime text-2xl font-bold text-[#0b3a55]">
                       Nenhum termo encontrado
                     </h3>
-                    <p className="mt-1.5 text-xs sm:text-sm text-[#64748b]">
+                    <p className="mt-1.5 text-xs sm:text-sm text-[#4f6e82]">
                       Nenhum termo corresponde aos filtros selecionados
                       {selectedLetter !== 'all' ? ` para a letra "${selectedLetter}"` : ''}.
                     </p>
@@ -877,7 +907,7 @@ export default function App() {
                         setOnlyBookmarked(false);
                         setOnlyWithNotes(false);
                       }}
-                      className="mt-4 rounded-xl bg-[#112338] px-4 py-2 text-xs font-semibold text-[#fbf8f2] hover:bg-[#1c3858] transition"
+                      className="mt-4 rounded-xs bg-[#0b3a55] px-4 py-2 font-mono-naut text-xs uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition"
                     >
                       Limpar Todos os Filtros
                     </button>
@@ -891,7 +921,12 @@ export default function App() {
 
         {/* FLASHCARDS TAB */}
         {activeTab === 'flashcards' && (
-          <FlashcardsView terms={terms} bookmarkedIds={bookmarkedIds} />
+          <FlashcardsView
+            terms={terms}
+            bookmarkedIds={bookmarkedIds}
+            isLoggedIn={Boolean(currentUser)}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
+          />
         )}
 
         {/* QUIZ EXAM SIMULATOR TAB */}
@@ -925,19 +960,19 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-[#ded5c2] bg-[#f4efe4] py-8 text-xs text-[#64748b]">
+      <footer className="mt-auto border-t border-[#d7d0c1] bg-[#ede9de]/50 py-8 text-xs text-[#4f6e82]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <p className="font-bold text-[#112338] font-maritime text-base">
+            <p className="font-bold text-[#0b3a55] font-maritime text-base">
               Carta de Marinheiro • Caderno de Estudo & Glossário Náutico
             </p>
-            <p className="mt-0.5 text-[#64748b]">
+            <p className="mt-0.5 text-[#4f6e82]">
               Alinhado com o programa oficial DGRM, RIPAM (RIPEAM 1972) e Sistema de Balizamento IALA Região A.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 text-[11px] text-[#64748b]">
-            <span>Base de Dados: Cloud Firestore (<code className="text-[#112338] font-mono">carta-de-marinheiro</code>)</span>
+          <div className="flex items-center gap-3 font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
+            <span>Base de Dados: Cloud Firestore (<code className="text-[#0b3a55] font-semibold lowercase">carta-de-marinheiro</code>)</span>
             <span>•</span>
             <span>PWA Compatível</span>
           </div>

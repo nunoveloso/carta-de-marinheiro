@@ -612,38 +612,38 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
   if (specificFlagData) {
     if (variant === 'card') {
       return (
-        <div className="mt-3 rounded-xl border border-[#d8cdb8] bg-[#fbf9f4] p-3 text-xs">
+        <div className="mt-3 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               {/* Flag SVG */}
-              <div className="shrink-0 bg-white p-1 rounded-lg border border-[#e2dac9] shadow-2xs">
+              <div className="shrink-0 bg-[#fcfbf8] p-1 rounded-xs border border-[#d7d0c1]">
                 {renderFlagSVG(specificFlagData.letter, 60, 42)}
               </div>
 
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-[#112338] text-xs">
+                  <span className="font-bold text-[#0b3a55] text-xs">
                     {specificFlagData.letter} — {specificFlagData.name}
                   </span>
                 </div>
                 {/* Morse code representation */}
                 <div className="mt-1 flex items-center gap-2">
-                  <span className="text-[11px] font-mono font-bold tracking-widest text-[#0f3d7a] bg-[#eef6ff] px-2 py-0.5 rounded border border-[#bfdbfe]">
+                  <span className="text-[11px] font-mono-naut font-bold tracking-widest text-[#0b3a55] bg-[#dce8ef]/60 px-2 py-0.5 rounded-xs border border-[#0b3a55]/30">
                     Morse: {specificFlagData.morseDisplay}
                   </span>
                   <button
                     onClick={(e) =>
                       handlePlayMorse(e, specificFlagData.morse, specificFlagData.letter)
                     }
-                    className="p-1 rounded bg-[#f4efe4] hover:bg-[#eae3d2] text-[#112338] transition"
+                    className="p-1 rounded-xs bg-[#ede9de] hover:bg-[#d7d0c1]/60 text-[#0b3a55] border border-[#d7d0c1] transition cursor-pointer"
                     title="Ouvir som do Código Morse"
                     aria-label={`Ouvir morse da letra ${specificFlagData.letter}`}
                   >
                     <Volume2
                       className={`w-3.5 h-3.5 ${
                         playingLetter === specificFlagData.letter
-                          ? 'text-[#2563eb] animate-pulse'
-                          : 'text-[#475569]'
+                          ? 'text-[#9a7413] animate-pulse'
+                          : 'text-[#4f6e82]'
                       }`}
                     />
                   </button>
@@ -657,48 +657,48 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
 
     // Modal view for individual flag
     return (
-      <div className="rounded-2xl border border-[#d8cdb8] bg-[#fbf9f4] p-5 shadow-sm">
-        <div className="flex items-center justify-between pb-3 border-b border-[#ded5c2]">
-          <h4 className="text-sm font-bold text-[#112338] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#112338]"></span>
+      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1] gap-2">
+          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
             Ilustração Oficial: Bandeira {specificFlagData.name} ({specificFlagData.letter}) & Código Morse
           </h4>
-          <span className="text-[11px] font-semibold text-[#854d0e] bg-[#fefce8] px-2.5 py-1 rounded-lg border border-[#fef08a]">
+          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2.5 py-1 rounded-xs border border-[#ca9e1c]/40 shrink-0">
             Código Internacional de Sinais
           </span>
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Flag Preview Box */}
-          <div className="rounded-xl bg-white p-5 border border-[#ded5c2] flex flex-col items-center justify-center text-center">
+          <div className="rounded-xs bg-[#fcfbf8] p-5 border border-[#d7d0c1] flex flex-col items-center justify-center text-center">
             <div className="my-2">{renderFlagSVG(specificFlagData.letter, 120, 84)}</div>
             <div className="mt-3">
-              <span className="text-lg font-bold text-[#112338]">
+              <span className="text-lg font-bold text-[#0b3a55]">
                 Bandeira {specificFlagData.name} ({specificFlagData.letter})
               </span>
-              <p className="text-xs text-[#64748b] mt-0.5">Sinal alfabético internacional de 1 letra</p>
+              <p className="text-xs text-[#4f6e82] mt-0.5">Sinal alfabético internacional de 1 letra</p>
             </div>
           </div>
 
           {/* Morse Code and Meaning Box */}
-          <div className="rounded-xl bg-white p-5 border border-[#ded5c2] flex flex-col justify-between">
+          <div className="rounded-xs bg-[#fcfbf8] p-5 border border-[#d7d0c1] flex flex-col justify-between">
             <div>
-              <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider block">
+              <span className="font-mono-naut text-[10px] font-medium text-[#4f6e82] uppercase tracking-wider block">
                 Código Morse Correspondente:
               </span>
               <div className="mt-1.5 flex items-center gap-3">
-                <span className="font-mono text-2xl font-black tracking-widest text-[#112338] bg-[#f4efe4] px-4 py-2 rounded-xl border border-[#ded5c2]">
+                <span className="font-mono-naut text-2xl font-bold tracking-widest text-[#0b3a55] bg-[#dce8ef]/60 px-4 py-2 rounded-xs border border-[#0b3a55]/30">
                   {specificFlagData.morseDisplay}
                 </span>
                 <button
                   onClick={(e) =>
                     handlePlayMorse(e, specificFlagData.morse, specificFlagData.letter)
                   }
-                  className="flex items-center gap-1.5 rounded-xl bg-[#112338] px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-[#1c3858] transition active:scale-95 shadow-2xs"
+                  className="flex items-center gap-1.5 rounded-xs bg-[#0b3a55] px-3.5 py-2.5 font-mono-naut text-xs font-medium uppercase tracking-wider text-[#faf7f0] hover:bg-[#082b3f] transition cursor-pointer whitespace-nowrap"
                 >
                   <Volume2
                     className={`w-4 h-4 ${
-                      playingLetter === specificFlagData.letter ? 'text-[#facc15] animate-pulse' : ''
+                      playingLetter === specificFlagData.letter ? 'text-[#e3b505] animate-pulse' : ''
                     }`}
                   />
                   <span>Ouvir Morse</span>
@@ -706,18 +706,18 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
               </div>
 
               <div className="mt-4">
-                <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider block">
+                <span className="font-mono-naut text-[10px] font-medium text-[#4f6e82] uppercase tracking-wider block">
                   Significado Náutico Oficial:
                 </span>
-                <p className="mt-1 text-xs sm:text-sm font-semibold text-[#1e293b] leading-relaxed">
+                <p className="mt-1 text-xs sm:text-sm font-semibold text-[#0b3a55] leading-relaxed">
                   "{specificFlagData.meaning}"
                 </p>
               </div>
             </div>
 
             {specificFlagData.examHighlight && (
-              <div className="mt-4 rounded-xl bg-[#fefce8] p-3 border border-[#fef08a] text-xs text-[#854d0e]">
-                <strong className="block text-[#92400e] mb-0.5">Importante para o Exame da DGRM:</strong>
+              <div className="mt-4 rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
+                <strong className="block text-[#9a7413] mb-0.5">Importante para o Exame da DGRM:</strong>
                 {specificFlagData.examHighlight}
               </div>
             )}
@@ -735,13 +735,13 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
 
     if (variant === 'card') {
       return (
-        <div className="mt-3.5 rounded-xl border border-[#d8cdb8] bg-[#fbf9f4] p-3 text-xs">
+        <div className="mt-3.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
           <div className="flex items-center justify-between mb-2">
-            <span className="font-bold text-[#112338] text-[11px] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="inline-block w-2 h-2 rounded-full bg-[#112338]"></span>
+            <span className="font-mono-naut font-medium text-[#0b3a55] text-[10px] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="inline-block w-2 h-2 rounded-xs bg-[#0b3a55]"></span>
               Bandeiras Mais Relevantes de Exame (CIS)
             </span>
-            <span className="text-[10px] text-[#64748b] font-medium">Com Código Morse</span>
+            <span className="font-mono-naut text-[10px] text-[#4f6e82]">Com Código Morse</span>
           </div>
 
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center">
@@ -755,22 +755,22 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
                     if (match && onSelectTerm) onSelectTerm(match);
                   }
                 }}
-                className="group/flag flex flex-col items-center justify-between rounded-lg bg-white p-2 border border-[#ded5c2] hover:border-[#112338] hover:bg-[#f4efe4] transition cursor-pointer shadow-2xs"
+                className="group/flag flex flex-col items-center justify-between rounded-xs bg-[#fcfbf8] p-2 border border-[#d7d0c1] hover:border-[#0b3a55] hover:bg-[#ede9de]/50 transition cursor-pointer"
                 title={`${flag.name} (${flag.letter}): ${flag.meaning}`}
               >
                 <div className="h-10 flex items-center justify-center scale-90 group-hover/flag:scale-95 transition-transform">
                   {renderFlagSVG(flag.letter, 42, 30)}
                 </div>
-                <span className="mt-1 font-bold text-[11px] text-[#112338]">{flag.letter}</span>
-                <span className="font-mono text-[9px] font-bold text-[#0f3d7a] tracking-tight">
+                <span className="mt-1 font-bold text-[11px] text-[#0b3a55]">{flag.letter}</span>
+                <span className="font-mono-naut text-[9px] font-bold text-[#0b3a55]/80 tracking-tight">
                   {flag.morseDisplay}
                 </span>
               </div>
             ))}
           </div>
 
-          <p className="mt-2 text-[11px] text-[#854d0e] bg-[#fefce8] px-2.5 py-1.5 rounded-lg border border-[#fef08a] leading-tight flex items-center justify-between">
-            <span><strong>Regra DGRM:</strong> Letras de 1 sinal de perigo e socorro (A, B, O, Q, V).</span>
+          <p className="mt-2 text-[11px] text-[#0b3a55] bg-[#f0e8cf]/65 px-2.5 py-1.5 rounded-xs border border-[#ca9e1c]/40 leading-tight flex items-center justify-between">
+            <span><strong className="text-[#9a7413]">Regra DGRM:</strong> Letras de 1 sinal de perigo e socorro (A, B, O, Q, V).</span>
           </p>
         </div>
       );
@@ -780,36 +780,36 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
     const displayedFlags = activeTab === 'essenciais' ? importantFlags : CIS_FLAGS;
 
     return (
-      <div className="rounded-2xl border border-[#d8cdb8] bg-[#fbf9f4] p-5 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#ded5c2]">
+      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#d7d0c1]">
           <div>
-            <h4 className="text-sm font-bold text-[#112338] flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#112338]"></span>
+            <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
               Tabela de Bandeiras e Código Morse (CIS - Regulamento Oficial)
             </h4>
-            <p className="text-xs text-[#64748b] mt-0.5">
+            <p className="text-xs text-[#4f6e82] mt-0.5">
               Cada bandeira alfabética tem a sua correspondência em Código Morse e um significado quando içada isolada.
             </p>
           </div>
 
           {/* Tab Selector */}
-          <div className="flex items-center gap-1 rounded-xl bg-[#ede6d8] p-1 border border-[#ded5c2] shrink-0">
+          <div className="flex items-center gap-1 rounded-xs bg-[#ede9de] p-1 border border-[#d7d0c1] shrink-0">
             <button
               onClick={() => setActiveTab('essenciais')}
-              className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+              className={`rounded-xs px-3 py-1 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap cursor-pointer ${
                 activeTab === 'essenciais'
-                  ? 'bg-white text-[#112338] shadow-2xs'
-                  : 'text-[#64748b] hover:text-[#112338]'
+                  ? 'bg-[#fcfbf8] text-[#0b3a55] border border-[#d7d0c1]'
+                  : 'text-[#4f6e82] hover:text-[#0b3a55]'
               }`}
             >
               Exame Obrigatório ({importantFlags.length})
             </button>
             <button
               onClick={() => setActiveTab('todos')}
-              className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+              className={`rounded-xs px-3 py-1 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap cursor-pointer ${
                 activeTab === 'todos'
-                  ? 'bg-white text-[#112338] shadow-2xs'
-                  : 'text-[#64748b] hover:text-[#112338]'
+                  ? 'bg-[#fcfbf8] text-[#0b3a55] border border-[#d7d0c1]'
+                  : 'text-[#4f6e82] hover:text-[#0b3a55]'
               }`}
             >
               Alfabeto Completo A–Z (26)
@@ -828,12 +828,12 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
                   if (match && onSelectTerm) onSelectTerm(match);
                 }
               }}
-              className={`group flex items-start gap-3 rounded-xl bg-white p-3.5 border transition ${
-                flag.termId ? 'hover:border-[#112338] hover:shadow-sm cursor-pointer' : 'border-[#ded5c2]'
+              className={`group flex items-start gap-3 rounded-xs bg-[#fcfbf8] p-3.5 border border-[#d7d0c1] transition ${
+                flag.termId ? 'hover:border-[#0b3a55] hover:shadow-[3px_3px_0_0_#0b3a55] cursor-pointer' : ''
               }`}
             >
               {/* Flag SVG */}
-              <div className="shrink-0 bg-[#fbf9f4] p-1.5 rounded-lg border border-[#e2dac9] group-hover:scale-105 transition-transform">
+              <div className="shrink-0 bg-[#faf7f0] p-1.5 rounded-xs border border-[#d7d0c1] group-hover:scale-105 transition-transform">
                 {renderFlagSVG(flag.letter, 54, 38)}
               </div>
 
@@ -841,11 +841,11 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-sm text-[#112338]">
+                    <span className="font-bold text-sm text-[#0b3a55]">
                       {flag.letter} — {flag.name}
                     </span>
                     {flag.isImportantForExam && (
-                      <span className="rounded bg-[#fefce8] px-1.5 py-0.2 text-[9px] font-bold text-[#a16207] border border-[#fef08a]">
+                      <span className="rounded-xs bg-[#f0e8cf] px-1.5 py-0.5 font-mono-naut text-[9px] font-medium uppercase text-[#9a7413] border border-[#ca9e1c]/40">
                         Exame
                       </span>
                     )}
@@ -854,13 +854,13 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
                   {/* Audio Morse Button */}
                   <button
                     onClick={(e) => handlePlayMorse(e, flag.morse, flag.letter)}
-                    className="p-1 rounded-md text-[#64748b] hover:text-[#112338] hover:bg-[#f4efe4] transition"
+                    className="p-1 rounded-xs text-[#4f6e82] hover:text-[#0b3a55] hover:bg-[#ede9de] transition cursor-pointer"
                     title="Ouvir som do código Morse"
                     aria-label={`Ouvir código morse da letra ${flag.letter}`}
                   >
                     <Volume2
                       className={`w-3.5 h-3.5 ${
-                        playingLetter === flag.letter ? 'text-[#2563eb] animate-pulse' : ''
+                        playingLetter === flag.letter ? 'text-[#9a7413] animate-pulse' : ''
                       }`}
                     />
                   </button>
@@ -868,18 +868,18 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
 
                 {/* Morse representation */}
                 <div className="mt-0.5">
-                  <span className="font-mono text-xs font-bold tracking-widest text-[#1e3a8a] bg-[#eff6ff] px-1.5 py-0.5 rounded border border-[#bfdbfe]">
+                  <span className="font-mono-naut text-xs font-bold tracking-widest text-[#0b3a55] bg-[#dce8ef]/60 px-1.5 py-0.5 rounded-xs border border-[#0b3a55]/30">
                     {flag.morseDisplay}
                   </span>
                 </div>
 
                 {/* Meaning */}
-                <p className="mt-1.5 text-[11px] text-[#475569] leading-snug line-clamp-2">
+                <p className="mt-1.5 text-[11px] text-[#4f6e82] leading-snug line-clamp-2">
                   {flag.meaning}
                 </p>
 
                 {flag.termId && (
-                  <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-[#112338] group-hover:translate-x-0.5 transition-transform">
+                  <span className="mt-1 inline-flex items-center gap-1 font-mono-naut text-[10px] font-medium text-[#0b3a55] group-hover:translate-x-0.5 transition-transform">
                     Ver carta de estudo <ArrowRight className="w-2.5 h-2.5" />
                   </span>
                 )}
@@ -889,11 +889,11 @@ export const SignalFlagsIllustration: React.FC<SignalFlagsIllustrationProps> = (
         </div>
 
         {/* Exam Quick Notes Box */}
-        <div className="mt-4 rounded-xl bg-[#fefce8] p-3.5 border border-[#fef08a] text-xs text-[#854d0e]">
+        <div className="mt-4 rounded-xs bg-[#f0e8cf]/65 p-3.5 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
           <div className="flex items-start gap-2">
-            <AlertCircle className="w-4 h-4 text-[#b45309] shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-[#92400e]">
+              <span className="font-bold text-[#9a7413]">
                 As Bandeiras Mais Avaliadas no Exame de Carta de Marinheiro:
               </span>
               <ul className="mt-1 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 list-disc list-inside text-[11px]">

@@ -114,3 +114,54 @@ export interface QuizQuestion {
   explanation: string;
   category: TermCategory;
 }
+
+export interface CategoryColorStyle {
+  solid: string;
+  soft: string;
+  border: string;
+  badgeClass: string;
+  accentTextClass: string;
+  dotColor: string;
+}
+
+export function getCategoryStyle(category: string): CategoryColorStyle {
+  const normalized = category.replace(/\./g, '').toLowerCase();
+  if (normalized === 'rieam') {
+    return {
+      solid: '#0b3a55',
+      soft: '#dce8ef',
+      border: '#0b3a55',
+      badgeClass: 'bg-[#dce8ef] text-[#0b3a55] border-[#0b3a55]/30',
+      accentTextClass: 'text-[#0b3a55]',
+      dotColor: '#0b3a55',
+    };
+  }
+  if (normalized.includes('seguranca') || normalized.includes('segurança')) {
+    return {
+      solid: '#b3402f',
+      soft: '#f3ded9',
+      border: '#b3402f',
+      badgeClass: 'bg-[#f3ded9] text-[#b3402f] border-[#b3402f]/30',
+      accentTextClass: 'text-[#b3402f]',
+      dotColor: '#b3402f',
+    };
+  }
+  if (normalized.includes('marinharia')) {
+    return {
+      solid: '#1e7d4f',
+      soft: '#dcebe1',
+      border: '#1e7d4f',
+      badgeClass: 'bg-[#dcebe1] text-[#1e7d4f] border-[#1e7d4f]/30',
+      accentTextClass: 'text-[#1e7d4f]',
+      dotColor: '#1e7d4f',
+    };
+  }
+  return {
+    solid: '#9a7413',
+    soft: '#f0e8cf',
+    border: '#9a7413',
+    badgeClass: 'bg-[#f0e8cf] text-[#9a7413] border-[#9a7413]/30',
+    accentTextClass: 'text-[#9a7413]',
+    dotColor: '#9a7413',
+  };
+}

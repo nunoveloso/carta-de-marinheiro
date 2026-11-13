@@ -102,13 +102,13 @@ export const GlossaryText: React.FC<GlossaryTextProps> = ({
       return [{ type: 'text', content: text }] as TextSegment[];
     }
 
-    // Sort phrases in descending order of length so longest match wins
-    // (e.g. "embarcação de recreio" matches before "embarcação")
+    // Sort phrases in descending order of length so longest match wins at any start index
+    // (e.g. "ré do través" matches before "través")
     phrases.sort((a, b) => b.length - a.length);
 
-    // Escape special regex characters
+    // Escape special regex characters and tolerate flexible whitespace
     const escapedPhrases = phrases.map((p) =>
-      p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+')
     );
 
     // Match with Unicode word boundaries so accented Portuguese letters (ã, é, ó, etc.) are respected
@@ -121,44 +121,77 @@ export const GlossaryText: React.FC<GlossaryTextProps> = ({
       regex = new RegExp(`\\b(${escapedPhrases.join('|')})\\b`, 'gi');
     }
 
-    const result: TextSegment[] = [];
-    let lastIdx = 0;
+    // Collect all candidate matches across the text so an earlier shorter term
+    // never shadows a longer overlapping term starting slightly later
+    interface CandidateMatch {
+      start: number;
+      end: number;
+      matchedTerm: NauticalTerm;
+    }
+
+    const candidates: CandidateMatch[] = [];
     let match: RegExpExecArray | null;
 
     while ((match = regex.exec(text)) !== null) {
-      const matchStart = match.index;
       const matchedString = match[0];
-      const matchEnd = matchStart + matchedString.length;
-
-      // Add preceding plain text
-      if (matchStart > lastIdx) {
-        result.push({
-          type: 'text',
-          content: text.slice(lastIdx, matchStart),
-        });
+      if (!matchedString) {
+        regex.lastIndex += 1;
+        continue;
       }
 
-      // Lookup target term
-      const matchedLower = matchedString.toLowerCase();
+      const matchedLower = matchedString.replace(/\s+/g, ' ').toLowerCase();
       const targetTerm = phraseMap.get(matchedLower);
 
       if (targetTerm) {
-        result.push({
-          type: 'term',
-          content: matchedString,
+        candidates.push({
+          start: match.index,
+          end: match.index + matchedString.length,
           matchedTerm: targetTerm,
-        });
-      } else {
-        result.push({
-          type: 'text',
-          content: matchedString,
         });
       }
 
-      lastIdx = matchEnd;
+      regex.lastIndex = match.index + 1;
     }
 
-    // Add trailing plain text
+    // Strictly prioritize longest complete phrase, breaking ties by earliest occurrence
+    candidates.sort((a, b) => {
+      const lenDiff = (b.end - b.start) - (a.end - a.start);
+      if (lenDiff !== 0) return lenDiff;
+      return a.start - b.start;
+    });
+
+    const chosen: CandidateMatch[] = [];
+    for (const cand of candidates) {
+      const overlaps = chosen.some(
+        (c) => cand.start < c.end && cand.end > c.start
+      );
+      if (!overlaps) {
+        chosen.push(cand);
+      }
+    }
+
+    chosen.sort((a, b) => a.start - b.start);
+
+    const result: TextSegment[] = [];
+    let lastIdx = 0;
+
+    for (const seg of chosen) {
+      if (seg.start > lastIdx) {
+        result.push({
+          type: 'text',
+          content: text.slice(lastIdx, seg.start),
+        });
+      }
+
+      result.push({
+        type: 'term',
+        content: text.slice(seg.start, seg.end),
+        matchedTerm: seg.matchedTerm,
+      });
+
+      lastIdx = seg.end;
+    }
+
     if (lastIdx < text.length) {
       result.push({
         type: 'text',
@@ -182,7 +215,7 @@ export const GlossaryText: React.FC<GlossaryTextProps> = ({
                 onSelectTerm(matched);
               }}
               title={`Ver termo: ${matched.term}`}
-              className="cursor-pointer underline decoration-dotted decoration-1 underline-offset-3 decoration-[#112338]/70 hover:decoration-[#0f766e] hover:text-[#0f766e] font-medium transition-colors"
+              className="cursor-pointer underline decoration-dotted decoration-1 underline-offset-3 decoration-[#0b3a55]/60 hover:decoration-[#1e7d4f] hover:text-[#1e7d4f] font-medium transition-colors"
             >
               {seg.content}
             </span>

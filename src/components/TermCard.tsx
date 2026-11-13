@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Star, Volume2, VolumeX, FileText, ChevronRight, AlertCircle, Compass } from 'lucide-react';
-import { NauticalTerm, TermImportance } from '../types/glossary';
+import { Star, Volume2, VolumeX, FileText, ChevronRight, AlertCircle } from 'lucide-react';
+import { NauticalTerm, TermImportance, getCategoryStyle } from '../types/glossary';
 import { speakNauticalTerm, stopSpeaking } from '../utils/speech';
 import { GlossaryText } from './GlossaryText';
+import { CategoryIcon } from './CategoryIcon';
 import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
@@ -25,15 +26,15 @@ const IMPORTANCE_CONFIG: Record<
 > = {
   essencial: {
     label: 'Exame Obrigatório',
-    textClass: 'text-[#92400e] font-semibold',
+    textClass: 'text-[#9a7413] font-semibold',
   },
   importante: {
     label: 'Muito Importante',
-    textClass: 'text-[#0f766e] font-semibold',
+    textClass: 'text-[#1e7d4f] font-semibold',
   },
   complementar: {
     label: 'Complementar',
-    textClass: 'text-[#64748b] font-medium',
+    textClass: 'text-[#4f6e82] font-medium',
   },
 };
 
@@ -49,6 +50,7 @@ export const TermCard: React.FC<TermCardProps> = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const importanceMeta = IMPORTANCE_CONFIG[term.importance] || IMPORTANCE_CONFIG.importante;
+  const catStyle = getCategoryStyle(term.category);
 
   const handleSpeak = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -75,13 +77,17 @@ export const TermCard: React.FC<TermCardProps> = ({
   return (
     <article
       onClick={() => onSelectTerm(term)}
-      className="group relative flex flex-col justify-between rounded-2xl border border-[#e5decb] bg-[#fdfcf9] p-5.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#112338]/40 hover:bg-white hover:shadow-md cursor-pointer shadow-2xs"
+      className="group relative flex flex-col justify-between rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] cursor-pointer"
     >
       <div>
         {/* Top Metadata & Action Buttons */}
-        <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center justify-between gap-2 mb-2.5">
           {/* Importance indicator */}
-          <div className="flex items-center gap-1.5 text-xs text-[#64748b]">
+          <div className="flex items-center gap-1.5 font-mono-naut text-[10px] uppercase tracking-[0.1em]">
+            <span
+              className="w-1.5 h-1.5 rounded-none shrink-0"
+              style={{ backgroundColor: catStyle.dotColor }}
+            />
             <span className={importanceMeta.textClass}>{importanceMeta.label}</span>
           </div>
 
@@ -89,10 +95,10 @@ export const TermCard: React.FC<TermCardProps> = ({
             {/* Audio Button */}
             <button
               onClick={handleSpeak}
-              className={`rounded-lg p-1.5 transition ${
+              className={`rounded-xs p-1.5 transition cursor-pointer ${
                 isSpeaking
-                  ? 'bg-[#f4efe4] text-[#112338]'
-                  : 'text-[#94a3b8] hover:text-[#112338] hover:bg-[#f4efe4]'
+                  ? 'bg-[#0b3a55] text-[#faf7f0]'
+                  : 'text-[#4f6e82] hover:text-[#0b3a55] hover:bg-[#ede9de]'
               }`}
               title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
               aria-label="Ouvir termo"
@@ -103,40 +109,50 @@ export const TermCard: React.FC<TermCardProps> = ({
             {/* Bookmark Star Button */}
             <button
               onClick={handleBookmarkClick}
-              className={`rounded-lg p-1.5 transition ${
+              className={`rounded-xs p-1.5 transition cursor-pointer ${
                 isBookmarked
-                  ? 'text-[#d97706]'
-                  : 'text-[#cbd5e1] hover:text-[#d97706] hover:bg-[#f4efe4]'
+                  ? 'text-[#ca9e1c]'
+                  : 'text-[#4f6e82]/40 hover:text-[#ca9e1c] hover:bg-[#ede9de]'
               }`}
               title={isBookmarked ? 'Remover dos favoritos' : 'Guardar nos favoritos'}
               aria-label="Guardar nos favoritos"
             >
-              <Star className={`w-4 h-4 ${isBookmarked ? 'fill-[#d97706]' : ''}`} />
+              <Star className={`w-4 h-4 ${isBookmarked ? 'fill-[#ca9e1c]' : ''}`} />
             </button>
           </div>
         </div>
 
-        {/* Term Title in Classic Maritime Serif */}
-        <h3 className="font-maritime text-2xl font-bold text-[#112338] tracking-tight group-hover:text-[#1d4e6d] transition-colors leading-tight">
+        {/* Term Title in Editorial Fraunces Serif */}
+        <h3 className="font-maritime text-2xl font-bold text-[#0b3a55] tracking-tight group-hover:text-[#082b3f] transition-colors leading-tight">
           <HighlightText text={term.term} query={highlightQuery} />
         </h3>
 
         {/* Category -> SubCategory tag below term */}
-        <div className="text-[11px] font-semibold text-[#854d0e] tracking-wide mt-1.5 mb-1 flex items-center gap-1.5">
-          <span className="font-bold text-[#112338]">{term.category}</span>
-          <span aria-hidden="true" className="text-[#a16207]">→</span>
-          <span className="text-[#854d0e]">{term.subCategory || term.subcategory || 'Geral'}</span>
+        <div className="font-mono-naut text-[10px] uppercase tracking-[0.08em] mt-1.5 mb-1 flex items-center gap-1.5 flex-wrap">
+          <span
+            className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-xs border"
+            style={{
+              backgroundColor: catStyle.soft,
+              color: catStyle.solid,
+              borderColor: `${catStyle.solid}33`,
+            }}
+          >
+            <CategoryIcon category={term.category} className="w-3 h-3 shrink-0" />
+            <span>{term.category}</span>
+          </span>
+          <span aria-hidden="true" className="text-[#4f6e82]">→</span>
+          <span className="text-[#4f6e82] font-medium">{term.subCategory || term.subcategory || 'Geral'}</span>
         </div>
 
         {/* Synonyms / Abbreviations */}
         {term.synonyms && term.synonyms.length > 0 && (
-          <p className="mt-0.5 text-xs text-[#64748b] italic">
+          <p className="mt-1 text-xs text-[#4f6e82] italic">
             Outras designações: <HighlightText text={term.synonyms.join(', ')} query={highlightQuery} />
           </p>
         )}
 
         {/* Definition excerpt */}
-        <p className="mt-2.5 text-xs sm:text-sm text-[#334155] line-clamp-3 leading-relaxed">
+        <p className="mt-2.5 text-xs sm:text-sm text-[#0b3a55]/85 line-clamp-3 leading-relaxed">
           {highlightQuery ? (
             <HighlightText text={term.definition} query={highlightQuery} />
           ) : (
@@ -181,12 +197,12 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Importante para o Exame Section */}
         {term.examTip && (
-          <div className="mt-3 rounded-xl bg-[#fefce8] p-3 border border-[#fef08a] text-xs text-[#854d0e]">
-            <div className="flex items-center gap-1.5 font-bold text-[#92400e] text-[11px] mb-1">
-              <AlertCircle className="w-3.5 h-3.5 text-[#b45309] shrink-0" />
-              <span>Importante para o Exame:</span>
+          <div className="mt-3 rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-[#0b3a55]">
+            <div className="flex items-center gap-1.5 font-mono-naut font-semibold text-[#9a7413] text-[10px] uppercase tracking-[0.08em] mb-1">
+              <AlertCircle className="w-3.5 h-3.5 text-[#9a7413] shrink-0" />
+              <span>Importante para o Exame</span>
             </div>
-            <p className="text-[12px] text-[#854d0e] leading-snug line-clamp-2">
+            <p className="text-[12px] text-[#0b3a55]/90 leading-snug line-clamp-2">
               <HighlightText text={term.examTip} query={highlightQuery} />
             </p>
           </div>
@@ -194,8 +210,8 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Termos Relacionados Section */}
         {term.relatedTerms && term.relatedTerms.length > 0 && (
-          <div className="mt-3 pt-2.5 border-t border-[#f0ebd9] flex items-center gap-1.5 flex-wrap text-xs">
-            <span className="text-[11px] font-semibold text-[#64748b]">Termos Relacionados:</span>
+          <div className="mt-3 pt-2.5 border-t border-[#d7d0c1]/70 flex items-center gap-1.5 flex-wrap text-xs">
+            <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-[#4f6e82]">Relacionados:</span>
             {term.relatedTerms.slice(0, 4).map((relId) => {
               const relTerm = allTerms?.find((t) => t.id === relId);
               const label = relTerm ? relTerm.term : relId.replace(/-/g, ' ');
@@ -206,7 +222,7 @@ export const TermCard: React.FC<TermCardProps> = ({
                     e.stopPropagation();
                     if (relTerm) onSelectTerm(relTerm);
                   }}
-                  className="rounded-lg bg-[#f4efe4] border border-[#ded5c2] px-2 py-0.5 text-[11px] font-medium text-[#112338] hover:bg-[#eae3d2] hover:border-[#112338] transition cursor-pointer"
+                  className="rounded-xs bg-[#ede9de] border border-[#d7d0c1] px-2 py-0.5 font-mono-naut text-[10px] font-medium text-[#0b3a55] hover:bg-[#0b3a55] hover:text-[#faf7f0] hover:border-[#0b3a55] transition cursor-pointer"
                   title="Ver termo relacionado"
                 >
                   {label}
@@ -214,33 +230,33 @@ export const TermCard: React.FC<TermCardProps> = ({
               );
             })}
             {term.relatedTerms.length > 4 && (
-              <span className="text-[10px] text-[#94a3b8] font-medium">+{term.relatedTerms.length - 4}</span>
+              <span className="font-mono-naut text-[10px] text-[#4f6e82]">+{term.relatedTerms.length - 4}</span>
             )}
           </div>
         )}
       </div>
 
       {/* Footer Area */}
-      <div className="mt-4 pt-3.5 border-t border-[#f0ebd9] flex items-center justify-between text-xs text-[#64748b]">
+      <div className="mt-4 pt-3 border-t border-[#d7d0c1]/70 flex items-center justify-between text-xs text-[#4f6e82]">
         <div className="flex items-center gap-3">
           {term.examTip && (
-            <span className="inline-flex items-center gap-1 font-semibold text-[#b45309] text-[11px]">
-              <AlertCircle className="w-3.5 h-3.5 text-[#b45309]" />
-              Dica de Exame
+            <span className="inline-flex items-center gap-1 font-mono-naut font-medium text-[#9a7413] text-[10px] uppercase tracking-[0.06em]">
+              <AlertCircle className="w-3 h-3 text-[#9a7413]" />
+              Dica Exame
             </span>
           )}
 
           {hasNote && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#0f766e]">
-              <FileText className="w-3.5 h-3.5" />
-              Com anotação
+            <span className="inline-flex items-center gap-1 font-mono-naut text-[10px] uppercase tracking-[0.06em] font-medium text-[#1e7d4f]">
+              <FileText className="w-3 h-3" />
+              Anotação
             </span>
           )}
         </div>
 
-        <div className="flex items-center gap-1 font-semibold text-[#112338] group-hover:translate-x-0.5 transition-transform text-[11px]">
-          <span>Ver mais</span>
-          <ChevronRight className="w-3.5 h-3.5 text-[#112338]" />
+        <div className="flex items-center gap-1 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-[#0b3a55] group-hover:translate-x-0.5 transition-transform">
+          <span>Ver carta</span>
+          <ChevronRight className="w-3.5 h-3.5 text-[#0b3a55]" />
         </div>
       </div>
     </article>
