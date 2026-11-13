@@ -8,6 +8,7 @@ import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
 import { BoatPartIllustration } from './BoatPartIllustration';
+import { SafetyEquipmentIllustration } from './SafetyEquipmentIllustration';
 import { CategoryIcon } from './CategoryIcon';
 
 interface TermDetailModalProps {
@@ -253,6 +254,12 @@ export const TermDetailModal: React.FC<TermDetailModalProps> = ({
 
           {/* Boat Part / Regiões do Navio Dedicated Illustration */}
           <BoatPartIllustration
+            termId={term.id}
+            variant="modal"
+          />
+
+          {/* Safety Equipment / Meios de Salvação Dedicated Illustration (pp. 2-3) */}
+          <SafetyEquipmentIllustration
             termId={term.id}
             variant="modal"
           />

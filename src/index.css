@@ -82,6 +82,62 @@
   animation: spinSlow 30s linear infinite;
 }
 
+@keyframes waveDrift {
+  0%, 100% {
+    transform: translate3d(-12px, 0px, 0);
+  }
+  50% {
+    transform: translate3d(12px, 1.5px, 0);
+  }
+}
+
+.animate-wave-slow {
+  animation: waveDrift 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-wave-reverse {
+  animation: waveDrift 7s ease-in-out infinite reverse;
+  will-change: transform;
+}
+
+@keyframes boatBob {
+  0%, 100% {
+    transform: translate3d(0px, -1.5px, 0) rotate(-0.85deg);
+  }
+  50% {
+    transform: translate3d(0px, 1.8px, 0) rotate(0.95deg);
+  }
+}
+
+@keyframes boatBobSubtle {
+  0%, 100% {
+    transform: translate3d(0px, -1.1px, 0) rotate(-0.4deg);
+  }
+  50% {
+    transform: translate3d(0px, 1.3px, 0) rotate(0.45deg);
+  }
+}
+
+.animate-boat-bob {
+  animation: boatBob 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-boat-bob-subtle {
+  animation: boatBobSubtle 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-wave-slow,
+  .animate-wave-reverse,
+  .animate-boat-bob,
+  .animate-boat-bob-subtle {
+    animation: none;
+  }
+}
+
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Compass, Ship, Navigation, Volume2, Layers, Flag } from 'lucide-react';
+import { Compass, Ship, Navigation, Volume2, Layers, Flag, Ruler, Box } from 'lucide-react';
 import { User } from 'firebase/auth';
 import { NauticalTerm } from '../types/glossary';
-import { DayShapesIllustration } from './DayShapesIllustration';
+import { DayShapesIllustration, DayShapeCombinationsBlock } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
 import { BoatAnatomyGuide } from './BoatAnatomyGuide';
+import { BoatSideProfileGuide } from './BoatSideProfileGuide';
+import { Boat3DViewer } from './Boat3DViewer';
 
 export interface VisualGuideViewProps {
   terms?: NauticalTerm[];
@@ -28,7 +30,7 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
   onSaveNote,
   onOpenAuth,
 }) => {
-  const [activeSection, setActiveSection] = useState<'barco' | 'luzes' | 'iala' | 'sons' | 'baloes' | 'bandeiras'>('barco');
+  const [activeSection, setActiveSection] = useState<'barco' | 'lateral' | 'modelo3d' | 'luzes' | 'iala' | 'sons' | 'baloes' | 'bandeiras'>('barco');
 
   // Web Audio ship horn beeper
   const playSoundSignal = (pattern: number[]) => {
@@ -63,26 +65,33 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-6 px-4">
-      {/* Header */}
-      <div className="mb-6">
-        <h2 className="font-maritime text-2xl sm:text-3xl font-bold text-[#0b3a55] flex items-center gap-2">
-          <Compass className="w-6 h-6 text-[#9a7413]" />
-          Guia Visual Náutico da Carta de Marinheiro
-        </h2>
-        <p className="text-xs sm:text-sm text-[#4f6e82]">
-          Esquemas visuais interativos dos tópicos com maior taxa de perguntas no exame oficial da DGRM.
-        </p>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+      {/* Editorial Hero Header matching Glossário page style */}
+      <div className="relative rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-8 mb-6">
+        <div className="max-w-3xl">
+          <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82] mb-2.5">
+            <Compass className="w-4 h-4 text-[#9a7413]" />
+            <span>DGRM Portugal</span>
+            <span aria-hidden="true" className="text-[#d7d0c1]">·</span>
+            <span>Manual do Marinheiro (2021)</span>
+          </div>
+          <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight">
+            Guia Visual Náutico da Carta de Marinheiro
+          </h2>
+          <p className="mt-2 text-xs sm:text-sm text-[#4f6e82] leading-relaxed">
+            Esquemas visuais interativos dos tópicos com maior taxa de perguntas no exame oficial da DGRM.
+          </p>
+        </div>
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex flex-wrap gap-2 mb-6 border-b border-[#d7d0c1] pb-4">
+      <div className="flex flex-wrap gap-1.5 mb-6 border-b border-[#d7d0c1] pb-4">
         <button
           onClick={() => setActiveSection('barco')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium border transition whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'barco'
               ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
         >
           <Ship className="w-4 h-4" />
@@ -90,11 +99,35 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
         </button>
 
         <button
+          onClick={() => setActiveSection('lateral')}
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+            activeSection === 'lateral'
+              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+          }`}
+        >
+          <Ruler className="w-4 h-4" />
+          <span>Vista Lateral do Casco</span>
+        </button>
+
+        <button
+          onClick={() => setActiveSection('modelo3d')}
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+            activeSection === 'modelo3d'
+              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+          }`}
+        >
+          <Box className="w-4 h-4" />
+          <span>Barco 3D (360°)</span>
+        </button>
+
+        <button
           onClick={() => setActiveSection('luzes')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium border transition whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'luzes'
               ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
         >
           <Compass className="w-4 h-4" />
@@ -103,10 +136,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('iala')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium border transition whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'iala'
               ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
         >
           <Navigation className="w-4 h-4" />
@@ -115,10 +148,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('sons')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium border transition whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'sons'
               ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
         >
           <Volume2 className="w-4 h-4" />
@@ -127,10 +160,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('baloes')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium border transition whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'baloes'
               ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
         >
           <Layers className="w-4 h-4" />
@@ -139,10 +172,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('bandeiras')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium border transition whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'bandeiras'
               ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
           }`}
         >
           <Flag className="w-4 h-4" />
@@ -153,6 +186,34 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
       {/* SECTION 1: PARTES DO BARCO (MUSEUM INTERACTIVE EXHIBIT) */}
       {activeSection === 'barco' && (
         <BoatAnatomyGuide
+          allTerms={terms}
+          onSelectTerm={onSelectTerm}
+          currentUser={currentUser}
+          bookmarkedIds={bookmarkedIds}
+          onToggleBookmark={onToggleBookmark}
+          userNotes={userNotes}
+          onSaveNote={onSaveNote}
+          onOpenAuth={onOpenAuth}
+        />
+      )}
+
+      {/* SECTION 1B: VISTA LATERAL E CORTE ESTRUTURAL (MANUAL PP. 4-5) */}
+      {activeSection === 'lateral' && (
+        <BoatSideProfileGuide
+          allTerms={terms}
+          onSelectTerm={onSelectTerm}
+          currentUser={currentUser}
+          bookmarkedIds={bookmarkedIds}
+          onToggleBookmark={onToggleBookmark}
+          userNotes={userNotes}
+          onSaveNote={onSaveNote}
+          onOpenAuth={onOpenAuth}
+        />
+      )}
+
+      {/* SECTION 1C: MODELO 3D INTERATIVO (ROTAÇÃO 360°) */}
+      {activeSection === 'modelo3d' && (
+        <Boat3DViewer
           allTerms={terms}
           onSelectTerm={onSelectTerm}
           currentUser={currentUser}
@@ -296,7 +357,16 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
       {/* SECTION 5: BALÕES E MARCAS DIURNAS */}
       {activeSection === 'baloes' && (
         <div className="space-y-6">
-          <DayShapesIllustration termId="baloes-de-navegacao" variant="modal" />
+          <DayShapesIllustration
+            termId="baloes-de-navegacao"
+            variant="modal"
+            allTerms={terms}
+            onSelectTerm={onSelectTerm}
+          />
+          <DayShapeCombinationsBlock
+            allTerms={terms}
+            onSelectTerm={onSelectTerm}
+          />
         </div>
       )}
 

@@ -8,6 +8,7 @@ import { DayShapesIllustration } from './DayShapesIllustration';
 import { SignalFlagsIllustration } from './SignalFlagsIllustration';
 import { BuoyIllustration } from './BuoyIllustration';
 import { BoatPartIllustration } from './BoatPartIllustration';
+import { SafetyEquipmentIllustration } from './SafetyEquipmentIllustration';
 import { HighlightText } from './HighlightText';
 
 interface TermCardProps {
@@ -191,6 +192,12 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Boat Part / Regiões do Navio illustration if applicable */}
         <BoatPartIllustration
+          termId={term.id}
+          variant="card"
+        />
+
+        {/* Safety Equipment / Meios de Salvação illustration (pp. 2-3) if applicable */}
+        <SafetyEquipmentIllustration
           termId={term.id}
           variant="card"
         />
