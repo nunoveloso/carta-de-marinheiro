@@ -1965,18 +1965,18 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 sm:p-7 shadow-xs">
+      <section className="rounded-none border border-border bg-card p-5 sm:p-7 shadow-xs">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#d7d0c1]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
           <div>
             <div className="flex items-center gap-2 font-mono-naut text-[11px] font-medium uppercase tracking-[0.14em] text-[#9a7413]">
               <Box className="w-4 h-4 text-[#9a7413]" />
               <span>Modelo 3D Interativo · Manual PP. 4–6</span>
             </div>
-            <h3 className="font-maritime text-2xl sm:text-3xl font-bold text-[#0b3a55] mt-1">
+            <h3 className="font-maritime text-2xl sm:text-3xl font-bold text-primary mt-1">
               Embarcação 3D Interativa (360°)
             </h3>
-            <p className="text-xs sm:text-sm text-[#4f6e82] mt-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
               Arraste na horizontal para rodar 360°, faça zoom com dois dedos ou roda do rato e clique/toque em qualquer peça para explorar a nomenclatura.
             </p>
           </div>
@@ -1987,7 +1987,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
               setActivePreset('iso');
               sceneApiRef.current?.goToPreset('iso');
             }}
-            className="inline-flex items-center gap-1.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#0b3a55] hover:border-[#0b3a55] hover:bg-[#ede9de] transition cursor-pointer whitespace-nowrap shrink-0 self-start md:self-auto"
+            className="inline-flex items-center gap-1.5 rounded-none border border-border bg-muted px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-primary hover:border-primary hover:bg-secondary transition cursor-pointer whitespace-nowrap shrink-0 self-start md:self-auto"
           >
             <RotateCcw className="w-3.5 h-3.5 text-[#9a7413]" />
             <span>Repor Vista</span>
@@ -1995,18 +1995,18 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
         </div>
 
         {/* 3D Viewport Container */}
-        <div className="mt-4 relative rounded-xs border border-[#0b3a55]/30 overflow-hidden bg-[#dceef9] h-[420px] sm:h-[490px]">
+        <div className="mt-4 relative rounded-none border border-primary/30 overflow-hidden bg-[#dceef9] h-[420px] sm:h-[490px]">
           {/* Isolated WebGL canvas host */}
           <div ref={mountRef} className="w-full h-full" />
 
           {/* Context loss safeguard */}
           {contextLost && (
-            <div className="absolute inset-0 flex items-center justify-center bg-[#faf7f0]/95 p-6 text-center z-20">
+            <div className="absolute inset-0 flex items-center justify-center bg-muted/95 p-6 text-center z-20">
               <div className="max-w-sm">
-                <p className="font-maritime text-xl font-bold text-[#0b3a55]">
+                <p className="font-maritime text-xl font-bold text-primary">
                   Contexto gráfico interrompido
                 </p>
-                <p className="mt-1 text-xs text-[#4f6e82]">
+                <p className="mt-1 text-xs text-muted-foreground">
                   O navegador suspendeu temporariamente o renderizador WebGL 3D.
                 </p>
               </div>
@@ -2014,18 +2014,18 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
           )}
 
           {/* Minimal Top-Left Part Indicator (updated imperatively on hover for zero React re-renders) */}
-          <div className="pointer-events-none absolute top-3 left-3 z-10 rounded-xs border border-[#d7d0c1] bg-[#faf7f0]/95 px-3 py-1.5 shadow-xs">
+          <div className="pointer-events-none absolute top-3 left-3 z-10 rounded-none border border-border bg-muted/95 px-3 py-1.5 shadow-xs">
             <div ref={badgeEyebrowRef} className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413]">
               Peça selecionada
             </div>
-            <div ref={badgeTitleRef} className="font-maritime text-sm sm:text-base font-bold text-[#0b3a55] leading-tight">
+            <div ref={badgeTitleRef} className="font-maritime text-sm sm:text-base font-bold text-primary leading-tight">
               {BOAT_3D_PARTS[selectedPart].name}
             </div>
           </div>
 
           {/* Single Collapsible Bottom Control Dock (Zero backdrop-blur over WebGL) */}
           <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-col items-center pointer-events-none">
-            <div className="pointer-events-auto max-w-full rounded-xs border border-[#d7d0c1] bg-[#faf7f0]/95 px-2.5 py-2 shadow-xs">
+            <div className="pointer-events-auto max-w-full rounded-none border border-border bg-muted/95 px-2.5 py-2 shadow-xs">
               <div className="flex flex-wrap items-center justify-center gap-1.5">
                 {!controlsCollapsed && (
                   <>
@@ -2042,10 +2042,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                             setActivePreset(key);
                             sceneApiRef.current?.goToPreset(key);
                           }}
-                          className={`rounded-xs border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
+                          className={`rounded-none border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
                             active
-                              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-                              : 'bg-[#fcfbf8] text-[#4f6e82] border-[#d7d0c1] hover:border-[#0b3a55] hover:text-[#0b3a55]'
+                              ? 'bg-primary text-[#fbf9f0] border-primary'
+                              : 'bg-card text-muted-foreground border-border hover:border-primary hover:text-primary'
                           }`}
                         >
                           {CAMERA_PRESETS[key].label}
@@ -2053,16 +2053,16 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                       );
                     })}
 
-                    <span className="h-4 w-px bg-[#d7d0c1] mx-0.5 hidden sm:inline-block" aria-hidden="true" />
+                    <span className="h-4 w-px bg-border mx-0.5 hidden sm:inline-block" aria-hidden="true" />
 
                     {/* Structural Cutaway Toggle */}
                     <button
                       type="button"
                       onClick={() => setShowCutaway((prev) => !prev)}
-                      className={`inline-flex items-center gap-1 rounded-xs border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
+                      className={`inline-flex items-center gap-1 rounded-none border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
                         showCutaway
-                          ? 'bg-[#9a7413] text-[#faf7f0] border-[#9a7413]'
-                          : 'bg-[#fcfbf8] text-[#0b3a55] border-[#d7d0c1] hover:border-[#0b3a55]'
+                          ? 'bg-[#9a7413] text-[#fbf9f0] border-[#9a7413]'
+                          : 'bg-card text-primary border-border hover:border-primary'
                       }`}
                     >
                       {showCutaway ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
@@ -2073,10 +2073,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowWater((prev) => !prev)}
-                      className={`inline-flex items-center gap-1 rounded-xs border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
+                      className={`inline-flex items-center gap-1 rounded-none border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
                         showWater
-                          ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-                          : 'bg-[#fcfbf8] text-[#4f6e82] border-[#d7d0c1] hover:border-[#0b3a55]'
+                          ? 'bg-primary text-[#fbf9f0] border-primary'
+                          : 'bg-card text-muted-foreground border-border hover:border-primary'
                       }`}
                     >
                       <Waves className="w-3 h-3" />
@@ -2087,10 +2087,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowDimensions((prev) => !prev)}
-                      className={`inline-flex items-center gap-1 rounded-xs border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
+                      className={`inline-flex items-center gap-1 rounded-none border px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium transition cursor-pointer whitespace-nowrap ${
                         showDimensions
-                          ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-                          : 'bg-[#fcfbf8] text-[#4f6e82] border-[#d7d0c1] hover:border-[#0b3a55]'
+                          ? 'bg-primary text-[#fbf9f0] border-primary'
+                          : 'bg-card text-muted-foreground border-border hover:border-primary'
                       }`}
                     >
                       <Ruler className="w-3 h-3" />
@@ -2103,7 +2103,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                 <button
                   type="button"
                   onClick={() => setControlsCollapsed((prev) => !prev)}
-                  className="inline-flex items-center gap-1 rounded-xs border border-[#d7d0c1] bg-[#ede9de] px-2 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium text-[#0b3a55] hover:border-[#0b3a55] transition cursor-pointer whitespace-nowrap"
+                  className="inline-flex items-center gap-1 rounded-none border border-border bg-secondary px-2 py-1 font-mono-naut text-[10px] uppercase tracking-wider font-medium text-primary hover:border-primary transition cursor-pointer whitespace-nowrap"
                   aria-label={controlsCollapsed ? 'Mostrar controlos 3D' : 'Ocultar controlos 3D'}
                 >
                   {controlsCollapsed ? (
@@ -2137,10 +2137,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
               key={tab.key}
               type="button"
               onClick={() => setActiveGroup(tab.key)}
-              className={`rounded-xs border px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-medium transition whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`rounded-none border px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-wider font-medium transition whitespace-nowrap shrink-0 cursor-pointer ${
                 activeGroup === tab.key
-                  ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-                  : 'bg-[#faf7f0] text-[#4f6e82] border-[#d7d0c1] hover:border-[#0b3a55] hover:text-[#0b3a55] hover:bg-[#ede9de]'
+                  ? 'bg-primary text-[#fbf9f0] border-primary'
+                  : 'bg-muted text-muted-foreground border-border hover:border-primary hover:text-primary hover:bg-secondary'
               }`}
             >
               {tab.label}
@@ -2157,10 +2157,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                 key={part.id}
                 type="button"
                 onClick={() => handleSelectPartUI(part.id)}
-                className={`rounded-xs border px-2.5 py-1.5 font-mono-naut text-[11px] font-medium transition cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`rounded-none border px-2.5 py-1.5 font-mono-naut text-[11px] font-medium transition cursor-pointer whitespace-nowrap shrink-0 ${
                   active
-                    ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-                    : 'bg-[#faf7f0] text-[#0b3a55] border-[#d7d0c1] hover:border-[#0b3a55] hover:bg-[#ede9de]'
+                    ? 'bg-primary text-[#fbf9f0] border-primary'
+                    : 'bg-muted text-primary border-border hover:border-primary hover:bg-secondary'
                 }`}
               >
                 {part.name}
@@ -2170,15 +2170,15 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
         </div>
 
         {/* Selected Part Exhibit Plaque */}
-        <div className="mt-5 rounded-xs bg-[#faf7f0] p-5 sm:p-6 border border-[#d7d0c1]">
-          <div className="flex flex-wrap items-start justify-between gap-3 pb-3 border-b border-[#d7d0c1]">
+        <div className="mt-5 rounded-none bg-muted p-5 sm:p-6 border border-border">
+          <div className="flex flex-wrap items-start justify-between gap-3 pb-3 border-b border-border">
             <div>
               <div className="flex items-center gap-2 font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413]">
                 <span>{currentInfo.pageRef}</span>
                 <span aria-hidden="true">·</span>
                 <span>{currentInfo.zoneLabel}</span>
               </div>
-              <h4 className="font-maritime text-2xl font-bold text-[#0b3a55] mt-0.5">
+              <h4 className="font-maritime text-2xl font-bold text-primary mt-0.5">
                 {currentInfo.name}
               </h4>
             </div>
@@ -2187,10 +2187,10 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
               <button
                 type="button"
                 onClick={() => handleSpeak(currentInfo.name)}
-                className={`rounded-xs p-2 border transition cursor-pointer ${
+                className={`rounded-none p-2 border transition cursor-pointer ${
                   isSpeaking
-                    ? 'bg-[#0b3a55] border-[#0b3a55] text-[#faf7f0]'
-                    : 'bg-[#fcfbf8] border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55] hover:border-[#0b3a55]'
+                    ? 'bg-primary border-primary text-[#fbf9f0]'
+                    : 'bg-card border-border text-muted-foreground hover:text-primary hover:border-primary'
                 }`}
                 title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
                 aria-label="Ouvir termo"
@@ -2202,7 +2202,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
                 <button
                   type="button"
                   onClick={() => handleOpenTermModal(matchedGlossaryTerm)}
-                  className="inline-flex items-center gap-1.5 rounded-xs border border-[#0b3a55] bg-[#0b3a55] px-3 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition cursor-pointer whitespace-nowrap shrink-0"
+                  className="inline-flex items-center gap-1.5 rounded-none border border-primary bg-primary px-3 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#fbf9f0] hover:bg-[#082b3f] transition cursor-pointer whitespace-nowrap shrink-0"
                 >
                   <span>Abrir Carta</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#ca9e1c]" />
@@ -2212,7 +2212,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
           </div>
 
           <div className="mt-4 space-y-3">
-            <p className="text-sm sm:text-base text-[#0b3a55]/90 leading-relaxed">
+            <p className="text-sm sm:text-base text-foreground/90 leading-relaxed">
               <GlossaryText
                 text={currentInfo.definition}
                 allTerms={allTerms}
@@ -2220,7 +2220,7 @@ export const Boat3DViewer: React.FC<Boat3DViewerProps> = ({
               />
             </p>
 
-            <div className="flex items-start gap-2.5 p-3.5 rounded-xs bg-[#f0e8cf]/65 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
+            <div className="flex items-start gap-2.5 p-3.5 rounded-none bg-[#f0e8cf]/65 border border-[#ca9e1c]/40 text-xs text-foreground">
               <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
               <div>
                 <strong className="text-[#9a7413]">Importante para o Exame:</strong>{' '}

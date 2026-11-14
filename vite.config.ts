@@ -18,7 +18,7 @@ export default defineConfig(() => {
           short_name: 'Marinheiro',
           description: 'Aplicação interativa de estudo para a Carta de Marinheiro com glossário, flashcards e notas.',
           theme_color: '#0b3a55',
-          background_color: '#faf7f0',
+          background_color: '#fbf9f0',
           display: 'standalone',
           start_url: '/',
           scope: '/',

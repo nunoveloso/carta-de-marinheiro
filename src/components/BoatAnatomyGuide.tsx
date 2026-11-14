@@ -254,18 +254,18 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
   return (
     <div className="space-y-6">
       {/* Museum Exhibit Card */}
-      <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 sm:p-8 shadow-xs">
+      <div className="rounded-none border border-border bg-card p-5 sm:p-8 shadow-xs">
         
         {/* Header */}
-        <div className="mb-4 pb-4 border-b border-[#d7d0c1]">
+        <div className="mb-4 pb-4 border-b border-border">
           <div className="flex items-center gap-2 font-mono-naut text-[11px] font-medium uppercase tracking-[0.14em] text-[#9a7413]">
             <Ship className="w-4 h-4 text-[#9a7413]" />
             <span>Guia Náutico Interativo</span>
           </div>
-          <h3 className="font-maritime text-2xl sm:text-3xl font-bold text-[#0b3a55] mt-1">
+          <h3 className="font-maritime text-2xl sm:text-3xl font-bold text-primary mt-1">
             Partes e Regiões da Embarcação
           </h3>
-          <p className="text-xs sm:text-sm text-[#4f6e82] mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Manual do Marinheiro DGRM. Toque nas diferentes partes ou rótulos da embarcação para explorar cada região.
           </p>
         </div>
@@ -273,7 +273,7 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
         {/* Vessel Interactive Canvas with Light Sea Blue Ocean & Hydrodynamic White Vessel */}
         <div
           onClick={() => setSelectedPart(null)}
-          className="relative mx-auto max-w-xl rounded-xs bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] p-0 border border-[#0b3a55]/30 shadow-xs overflow-hidden cursor-pointer"
+          className="relative mx-auto max-w-xl rounded-none bg-gradient-to-b from-[#e0f2fe] via-[#d7effe] to-[#bae6fd] p-0 border border-primary/30 shadow-xs overflow-hidden cursor-pointer"
           title="Toque no mar para desmarcar a seleção"
         >
           
@@ -1204,23 +1204,23 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
       </div>
 
         {/* ================= EXHIBIT DETAIL PLAQUE ================= */}
-        <div className="mt-6 rounded-xs bg-[#faf7f0] p-5 sm:p-6 border border-[#d7d0c1] transition-all">
+        <div className="mt-6 rounded-none bg-muted p-5 sm:p-6 border border-border transition-all">
           {currentInfo ? (
             <>
-              <div className="flex items-center justify-between gap-3 pb-4 border-b border-[#d7d0c1]">
+              <div className="flex items-center justify-between gap-3 pb-4 border-b border-border">
                 <div className="flex items-center gap-3">
                   <span
-                    className="w-3.5 h-3.5 rounded-xs border border-[#0b3a55]/25 shrink-0"
+                    className="w-3.5 h-3.5 rounded-none border border-primary/25 shrink-0"
                     style={{
                       backgroundColor: currentInfo.colorHex,
                       boxShadow: `0 0 10px ${currentInfo.glowHex}`,
                     }}
                   />
                   <div>
-                    <h4 className="font-maritime text-2xl font-bold text-[#0b3a55]">
+                    <h4 className="font-maritime text-2xl font-bold text-primary">
                       {currentInfo.name}
                     </h4>
-                    <div className="text-xs text-[#4f6e82] font-medium mt-0.5">
+                    <div className="text-xs text-muted-foreground font-medium mt-0.5">
                       Região:{' '}
                       <GlossaryText
                         text={currentInfo.location}
@@ -1234,10 +1234,10 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
                 {/* Audio Button - Minimalist icon button like glossary */}
                 <button
                   onClick={() => handleSpeak(currentInfo.name)}
-                  className={`rounded-xs p-2 border transition cursor-pointer ${
+                  className={`rounded-none p-2 border transition cursor-pointer ${
                     isSpeaking
-                      ? 'bg-[#0b3a55] border-[#0b3a55] text-[#faf7f0]'
-                      : 'bg-[#fcfbf8] border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55] hover:border-[#0b3a55]'
+                      ? 'bg-primary border-primary text-[#fbf9f0]'
+                      : 'bg-card border-border text-muted-foreground hover:text-primary hover:border-primary'
                   }`}
                   title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
                   aria-label="Ouvir termo"
@@ -1248,7 +1248,7 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
 
               {/* Definition with dotted glossary links */}
               <div className="mt-4">
-                <p className="text-sm sm:text-base text-[#0b3a55]/90 leading-relaxed">
+                <p className="text-sm sm:text-base text-foreground leading-relaxed">
                   <GlossaryText
                     text={currentInfo.definition}
                     allTerms={allTerms}
@@ -1258,10 +1258,10 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
               </div>
 
               {/* Night light / visual signal with dotted glossary links */}
-              <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-xs bg-[#fcfbf8] border border-[#d7d0c1] text-xs text-[#0b3a55]/90">
-                <Compass className="w-4 h-4 text-[#0b3a55] shrink-0 mt-0.5" />
+              <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-none bg-card border border-border text-xs text-foreground">
+                <Compass className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[#0b3a55]">Sinalização Noturna & Setor:</strong>{' '}
+                  <strong className="text-primary">Sinalização Noturna & Setor:</strong>{' '}
                   <GlossaryText
                     text={currentInfo.nightLight}
                     allTerms={allTerms}
@@ -1271,7 +1271,7 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
               </div>
 
               {/* Exam Rule Tip with dotted glossary links */}
-              <div className="mt-3.5 flex items-start gap-2.5 p-3.5 rounded-xs bg-[#f0e8cf]/65 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
+              <div className="mt-3.5 flex items-start gap-2.5 p-3.5 rounded-none bg-[#f0e8cf]/65 border border-[#ca9e1c]/40 text-xs text-primary">
                 <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-[#9a7413]">Regra de Exame DGRM / RIPAM:</strong>{' '}
@@ -1285,14 +1285,14 @@ export const BoatAnatomyGuide: React.FC<BoatAnatomyGuideProps> = ({
             </>
           ) : (
             <div className="flex items-center gap-3 py-2">
-              <div className="w-11 h-11 rounded-xs bg-[#ede9de] flex items-center justify-center border border-[#d7d0c1] shrink-0">
+              <div className="w-11 h-11 rounded-none bg-secondary flex items-center justify-center border border-border shrink-0">
                 <Ship className="w-5 h-5 text-[#9a7413]" />
               </div>
               <div>
-                <h4 className="font-maritime text-xl font-bold text-[#0b3a55]">
+                <h4 className="font-maritime text-xl font-bold text-primary">
                   Nenhuma Região Selecionada
                 </h4>
-                <p className="text-xs sm:text-sm text-[#4f6e82] mt-0.5">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
                   Toque numa parte do barco ou nos rótulos para consultar as regras da DGRM e iluminação noturna.
                 </p>
               </div>

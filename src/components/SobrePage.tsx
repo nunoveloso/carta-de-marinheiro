@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info, Compass, BookOpen, ShieldCheck, Layers, Mail, ArrowRight } from 'lucide-react';
+import { BookOpen, ShieldCheck, Layers, Mail, ArrowRight } from 'lucide-react';
 import { RouteId, ROUTES } from '../utils/routes';
 
 interface SobrePageProps {
@@ -8,81 +8,80 @@ interface SobrePageProps {
 
 export const SobrePage: React.FC<SobrePageProps> = ({ onNavigate }) => {
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, route: RouteId) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     onNavigate(route);
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      <section className="rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-8">
-        <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82] mb-2.5">
-          <Compass className="w-4 h-4 text-[#9a7413]" />
-          <span>Sobre o Projeto</span>
-          <span aria-hidden="true" className="text-[#d7d0c1]">·</span>
-          <span>Conteúdo Genérico (Placeholder)</span>
-        </div>
-
-        <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight flex items-center gap-3">
-          <Info className="w-8 h-8 sm:w-10 sm:h-10 text-[#9a7413] shrink-0" />
-          <span>Sobre a Carta de Marinheiro</span>
-        </h2>
-
-        <p className="mt-3 text-xs sm:text-sm text-[#4f6e82] leading-relaxed max-w-3xl">
-          Esta página serve como apresentação genérica (<span className="font-mono-naut">placeholder</span>) do projeto <strong className="text-[#0b3a55]">Carta de Marinheiro — Caderno de Estudo &amp; Glossário Náutico</strong>, criado para auxiliar navegadores de recreio na preparação teórica e prática para o exame oficial em Portugal.
-        </p>
-      </section>
-
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5">
-          <BookOpen className="w-5 h-5 text-[#9a7413] mb-3" />
-          <h3 className="font-maritime text-lg font-bold text-[#0b3a55]">
-            Referência Oficial DGRM
-          </h3>
-          <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-            Conteúdos estruturados segundo o Manual do Marinheiro (2021), o Regulamento Internacional para Evitar Abalroamentos no Mar (RIPEAM / R.I.E.A.M. 1972) e o sistema IALA Região A.
+    <div>
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+          <p className="font-mono-naut text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            Sobre o Projeto · Conteúdo Genérico (Placeholder)
           </p>
-        </div>
-
-        <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5">
-          <Layers className="w-5 h-5 text-[#9a7413] mb-3" />
-          <h3 className="font-maritime text-lg font-bold text-[#0b3a55]">
-            Estudo Interativo &amp; Visual
-          </h3>
-          <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-            Combina glossário pesquisável, guias visuais 2D/3D, fichas de estudo (flashcards), simulador de exame e apontamentos pessoais sincronizados na nuvem.
-          </p>
-        </div>
-
-        <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5">
-          <ShieldCheck className="w-5 h-5 text-[#9a7413] mb-3" />
-          <h3 className="font-maritime text-lg font-bold text-[#0b3a55]">
-            PWA Offline-First
-          </h3>
-          <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-            Desenvolvida como Progressive Web App (PWA) com cache local para consulta rápida mesmo sem ligação à internet a bordo ou em viagem.
+          <h1 className="mt-2 max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-primary sm:text-4xl">
+            Sobre a Carta de Marinheiro
+          </h1>
+          <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-muted-foreground">
+            Esta página serve como apresentação genérica (<span className="font-mono-naut text-xs">placeholder</span>) do projeto <strong className="text-foreground">Carta de Marinheiro — Caderno de Estudo &amp; Glossário Náutico</strong>, criado para apoiar navegadores de recreio na preparação teórica e prática para o exame oficial em Portugal.
           </p>
         </div>
       </section>
 
-      <section className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h3 className="font-maritime text-xl font-bold text-[#0b3a55]">
-            Tem sugestões de melhoria ou correções náuticas?
-          </h3>
-          <p className="mt-1 text-xs sm:text-sm text-[#4f6e82]">
-            Utilize a página de contacto para enviar feedback diretamente à equipa responsável.
-          </p>
-        </div>
-        <a
-          href={ROUTES.contacto.path}
-          onClick={(e) => handleLinkClick(e, 'contacto')}
-          className="inline-flex items-center gap-2 rounded-xs bg-[#0b3a55] px-4 py-2.5 font-mono-naut text-xs uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition shrink-0"
-        >
-          <Mail className="w-4 h-4 text-[#ca9e1c]" />
-          <span>Ir para Contacto</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </a>
-      </section>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 space-y-6">
+        <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="border border-border bg-card p-5">
+            <BookOpen className="mb-3 h-5 w-5 text-[#9a7413]" />
+            <h3 className="text-lg font-semibold text-foreground">
+              Referência Oficial DGRM
+            </h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Conteúdos estruturados segundo o Manual do Marinheiro (2021), o Regulamento Internacional para Evitar Abalroamentos no Mar (RIPEAM / R.I.E.A.M. 1972) e o sistema IALA Região A.
+            </p>
+          </div>
+
+          <div className="border border-border bg-card p-5">
+            <Layers className="mb-3 h-5 w-5 text-[#9a7413]" />
+            <h3 className="text-lg font-semibold text-foreground">
+              Estudo Interativo &amp; Visual
+            </h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Combina glossário pesquisável, guias visuais 2D/3D, fichas de estudo (flashcards), simulador de exame e apontamentos pessoais sincronizados na nuvem.
+            </p>
+          </div>
+
+          <div className="border border-border bg-card p-5">
+            <ShieldCheck className="mb-3 h-5 w-5 text-[#9a7413]" />
+            <h3 className="text-lg font-semibold text-foreground">
+              PWA Offline-First
+            </h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+              Desenvolvida como Progressive Web App (PWA) com cache local para consulta rápida mesmo sem ligação à internet a bordo ou em viagem.
+            </p>
+          </div>
+        </section>
+
+        <section className="flex flex-col items-start justify-between gap-4 border border-border bg-card p-6 sm:flex-row sm:items-center">
+          <div>
+            <h3 className="text-xl font-semibold text-foreground">
+              Tem sugestões de melhoria ou correções náuticas?
+            </h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Utilize a página de contacto para enviar feedback diretamente à equipa responsável.
+            </p>
+          </div>
+          <a
+            href={ROUTES.contacto.path}
+            onClick={(e) => handleLinkClick(e, 'contacto')}
+            className="font-mono-naut inline-flex min-h-11 shrink-0 items-center gap-2 border border-primary bg-primary px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-primary-foreground transition-colors hover:bg-[#082b3f]"
+          >
+            <Mail className="h-4 w-4 text-[#ca9e1c]" />
+            <span>Ir para Contacto</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+        </section>
+      </div>
     </div>
   );
 };

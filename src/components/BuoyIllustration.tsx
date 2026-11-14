@@ -598,29 +598,29 @@ const AnimatedBuoyItem: React.FC<{
       onClick={() => {
         if (targetTerm && onSelectTerm) onSelectTerm(targetTerm);
       }}
-      className={`group relative flex flex-col justify-between rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] transition ${
-        targetTerm ? 'hover:border-[#0b3a55] hover:shadow-[3px_3px_0_0_#0b3a55] cursor-pointer' : ''
+      className={`group relative flex flex-col justify-between rounded-none bg-card p-4 border border-border transition ${
+        targetTerm ? 'hover:border-primary hover:shadow-[3px_3px_0_0_#0b3a55] cursor-pointer' : ''
       }`}
     >
       {/* Top Header info */}
-      <div className="flex items-center justify-between gap-1.5 pb-2 border-b border-[#d7d0c1] text-xs">
-        <span className="font-bold text-[#0b3a55] text-[12px] truncate">{buoy.name}</span>
+      <div className="flex items-center justify-between gap-1.5 pb-2 border-b border-border text-xs">
+        <span className="font-bold text-primary text-[12px] truncate">{buoy.name}</span>
         {targetTerm && (
-          <span className="font-mono-naut text-[10px] text-[#0b3a55] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5 font-medium shrink-0">
+          <span className="font-mono-naut text-[10px] text-primary group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5 font-medium shrink-0">
             Ver carta <ArrowRight className="w-2.5 h-2.5" />
           </span>
         )}
       </div>
 
       {/* SVG Buoy Illustration with Waterline */}
-      <div className="my-3 flex flex-col items-center justify-center rounded-xs bg-[#faf7f0] py-3 border border-[#d7d0c1] group-hover:scale-102 transition-transform">
+      <div className="my-3 flex flex-col items-center justify-center rounded-none bg-muted py-3 border border-border group-hover:scale-102 transition-transform">
         {renderBuoySVG(buoy, isLightOn, 1)}
       </div>
 
       {/* Specs / Light & Topmark badge */}
       <div className="space-y-2">
         {/* Night Light Spec Badge */}
-        <div className="rounded-xs bg-[#0b3a55] p-2.5 text-[#faf7f0]">
+        <div className="rounded-none bg-primary p-2.5 text-[#fbf9f0]">
           <div className="flex items-center justify-between text-[11px] mb-1">
             <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#dce8ef] flex items-center gap-1">
               <Moon className="w-3 h-3 text-[#e3b505]" />
@@ -636,17 +636,17 @@ const AnimatedBuoyItem: React.FC<{
         </div>
 
         {/* Daytime Characteristics */}
-        <div className="rounded-xs bg-[#faf7f0] p-2.5 border border-[#d7d0c1] text-xs text-[#0b3a55]/90 space-y-1">
+        <div className="rounded-none bg-muted p-2.5 border border-border text-xs text-foreground space-y-1">
           <p className="text-[11px] leading-tight">
-            <strong className="text-[#0b3a55]">Tope Diurno:</strong> {buoy.topmarkDescription}
+            <strong className="text-primary">Tope Diurno:</strong> {buoy.topmarkDescription}
           </p>
           <p className="text-[11px] leading-tight">
-            <strong className="text-[#0b3a55]">Corpo:</strong> {buoy.colorsDescription}
+            <strong className="text-primary">Corpo:</strong> {buoy.colorsDescription}
           </p>
         </div>
 
         {/* Exam Tip */}
-        <p className="text-[11px] text-[#0b3a55] bg-[#f0e8cf]/65 p-2 rounded-xs border border-[#ca9e1c]/40 leading-tight">
+        <p className="text-[11px] text-primary bg-[#f0e8cf]/65 p-2 rounded-none border border-[#ca9e1c]/40 leading-tight">
           <strong className="text-[#9a7413]">Regra de Exame:</strong> {buoy.examTip}
         </p>
       </div>
@@ -687,29 +687,29 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
     if (variant === 'card') {
       return (
-        <div className="mt-3.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
+        <div className="mt-3.5 rounded-none border border-border bg-muted p-3 text-xs">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 bg-[#fcfbf8] p-1 rounded-xs border border-[#d7d0c1]">
+            <div className="shrink-0 bg-card p-1 rounded-none border border-border">
               {renderBuoySVG(specificBuoy, true, 0.75)}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-[#0b3a55] text-[11px] block truncate">
+                <span className="font-bold text-primary text-[11px] block truncate">
                   {specificBuoy.name}
                 </span>
               </div>
               <div className="mt-1 flex items-center gap-1.5 flex-wrap">
                 <span
-                  className="font-mono-naut font-bold text-[10px] px-1.5 py-0.5 rounded-xs bg-[#0b3a55] text-[#faf7f0]"
+                  className="font-mono-naut font-bold text-[10px] px-1.5 py-0.5 rounded-none bg-primary text-[#fbf9f0]"
                   style={{ color: specificBuoy.lightColor === 'branco' ? '#facc15' : specificBuoy.lightColorHex }}
                 >
                   Luz: {specificBuoy.lightRhythm}
                 </span>
-                <span className="text-[10px] text-[#9a7413] font-medium bg-[#f0e8cf] px-1.5 py-0.5 rounded-xs border border-[#ca9e1c]/40">
+                <span className="text-[10px] text-[#9a7413] font-medium bg-[#f0e8cf] px-1.5 py-0.5 rounded-none border border-[#ca9e1c]/40">
                   Tope: {specificBuoy.topmarkDescription}
                 </span>
               </div>
-              <p className="mt-1 text-[10px] text-[#4f6e82] line-clamp-2 leading-tight">
+              <p className="mt-1 text-[10px] text-muted-foreground line-clamp-2 leading-tight">
                 {specificBuoy.meaning}
               </p>
             </div>
@@ -720,18 +720,18 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
     // Modal detailed view for single specific buoy
     return (
-      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1] gap-2">
-          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
+      <div className="rounded-none border border-border bg-muted p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-border gap-2">
+          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-none bg-primary"></span>
             Ilustração Oficial: {specificBuoy.name}
           </h4>
           <button
             onClick={() => setIsSimulatingLights(!isSimulatingLights)}
-            className={`inline-flex items-center gap-1.5 rounded-xs px-2.5 py-1 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition shrink-0 whitespace-nowrap cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 rounded-none px-2.5 py-1 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition shrink-0 whitespace-nowrap cursor-pointer ${
               isSimulatingLights
-                ? 'bg-[#0b3a55] text-[#faf7f0]'
-                : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:text-[#0b3a55]'
+                ? 'bg-primary text-[#fbf9f0]'
+                : 'border border-border bg-card text-muted-foreground hover:text-primary'
             }`}
           >
             <Zap className={`w-3.5 h-3.5 ${isSimulatingLights ? 'text-[#e3b505] fill-[#e3b505]' : ''}`} />
@@ -741,21 +741,21 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Big Buoy Preview Box */}
-          <div className="rounded-xs bg-[#fcfbf8] p-5 border border-[#d7d0c1] flex flex-col items-center justify-center text-center">
+          <div className="rounded-none bg-card p-5 border border-border flex flex-col items-center justify-center text-center">
             <div className="my-2">{renderBuoySVG(specificBuoy, isSimulatingLights, 1.25)}</div>
             <div className="mt-3">
-              <span className="text-base font-bold text-[#0b3a55] block">{specificBuoy.name}</span>
-              <span className="text-xs text-[#4f6e82]">{specificBuoy.colorsDescription}</span>
+              <span className="text-base font-bold text-primary block">{specificBuoy.name}</span>
+              <span className="text-xs text-muted-foreground">{specificBuoy.colorsDescription}</span>
             </div>
           </div>
 
           {/* Details & Specs Box */}
-          <div className="rounded-xs bg-[#fcfbf8] p-5 border border-[#d7d0c1] flex flex-col justify-between space-y-3">
+          <div className="rounded-none bg-card p-5 border border-border flex flex-col justify-between space-y-3">
             <div>
-              <span className="font-mono-naut text-[10px] font-medium text-[#4f6e82] uppercase tracking-wider block">
+              <span className="font-mono-naut text-[10px] font-medium text-muted-foreground uppercase tracking-wider block">
                 Sinalização Noturna (Luz & Ritmo):
               </span>
-              <div className="mt-1.5 rounded-xs bg-[#0b3a55] p-3 text-[#faf7f0]">
+              <div className="mt-1.5 rounded-none bg-primary p-3 text-[#fbf9f0]">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-[#dce8ef] flex items-center gap-1">
                     <Moon className="w-3.5 h-3.5 text-[#e3b505]" />
@@ -773,20 +773,20 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
                 </p>
               </div>
 
-              <div className="mt-3 space-y-1.5 text-xs text-[#0b3a55]/90">
+              <div className="mt-3 space-y-1.5 text-xs text-foreground">
                 <p>
-                  <strong className="text-[#0b3a55]">Tope Diurno:</strong> {specificBuoy.topmarkDescription}
+                  <strong className="text-primary">Tope Diurno:</strong> {specificBuoy.topmarkDescription}
                 </p>
                 <p>
-                  <strong className="text-[#0b3a55]">Cor do Corpo:</strong> {specificBuoy.colorsDescription}
+                  <strong className="text-primary">Cor do Corpo:</strong> {specificBuoy.colorsDescription}
                 </p>
                 <p>
-                  <strong className="text-[#0b3a55]">Regra de Passagem:</strong> {specificBuoy.meaning}
+                  <strong className="text-primary">Regra de Passagem:</strong> {specificBuoy.meaning}
                 </p>
               </div>
             </div>
 
-            <div className="rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
+            <div className="rounded-none bg-[#f0e8cf]/65 p-3 border border-[#ca9e1c]/40 text-xs text-primary">
               <strong className="text-[#9a7413] block mb-0.5">Pergunta Frequente no Exame da DGRM:</strong>
               {specificBuoy.examTip}
             </div>
@@ -808,13 +808,13 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
   if (variant === 'card') {
     return (
-      <div className="mt-3.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
+      <div className="mt-3.5 rounded-none border border-border bg-muted p-3 text-xs">
         <div className="flex items-center justify-between mb-2">
-          <span className="font-mono-naut font-medium text-[#0b3a55] text-[10px] uppercase tracking-wider flex items-center gap-1.5">
-            <span className="inline-block w-2 h-2 rounded-xs bg-[#0b3a55]"></span>
+          <span className="font-mono-naut font-medium text-primary text-[10px] uppercase tracking-wider flex items-center gap-1.5">
+            <span className="inline-block w-2 h-2 rounded-none bg-primary"></span>
             Bóias & Luzes ({categoryType === 'cardeais' ? 'Marcas Cardeais' : categoryType === 'laterais' ? 'Marcas Laterais' : 'Sistema IALA A'})
           </span>
-          <span className="font-mono-naut text-[10px] text-[#4f6e82]">Toque para ver</span>
+          <span className="font-mono-naut text-[10px] text-muted-foreground">Toque para ver</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
@@ -828,12 +828,12 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
                   if (target && onSelectTerm) onSelectTerm(target);
                 }
               }}
-              className="group/b flex flex-col items-center justify-between rounded-xs bg-[#fcfbf8] p-2 border border-[#d7d0c1] hover:border-[#0b3a55] hover:bg-[#ede9de]/50 transition cursor-pointer"
+              className="group/b flex flex-col items-center justify-between rounded-none bg-card p-2 border border-border hover:border-primary hover:bg-secondary/50 transition cursor-pointer"
             >
               <div className="h-16 flex items-center justify-center scale-75 group-hover/b:scale-80 transition-transform">
                 {renderBuoySVG(b, true, 0.75)}
               </div>
-              <span className="font-bold text-[10px] text-[#0b3a55] leading-tight truncate w-full">
+              <span className="font-bold text-[10px] text-primary leading-tight truncate w-full">
                 {b.name.replace('Marca ', '').replace('Lateral de ', '')}
               </span>
               <span
@@ -846,7 +846,7 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
           ))}
         </div>
 
-        <p className="mt-2 text-[11px] text-[#0b3a55] bg-[#f0e8cf]/65 px-2.5 py-1.5 rounded-xs border border-[#ca9e1c]/40 leading-tight">
+        <p className="mt-2 text-[11px] text-primary bg-[#f0e8cf]/65 px-2.5 py-1.5 rounded-none border border-[#ca9e1c]/40 leading-tight">
           <strong className="text-[#9a7413]">Regra IALA Região A (Manual pág. 65-67):</strong> Cores e marcas de tope de dia, ritmo e cor da luz à noite.
         </p>
       </div>
@@ -855,24 +855,24 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
 
   // Category Detailed Modal View
   return (
-    <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#d7d0c1]">
+    <div className="rounded-none border border-border bg-muted p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
         <div>
-          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
+          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-none bg-primary"></span>
             Esquema Oficial das Bóias, Sinais de Tope e Ritmos de Luz (Manual pág. 65, 66 e 67)
           </h4>
-          <p className="text-xs text-[#4f6e82] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Forma da boia, marcas de tope diurnas, cor da luz e ritmo característico dos clarões para exame da DGRM.
           </p>
         </div>
 
         <button
           onClick={() => setIsSimulatingLights(!isSimulatingLights)}
-          className={`inline-flex items-center gap-1.5 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition shrink-0 whitespace-nowrap cursor-pointer ${
+          className={`inline-flex items-center gap-1.5 rounded-none px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition shrink-0 whitespace-nowrap cursor-pointer ${
             isSimulatingLights
-              ? 'bg-[#0b3a55] text-[#faf7f0] hover:bg-[#082b3f]'
-              : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:text-[#0b3a55]'
+              ? 'bg-primary text-[#fbf9f0] hover:bg-[#082b3f]'
+              : 'border border-border bg-card text-muted-foreground hover:text-primary'
           }`}
           title="Ativar/desativar animação do ritmo dos clarões da luz"
         >
@@ -882,43 +882,43 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
       </div>
 
       {categoryType === 'todas' && (
-        <div className="mt-3 flex flex-wrap gap-1.5 border-b border-[#d7d0c1] pb-2.5">
+        <div className="mt-3 flex flex-wrap gap-1.5 border-b border-border pb-2.5">
           <button
             onClick={() => setActiveTab('todas')}
-            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`rounded-none px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'todas'
-                ? 'bg-[#0b3a55] text-[#faf7f0]'
-                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
+                ? 'bg-primary text-[#fbf9f0]'
+                : 'bg-card border border-border text-muted-foreground hover:text-primary'
             }`}
           >
             Todas ({BUOYS_DATA.length})
           </button>
           <button
             onClick={() => setActiveTab('laterais')}
-            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`rounded-none px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'laterais'
-                ? 'bg-[#0b3a55] text-[#faf7f0]'
-                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
+                ? 'bg-primary text-[#fbf9f0]'
+                : 'bg-card border border-border text-muted-foreground hover:text-primary'
             }`}
           >
             Marcas Laterais & Canais (4)
           </button>
           <button
             onClick={() => setActiveTab('cardeais')}
-            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`rounded-none px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'cardeais'
-                ? 'bg-[#0b3a55] text-[#faf7f0]'
-                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
+                ? 'bg-primary text-[#fbf9f0]'
+                : 'bg-card border border-border text-muted-foreground hover:text-primary'
             }`}
           >
             Marcas Cardeais (4)
           </button>
           <button
             onClick={() => setActiveTab('outras')}
-            className={`rounded-xs px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`rounded-none px-3 py-1.5 font-mono-naut text-[11px] font-medium uppercase tracking-wider transition whitespace-nowrap shrink-0 cursor-pointer ${
               activeTab === 'outras'
-                ? 'bg-[#0b3a55] text-[#faf7f0]'
-                : 'bg-[#fcfbf8] border border-[#d7d0c1] text-[#4f6e82] hover:text-[#0b3a55]'
+                ? 'bg-primary text-[#fbf9f0]'
+                : 'bg-card border border-border text-muted-foreground hover:text-primary'
             }`}
           >
             Perigo Isolado, Águas Limpas e Especiais (3)
@@ -940,7 +940,7 @@ export const BuoyIllustration: React.FC<BuoyIllustrationProps> = ({
       </div>
 
       {/* Summary Reference Table */}
-      <div className="mt-5 rounded-xs bg-[#f0e8cf]/65 p-4 border border-[#ca9e1c]/40 text-xs text-[#0b3a55]">
+      <div className="mt-5 rounded-none bg-[#f0e8cf]/65 p-4 border border-[#ca9e1c]/40 text-xs text-primary">
         <div className="flex items-start gap-2.5">
           <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
           <div className="space-y-1.5">

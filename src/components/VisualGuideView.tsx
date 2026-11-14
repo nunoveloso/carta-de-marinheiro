@@ -67,31 +67,31 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
       {/* Editorial Hero Header matching Glossário page style */}
-      <div className="relative rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-8 mb-6">
+      <div className="relative rounded-none border border-border bg-muted/60 p-6 sm:p-8 mb-6">
         <div className="max-w-3xl">
-          <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82] mb-2.5">
+          <div className="flex items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-muted-foreground mb-2.5">
             <Compass className="w-4 h-4 text-[#9a7413]" />
             <span>DGRM Portugal</span>
-            <span aria-hidden="true" className="text-[#d7d0c1]">·</span>
+            <span aria-hidden="true" className="text-border">·</span>
             <span>Manual do Marinheiro (2021)</span>
           </div>
-          <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight">
+          <h1 className="font-maritime text-3xl sm:text-5xl font-bold text-primary tracking-tight leading-tight">
             Guia Visual Náutico da Carta de Marinheiro
-          </h2>
-          <p className="mt-2 text-xs sm:text-sm text-[#4f6e82] leading-relaxed">
+          </h1>
+          <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
             Esquemas visuais interativos dos tópicos com maior taxa de perguntas no exame oficial da DGRM.
           </p>
         </div>
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex flex-wrap gap-1.5 mb-6 border-b border-[#d7d0c1] pb-4">
+      <div className="flex flex-wrap gap-1.5 mb-6 border-b border-border pb-4">
         <button
           onClick={() => setActiveSection('barco')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'barco'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Ship className="w-4 h-4" />
@@ -100,10 +100,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('lateral')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'lateral'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Ruler className="w-4 h-4" />
@@ -112,10 +112,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('modelo3d')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'modelo3d'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Box className="w-4 h-4" />
@@ -124,10 +124,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('luzes')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'luzes'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Compass className="w-4 h-4" />
@@ -136,10 +136,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('iala')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'iala'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Navigation className="w-4 h-4" />
@@ -148,10 +148,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('sons')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'sons'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Volume2 className="w-4 h-4" />
@@ -160,10 +160,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('baloes')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'baloes'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Layers className="w-4 h-4" />
@@ -172,10 +172,10 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
         <button
           onClick={() => setActiveSection('bandeiras')}
-          className={`flex items-center gap-2 rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`flex items-center gap-2 rounded-none px-3.5 py-2 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium border transition whitespace-nowrap shrink-0 cursor-pointer ${
             activeSection === 'bandeiras'
-              ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-              : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
           }`}
         >
           <Flag className="w-4 h-4" />
@@ -227,51 +227,51 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
       {/* SECTION 2: SETORES DE LUZES (RIPAM) */}
       {activeSection === 'luzes' && (
-        <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 sm:p-8">
-          <h3 className="font-maritime text-2xl font-bold text-[#0b3a55] mb-2">
+        <div className="rounded-none border border-border bg-card p-6 sm:p-8">
+          <h3 className="font-maritime text-2xl font-bold text-primary mb-2">
             Setores Regulamentares das Luzes de Navegação
           </h3>
-          <p className="text-xs sm:text-sm text-[#4f6e82] mb-6">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-6">
             Obrigatoriedade entre o pôr e o nascer do sol. A soma dos setores cobre exatamente 360º ao redor do barco:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="rounded-xs border border-[#1e7d4f]/40 bg-[#dcebe1]/60 p-5">
+            <div className="rounded-none border border-[#1e7d4f]/40 bg-[#dcebe1]/60 p-5">
               <div className="flex items-center gap-2 font-bold text-[#1e7d4f] mb-2 font-maritime text-xl">
-                <span className="h-4 w-4 rounded-full bg-[#1e7d4f]" />
+                <span className="h-4 w-4 rounded-none bg-[#1e7d4f]" />
                 Luz de Estibordo: Verde (112,5º)
               </div>
-              <p className="text-xs sm:text-sm text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed">
                 Visível da proa até 22,5º para a ré do través de estibordo (total de 10 quartas da agulha).
               </p>
             </div>
 
-            <div className="rounded-xs border border-[#b3402f]/40 bg-[#f3ded9]/60 p-5">
+            <div className="rounded-none border border-[#b3402f]/40 bg-[#f3ded9]/60 p-5">
               <div className="flex items-center gap-2 font-bold text-[#b3402f] mb-2 font-maritime text-xl">
-                <span className="h-4 w-4 rounded-full bg-[#b3402f]" />
+                <span className="h-4 w-4 rounded-none bg-[#b3402f]" />
                 Luz de Bombordo: Vermelha (112,5º)
               </div>
-              <p className="text-xs sm:text-sm text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed">
                 Visível da proa até 22,5º para a ré do través de bombordo (total de 10 quartas da agulha).
               </p>
             </div>
 
-            <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-              <div className="flex items-center gap-2 font-bold text-[#0b3a55] mb-2 font-maritime text-xl">
-                <span className="h-4 w-4 rounded-full bg-[#fcfbf8] border border-[#0b3a55]" />
+            <div className="rounded-none border border-border bg-background p-5">
+              <div className="flex items-center gap-2 font-bold text-primary mb-2 font-maritime text-xl">
+                <span className="h-4 w-4 rounded-none bg-card border border-primary" />
                 Luz de Alcance (Popa): Branca (135º)
               </div>
-              <p className="text-xs sm:text-sm text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed">
                 Colocada o mais perto possível da popa. Visível num setor de 135 graus ininterrupto (67,5º para cada bordo a partir da ré).
               </p>
             </div>
 
-            <div className="rounded-xs border border-[#0b3a55]/30 bg-[#dce8ef]/60 p-5">
-              <div className="flex items-center gap-2 font-bold text-[#0b3a55] mb-2 font-maritime text-xl">
-                <span className="h-4 w-4 rounded-full bg-[#0b3a55]" />
+            <div className="rounded-none border border-primary/30 bg-[#dce8ef]/60 p-5">
+              <div className="flex items-center gap-2 font-bold text-primary mb-2 font-maritime text-xl">
+                <span className="h-4 w-4 rounded-none bg-primary" />
                 Luz de Mastro / Tope: Branca (225º)
               </div>
-              <p className="text-xs sm:text-sm text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed">
                 Luz branca sobre a linha longitudinal, visível para a frente cobrindo a proa até 22,5º para a ré do través em ambos os bordos.
               </p>
             </div>
@@ -288,12 +288,12 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
 
       {/* SECTION 4: SINAIS SONOROS */}
       {activeSection === 'sons' && (
-        <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-6 sm:p-8">
-          <h3 className="font-maritime text-2xl font-bold text-[#0b3a55] mb-2 flex items-center gap-2">
+        <div className="rounded-none border border-border bg-card p-6 sm:p-8">
+          <h3 className="font-maritime text-2xl font-bold text-primary mb-2 flex items-center gap-2">
             <Volume2 className="w-5 h-5 text-[#9a7413]" />
             Sinais Sonoros de Manobra (RIPAM Regra 34)
           </h3>
-          <p className="text-xs sm:text-sm text-[#4f6e82] mb-6">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-6">
             Ouça os apitos reais tocados pela buzina de bordo tocando no botão "Tocar Sinal":
           </p>
 
@@ -327,23 +327,23 @@ export const VisualGuideView: React.FC<VisualGuideViewProps> = ({
                 signal: '1 Apito Longo (4 a 6s)',
                 meaning: 'Aproximação de curva cega de rio / aviso sob nevoeiro',
                 pattern: [3.5],
-                badge: 'bg-[#ede9de] text-[#0b3a55] border-[#d7d0c1]',
+                badge: 'bg-secondary text-primary border-border',
               },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xs bg-[#faf7f0] p-4 border border-[#d7d0c1]"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-none bg-background p-4 border border-border"
               >
                 <div>
-                  <span className={`inline-block rounded-xs px-2 py-0.5 font-mono-naut text-[11px] uppercase tracking-wider font-semibold border mb-1.5 ${item.badge}`}>
+                  <span className={`inline-block rounded-none px-2 py-0.5 font-mono-naut text-[11px] uppercase tracking-wider font-semibold border mb-1.5 ${item.badge}`}>
                     {item.signal}
                   </span>
-                  <p className="text-xs sm:text-sm font-semibold text-[#0b3a55]">{item.meaning}</p>
+                  <p className="text-xs sm:text-sm font-semibold text-foreground">{item.meaning}</p>
                 </div>
 
                 <button
                   onClick={() => playSoundSignal(item.pattern)}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-xs bg-[#0b3a55] px-4 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-[#faf7f0] hover:bg-[#082b3f] transition active:scale-95 whitespace-nowrap shrink-0"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-none bg-primary px-4 py-2 font-mono-naut text-[11px] uppercase tracking-wider font-medium text-primary-foreground hover:bg-[#082b3f] transition active:scale-95 whitespace-nowrap shrink-0"
                 >
                   <Volume2 className="w-3.5 h-3.5 text-[#ca9e1c]" />
                   <span>Tocar Sinal</span>

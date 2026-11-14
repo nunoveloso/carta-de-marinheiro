@@ -202,13 +202,13 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
   if (termId === 'baloes-de-navegacao') {
     if (variant === 'card') {
       return (
-        <div className="mt-3.5 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-3 text-xs">
+        <div className="mt-3.5 rounded-none border border-border bg-muted p-3 text-xs">
           <div className="flex items-center justify-between mb-2">
-            <span className="font-mono-naut font-medium text-[#0b3a55] text-[10px] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="inline-block w-2 h-2 rounded-xs bg-[#0b3a55]"></span>
+            <span className="font-mono-naut font-medium text-primary text-[10px] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="inline-block w-2 h-2 rounded-none bg-primary"></span>
               As 4 Marcas Diurnas Oficiais (RIEAM)
             </span>
-            <span className="font-mono-naut text-[10px] text-[#4f6e82]">Toque para ver</span>
+            <span className="font-mono-naut text-[10px] text-muted-foreground">Toque para ver</span>
           </div>
 
           <div className="grid grid-cols-4 gap-1.5 text-center">
@@ -230,16 +230,16 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
                     const target = allTerms.find((t) => t.id === s.id);
                     if (target && onSelectTerm) onSelectTerm(target);
                   }}
-                  className="group/shape flex flex-col items-center justify-between rounded-xs bg-[#fcfbf8] p-2 border border-[#d7d0c1] hover:border-[#0b3a55] hover:bg-[#ede9de]/50 transition cursor-pointer"
+                  className="group/shape flex flex-col items-center justify-between rounded-none bg-card p-2 border border-border hover:border-primary hover:bg-secondary/50 transition cursor-pointer"
                   title={`${s.name} - ${s.rule}`}
                 >
                   <div className="h-14 flex items-center justify-center scale-90 group-hover/shape:scale-95 transition-transform">
                     {renderShapeSVG(svgType, 48)}
                   </div>
-                  <span className="mt-1 font-bold text-[10px] text-[#0b3a55] leading-tight">
+                  <span className="mt-1 font-bold text-[10px] text-primary leading-tight">
                     {s.shortName}
                   </span>
-                  <span className="font-mono-naut text-[9px] text-[#4f6e82] leading-tight line-clamp-1 mt-0.5">
+                  <span className="font-mono-naut text-[9px] text-muted-foreground leading-tight line-clamp-1 mt-0.5">
                     {s.symbol}
                   </span>
                 </div>
@@ -247,7 +247,7 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
             })}
           </div>
 
-          <p className="mt-2 text-[11px] text-[#0b3a55] bg-[#f0e8cf]/65 px-2.5 py-1.5 rounded-xs border border-[#ca9e1c]/40 leading-tight">
+          <p className="mt-2 text-[11px] text-primary bg-[#f0e8cf]/65 px-2.5 py-1.5 rounded-none border border-[#ca9e1c]/40 leading-tight">
             <strong className="text-[#9a7413]">Exame:</strong> De cor preta, içadas de dia no mastro onde melhor possam ser vistas.
           </p>
         </div>
@@ -258,16 +258,16 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
     const rieamStyle = getCategoryStyle('R.I.E.A.M.');
 
     return (
-      <section className="rounded-xs border border-[#d7d0c1] bg-[#ede9de]/35 p-5 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 border-b border-[#d7d0c1]">
+      <section className="rounded-none border border-border bg-secondary/35 p-5 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 border-b border-border">
           <div>
             <div className="flex items-center gap-2 font-mono-naut text-[10px] uppercase tracking-[0.12em] text-[#9a7413] mb-1">
               <span>R.I.E.A.M. · Manual pp. 60–63</span>
             </div>
-            <h4 className="font-maritime text-2xl sm:text-3xl font-bold text-[#0b3a55] tracking-tight">
+            <h4 className="font-maritime text-2xl sm:text-3xl font-bold text-primary tracking-tight">
               As 4 Formas Geométricas dos Balões
             </h4>
-            <p className="text-xs sm:text-sm text-[#4f6e82] mt-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
               <GlossaryText
                 text="Todas as marcas diurnas são de cor preta mate, içadas durante o dia no aparelho onde melhor possam ser vistas."
                 allTerms={allTerms}
@@ -275,7 +275,7 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
               />
             </p>
           </div>
-          <span className="font-mono-naut text-[11px] font-medium text-[#4f6e82] uppercase tracking-wider shrink-0">
+          <span className="font-mono-naut text-[11px] font-medium text-muted-foreground uppercase tracking-wider shrink-0">
             4 Formas Oficiais
           </span>
         </div>
@@ -299,9 +299,9 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
                 onClick={() => {
                   if (target && onSelectTerm) onSelectTerm(target);
                 }}
-                className={`group relative flex flex-col justify-between rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 transition-all duration-150 ${
+                className={`group relative flex flex-col justify-between rounded-none border border-border bg-card p-5 transition-all duration-150 ${
                   target
-                    ? 'hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] cursor-pointer'
+                    ? 'hover:-translate-y-0.5 hover:border-primary hover:shadow-[4px_4px_0_0_#0b3a55] cursor-pointer'
                     : ''
                 }`}
               >
@@ -315,20 +315,20 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
                       />
                       <span className="text-[#9a7413] font-semibold">Exame Obrigatório</span>
                     </div>
-                    <span className="font-mono-naut text-[10px] text-[#4f6e82] tabular-nums">
+                    <span className="font-mono-naut text-[10px] text-muted-foreground tabular-nums">
                       0{index + 1}
                     </span>
                   </div>
 
                   {/* Title in Fraunces Editorial Serif */}
-                  <h5 className="font-maritime text-2xl font-bold text-[#0b3a55] tracking-tight group-hover:text-[#082b3f] transition-colors leading-tight">
+                  <h5 className="font-maritime text-2xl font-bold text-primary tracking-tight group-hover:text-[#082b3f] transition-colors leading-tight">
                     {s.name}
                   </h5>
 
                   {/* Category -> SubCategory Tag */}
                   <div className="font-mono-naut text-[10px] uppercase tracking-[0.08em] mt-1.5 mb-2 flex items-center gap-1.5 flex-wrap">
                     <span
-                      className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-xs border"
+                      className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-none border"
                       style={{
                         backgroundColor: rieamStyle.soft,
                         color: rieamStyle.solid,
@@ -338,19 +338,19 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
                       <CategoryIcon category="R.I.E.A.M." className="w-3 h-3 shrink-0" />
                       <span>R.I.E.A.M.</span>
                     </span>
-                    <span aria-hidden="true" className="text-[#4f6e82]">→</span>
-                    <span className="text-[#4f6e82] font-medium">{s.symbol}</span>
+                    <span aria-hidden="true" className="text-muted-foreground">→</span>
+                    <span className="text-muted-foreground font-medium">{s.symbol}</span>
                   </div>
 
                   {/* Visual Stage */}
-                  <div className="my-3 flex justify-center items-center py-3 bg-[#faf7f0] rounded-xs border border-[#d7d0c1]">
+                  <div className="my-3 flex justify-center items-center py-3 bg-muted rounded-none border border-border">
                     <div className="group-hover:scale-105 transition-transform">
                       {renderShapeSVG(svgType, 72)}
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs sm:text-sm text-[#0b3a55]/85 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-foreground leading-relaxed">
                     <GlossaryText
                       text={s.desc}
                       allTerms={allTerms}
@@ -359,24 +359,24 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
                   </p>
 
                   {/* Exam Tip Box */}
-                  <div className="mt-3 rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-[#0b3a55]">
+                  <div className="mt-3 rounded-none bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-primary">
                     <div className="flex items-center gap-1.5 font-mono-naut font-semibold text-[#9a7413] text-[10px] uppercase tracking-[0.08em] mb-1">
                       <AlertCircle className="w-3.5 h-3.5 text-[#9a7413] shrink-0" />
                       <span>Aplicação Principal</span>
                     </div>
-                    <p className="text-[12px] text-[#0b3a55]/90 leading-snug">{s.rule}</p>
+                    <p className="text-[12px] text-foreground leading-snug">{s.rule}</p>
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="mt-4 pt-3 border-t border-[#d7d0c1]/70 flex items-center justify-between text-xs text-[#4f6e82]">
+                <div className="mt-4 pt-3 border-t border-border/70 flex items-center justify-between text-xs text-muted-foreground">
                   <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-[#9a7413] font-medium">
                     Marca Diurna
                   </span>
                   {target && (
-                    <div className="flex items-center gap-1 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-[#0b3a55] group-hover:translate-x-0.5 transition-transform">
+                    <div className="flex items-center gap-1 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-primary group-hover:translate-x-0.5 transition-transform">
                       <span>Ver carta</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#0b3a55]" />
+                      <ChevronRight className="w-3.5 h-3.5 text-primary" />
                     </div>
                   )}
                 </div>
@@ -386,14 +386,14 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
         </div>
 
         {/* Quick Reference Box */}
-        <div className="mt-5 rounded-xs bg-[#f0e8cf]/65 p-4 border border-[#9a7413]/30 text-xs text-[#0b3a55]">
+        <div className="mt-5 rounded-none bg-[#f0e8cf]/65 p-4 border border-[#9a7413]/30 text-xs text-primary">
           <div className="flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
             <div>
               <span className="font-mono-naut font-semibold text-[#9a7413] text-[10px] uppercase tracking-[0.08em] block mb-1">
                 Resumo Rápido de Exame (RIEAM)
               </span>
-              <ul className="space-y-1 list-disc list-inside text-xs text-[#0b3a55]/90 leading-relaxed">
+              <ul className="space-y-1 list-disc list-inside text-xs text-foreground leading-relaxed">
                 <li>
                   <strong>1 Esfera:</strong>{' '}
                   <GlossaryText text="Embarcação fundeada (exibida na parte de vante)." allTerms={allTerms} onSelectTerm={onSelectTerm || (() => {})} />
@@ -432,14 +432,14 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
   if (termId === 'balao-esferico') {
     if (variant === 'card') {
       return (
-        <div className="mt-3 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-2.5 text-xs">
+        <div className="mt-3 rounded-none border border-border bg-muted p-2.5 text-xs">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 bg-[#fcfbf8] p-1.5 rounded-xs border border-[#d7d0c1]">
+            <div className="shrink-0 bg-card p-1.5 rounded-none border border-border">
               {renderShapeSVG('esferico', 50)}
             </div>
             <div className="flex-1">
-              <span className="font-bold text-[11px] text-[#0b3a55] block">Forma: Esfera Preta</span>
-              <span className="text-[10px] text-[#4f6e82] block mt-0.5">
+              <span className="font-bold text-[11px] text-primary block">Forma: Esfera Preta</span>
+              <span className="text-[10px] text-muted-foreground block mt-0.5">
                 • 1 Esfera = Fundeado<br />
                 • 2 Esferas = Desgovernado<br />
                 • 3 Esferas = Encalhado
@@ -451,50 +451,50 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
     }
 
     return (
-      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1]">
-          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
+      <div className="rounded-none border border-border bg-muted p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-border">
+          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-none bg-primary"></span>
             Ilustração: Balão Esférico e Configurações RIEAM
           </h4>
-          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2.5 py-1 rounded-xs border border-[#ca9e1c]/40">
+          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2.5 py-1 rounded-none border border-[#ca9e1c]/40">
             Mais Frequente em Exame
           </span>
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
           {/* 1 Ball: Anchored */}
-          <div className="rounded-xs bg-[#fcfbf8] p-3.5 border border-[#d7d0c1] flex flex-col items-center text-center">
-            <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#1e7d4f] bg-[#dcebe1] px-2 py-0.5 rounded-xs border border-[#1e7d4f]/30">
+          <div className="rounded-none bg-card p-3.5 border border-border flex flex-col items-center text-center">
+            <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#1e7d4f] bg-[#dcebe1] px-2 py-0.5 rounded-none border border-[#1e7d4f]/30">
               1 Balão
             </span>
             <div className="my-2.5 h-24 flex items-center justify-center">
               {renderShapeSVG('esferico', 65)}
             </div>
-            <h5 className="font-bold text-xs text-[#0b3a55]">Embarcação Fundeada</h5>
-            <p className="text-[11px] text-[#4f6e82] mt-1 leading-snug">
+            <h5 className="font-bold text-xs text-primary">Embarcação Fundeada</h5>
+            <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
               Exibido na parte de vante da embarcação.
             </p>
           </div>
 
           {/* 2 Balls: Not under command */}
-          <div className="rounded-xs bg-[#fcfbf8] p-3.5 border border-[#d7d0c1] flex flex-col items-center text-center">
-            <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2 py-0.5 rounded-xs border border-[#ca9e1c]/40">
+          <div className="rounded-none bg-card p-3.5 border border-border flex flex-col items-center text-center">
+            <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2 py-0.5 rounded-none border border-[#ca9e1c]/40">
               2 Balões na Vertical
             </span>
             <div className="my-2.5 h-24 flex flex-col items-center justify-center -space-y-4">
               <div className="scale-75">{renderShapeSVG('esferico', 48)}</div>
               <div className="scale-75">{renderShapeSVG('esferico', 48)}</div>
             </div>
-            <h5 className="font-bold text-xs text-[#0b3a55]">Embarcação Desgovernada</h5>
-            <p className="text-[11px] text-[#4f6e82] mt-1 leading-snug">
+            <h5 className="font-bold text-xs text-primary">Embarcação Desgovernada</h5>
+            <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
               Sem governo, incapaz de manobrar para ceder passagem.
             </p>
           </div>
 
           {/* 3 Balls: Aground */}
-          <div className="rounded-xs bg-[#fcfbf8] p-3.5 border border-[#d7d0c1] flex flex-col items-center text-center">
-            <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#b3402f] bg-[#f3ded9] px-2 py-0.5 rounded-xs border border-[#b3402f]/30">
+          <div className="rounded-none bg-card p-3.5 border border-border flex flex-col items-center text-center">
+            <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#b3402f] bg-[#f3ded9] px-2 py-0.5 rounded-none border border-[#b3402f]/30">
               3 Balões na Vertical
             </span>
             <div className="my-2.5 h-24 flex flex-col items-center justify-center -space-y-6">
@@ -502,8 +502,8 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
               <div className="scale-60">{renderShapeSVG('esferico', 44)}</div>
               <div className="scale-60">{renderShapeSVG('esferico', 44)}</div>
             </div>
-            <h5 className="font-bold text-xs text-[#0b3a55]">Embarcação Encalhada</h5>
-            <p className="text-[11px] text-[#4f6e82] mt-1 leading-snug">
+            <h5 className="font-bold text-xs text-primary">Embarcação Encalhada</h5>
+            <p className="text-[11px] text-muted-foreground mt-1 leading-snug">
               3 esferas pretas em linha vertical no mastro.
             </p>
           </div>
@@ -515,17 +515,17 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
   if (termId === 'balao-conico') {
     if (variant === 'card') {
       return (
-        <div className="mt-3 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-2.5 text-xs">
+        <div className="mt-3 rounded-none border border-border bg-muted p-2.5 text-xs">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 bg-[#fcfbf8] p-1.5 rounded-xs border border-[#d7d0c1]">
+            <div className="shrink-0 bg-card p-1.5 rounded-none border border-border">
               {renderShapeSVG('conico', 50)}
             </div>
             <div className="flex-1">
-              <span className="font-bold text-[11px] text-[#0b3a55] block">Forma: Cone Preto (Vértice ↓)</span>
+              <span className="font-bold text-[11px] text-primary block">Forma: Cone Preto (Vértice ↓)</span>
               <span className="text-[10px] text-[#9a7413] font-semibold block mt-0.5">
                 Vela + Motor em simultâneo
               </span>
-              <span className="text-[10px] text-[#4f6e82] block">
+              <span className="text-[10px] text-muted-foreground block">
                 Considerada embarcação de propulsão mecânica.
               </span>
             </div>
@@ -535,35 +535,35 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
     }
 
     return (
-      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1]">
-          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
+      <div className="rounded-none border border-border bg-muted p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-border">
+          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-none bg-primary"></span>
             Ilustração: Balão Cónico (Regra 25)
           </h4>
-          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2.5 py-1 rounded-xs border border-[#ca9e1c]/40">
+          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#9a7413] bg-[#f0e8cf] px-2.5 py-1 rounded-none border border-[#ca9e1c]/40">
             Vértice para Baixo
           </span>
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] flex flex-col items-center text-center">
+          <div className="rounded-none bg-card p-4 border border-border flex flex-col items-center text-center">
             <div className="my-2">{renderShapeSVG('conico', 90)}</div>
-            <h5 className="font-bold text-xs text-[#0b3a55]">Cone com Vértice para Baixo</h5>
-            <p className="text-[11px] text-[#4f6e82] mt-1 leading-relaxed">
+            <h5 className="font-bold text-xs text-primary">Cone com Vértice para Baixo</h5>
+            <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
               Içado na parte de vante de uma embarcação à vela quando estiver simultaneamente a ser impulsionada pelo motor.
             </p>
           </div>
 
-          <div className="rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] flex flex-col justify-center">
+          <div className="rounded-none bg-card p-4 border border-border flex flex-col justify-center">
             <h5 className="font-bold text-xs text-[#9a7413] flex items-center gap-1.5 mb-2">
               <AlertCircle className="w-4 h-4 text-[#9a7413]" />
               Conceito Fundamental de Exame:
             </h5>
-            <p className="text-xs text-[#0b3a55]/90 leading-relaxed">
+            <p className="text-xs text-foreground leading-relaxed">
               Mesmo que as velas estejam desfraldadas, a partir do momento em que o motor está em funcionamento, a embarcação perde os privilégios de veleiro e <strong>passa a ser considerada embarcação de propulsão mecânica</strong> para efeitos de ceder passagem.
             </p>
-            <div className="mt-3 text-[11px] bg-[#ede9de]/60 p-2.5 rounded-xs border border-[#d7d0c1] text-[#0b3a55]">
+            <div className="mt-3 text-[11px] bg-secondary/60 p-2.5 rounded-none border border-border text-primary">
               <strong>Dois cones vértice contra vértice (ampulheta):</strong> Usado por embarcações em faina de pesca (Regra 26).
             </div>
           </div>
@@ -575,17 +575,17 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
   if (termId === 'balao-cilindrico') {
     if (variant === 'card') {
       return (
-        <div className="mt-3 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-2.5 text-xs">
+        <div className="mt-3 rounded-none border border-border bg-muted p-2.5 text-xs">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 bg-[#fcfbf8] p-1.5 rounded-xs border border-[#d7d0c1]">
+            <div className="shrink-0 bg-card p-1.5 rounded-none border border-border">
               {renderShapeSVG('cilindrico', 50)}
             </div>
             <div className="flex-1">
-              <span className="font-bold text-[11px] text-[#0b3a55] block">Forma: Cilindro Preto</span>
+              <span className="font-bold text-[11px] text-primary block">Forma: Cilindro Preto</span>
               <span className="text-[10px] text-[#9a7413] font-semibold block mt-0.5">
                 Navio Condicionado pelo Calado
               </span>
-              <span className="text-[10px] text-[#4f6e82] block">
+              <span className="text-[10px] text-muted-foreground block">
                 Restrito pela profundidade da água em relação ao calado.
               </span>
             </div>
@@ -595,35 +595,35 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
     }
 
     return (
-      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1]">
-          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
+      <div className="rounded-none border border-border bg-muted p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-border">
+          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-none bg-primary"></span>
             Ilustração: Balão Cilíndrico (Regra 28)
           </h4>
-          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#0b3a55] bg-[#ede9de] px-2.5 py-1 rounded-xs border border-[#d7d0c1]">
+          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-primary bg-secondary px-2.5 py-1 rounded-none border border-border">
             Calado Restrito
           </span>
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] flex flex-col items-center text-center">
+          <div className="rounded-none bg-card p-4 border border-border flex flex-col items-center text-center">
             <div className="my-2">{renderShapeSVG('cilindrico', 90)}</div>
-            <h5 className="font-bold text-xs text-[#0b3a55]">Cilindro Preto</h5>
-            <p className="text-[11px] text-[#4f6e82] mt-1 leading-relaxed">
+            <h5 className="font-bold text-xs text-primary">Cilindro Preto</h5>
+            <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
               Exibido onde melhor possa ser visto em navios cuja manobrabilidade está seriamente condicionada pela reduzida profundidade do canal em relação ao calado.
             </p>
           </div>
 
-          <div className="rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] flex flex-col justify-center">
+          <div className="rounded-none bg-card p-4 border border-border flex flex-col justify-center">
             <h5 className="font-bold text-xs text-[#9a7413] flex items-center gap-1.5 mb-2">
               <AlertCircle className="w-4 h-4 text-[#9a7413]" />
               Equivalente Noturno no Exame:
             </h5>
-            <p className="text-xs text-[#0b3a55]/90 leading-relaxed">
+            <p className="text-xs text-foreground leading-relaxed">
               De dia exibe o <strong>cilindro preto</strong>. À noite exibe <strong>três luzes vermelhas em linha vertical</strong> visíveis em todo o horizonte, além das luzes de navegação normais de propulsão mecânica.
             </p>
-            <div className="mt-3 text-[11px] bg-[#f0e8cf]/65 p-2.5 rounded-xs border border-[#ca9e1c]/40 text-[#0b3a55]">
+            <div className="mt-3 text-[11px] bg-[#f0e8cf]/65 p-2.5 rounded-none border border-[#ca9e1c]/40 text-primary">
               <strong className="text-[#9a7413]">Dever dos outros navios:</strong> Qualquer outra embarcação que não esteja desgovernada ou com manobra reduzida deve evitar estorvar a passagem do navio condicionado pelo seu calado.
             </div>
           </div>
@@ -635,17 +635,17 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
   if (termId === 'balao-biconico') {
     if (variant === 'card') {
       return (
-        <div className="mt-3 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-2.5 text-xs">
+        <div className="mt-3 rounded-none border border-border bg-muted p-2.5 text-xs">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 bg-[#fcfbf8] p-1.5 rounded-xs border border-[#d7d0c1]">
+            <div className="shrink-0 bg-card p-1.5 rounded-none border border-border">
               {renderShapeSVG('biconico', 50)}
             </div>
             <div className="flex-1">
-              <span className="font-bold text-[11px] text-[#0b3a55] block">Forma: Bicónico / Losango</span>
+              <span className="font-bold text-[11px] text-primary block">Forma: Bicónico / Losango</span>
               <span className="text-[10px] text-[#9a7413] font-semibold block mt-0.5">
                 Reboque Superior a 200 Metros
               </span>
-              <span className="text-[10px] text-[#4f6e82] block">
+              <span className="text-[10px] text-muted-foreground block">
                 Dois cones unidos pelas suas bases.
               </span>
             </div>
@@ -655,35 +655,35 @@ export const DayShapesIllustration: React.FC<DayShapesIllustrationProps> = ({
     }
 
     return (
-      <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] p-5">
-        <div className="flex items-center justify-between pb-3 border-b border-[#d7d0c1]">
-          <h4 className="text-sm font-bold text-[#0b3a55] flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-xs bg-[#0b3a55]"></span>
+      <div className="rounded-none border border-border bg-muted p-5">
+        <div className="flex items-center justify-between pb-3 border-b border-border">
+          <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-none bg-primary"></span>
             Ilustração: Balão Bicónico (Regra 24)
           </h4>
-          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-[#0b3a55] bg-[#ede9de] px-2.5 py-1 rounded-xs border border-[#d7d0c1]">
+          <span className="font-mono-naut text-[10px] font-medium uppercase tracking-wider text-primary bg-secondary px-2.5 py-1 rounded-none border border-border">
             Reboque &gt; 200m
           </span>
         </div>
 
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] flex flex-col items-center text-center">
+          <div className="rounded-none bg-card p-4 border border-border flex flex-col items-center text-center">
             <div className="my-2">{renderShapeSVG('biconico', 90)}</div>
-            <h5 className="font-bold text-xs text-[#0b3a55]">Dois Cones Unidos pela Base (Losango)</h5>
-            <p className="text-[11px] text-[#4f6e82] mt-1 leading-relaxed">
+            <h5 className="font-bold text-xs text-primary">Dois Cones Unidos pela Base (Losango)</h5>
+            <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
               Exibido na embarcação rebocadora e na rebocada quando o comprimento do reboque (medido da popa do rebocador à popa do rebocado) for superior a 200 metros.
             </p>
           </div>
 
-          <div className="rounded-xs bg-[#fcfbf8] p-4 border border-[#d7d0c1] flex flex-col justify-center">
+          <div className="rounded-none bg-card p-4 border border-border flex flex-col justify-center">
             <h5 className="font-bold text-xs text-[#9a7413] flex items-center gap-1.5 mb-2">
               <AlertCircle className="w-4 h-4 text-[#9a7413]" />
               Pontos-Chave para o Exame:
             </h5>
-            <p className="text-xs text-[#0b3a55]/90 leading-relaxed">
+            <p className="text-xs text-foreground leading-relaxed">
               O sinal bicónico alerta os outros navegantes para a grande extensão do cabo de reboque, perigo de passagem entre as duas embarcações e limitações de manobra.
             </p>
-            <div className="mt-3 text-[11px] bg-[#ede9de]/60 p-2.5 rounded-xs border border-[#d7d0c1] text-[#0b3a55]">
+            <div className="mt-3 text-[11px] bg-secondary/60 p-2.5 rounded-none border border-border text-primary">
               <strong>Capacidade de Manobra Reduzida:</strong> Também é usado em conjunto com duas esferas na marca vertical: <em>Esfera + Bicónico + Esfera</em>.
             </div>
           </div>
@@ -883,7 +883,7 @@ const DayNightPillToggle: React.FC<DayNightPillToggleProps> = ({ mode, onChange 
         type="button"
         onClick={() => onChange('dia')}
         className={`font-mono-naut text-[10px] uppercase tracking-[0.08em] transition-colors cursor-pointer ${
-          !isNight ? 'text-[#0b3a55] font-bold' : 'text-[#4f6e82] hover:text-[#0b3a55]'
+          !isNight ? 'text-primary font-bold' : 'text-muted-foreground hover:text-primary'
         }`}
       >
         Dia
@@ -895,18 +895,18 @@ const DayNightPillToggle: React.FC<DayNightPillToggleProps> = ({ mode, onChange 
         aria-checked={isNight}
         aria-label="Alternar vista entre dia e noite"
         onClick={() => onChange(isNight ? 'dia' : 'noite')}
-        className={`relative inline-flex h-6 w-12 items-center justify-between rounded-full border px-1 transition-colors duration-200 cursor-pointer ${
+        className={`relative inline-flex h-6 w-12 items-center justify-between rounded-none border px-1 transition-colors duration-200 cursor-pointer ${
           isNight
-            ? 'bg-[#0b3a55] border-[#0b3a55]'
-            : 'bg-[#ede9de] border-[#c5bda8]'
+            ? 'bg-primary border-primary'
+            : 'bg-secondary border-border'
         }`}
       >
         <span
           aria-hidden="true"
-          className={`absolute top-0.5 left-0.5 h-[18px] w-[18px] rounded-full shadow-xs transition-transform duration-200 ${
+          className={`absolute top-0.5 left-0.5 h-[18px] w-[18px] rounded-none shadow-xs transition-transform duration-200 ${
             isNight
               ? 'translate-x-6 bg-[#175173]'
-              : 'translate-x-0 bg-[#fcfbf8]'
+              : 'translate-x-0 bg-card'
           }`}
         />
         <Sun
@@ -925,7 +925,7 @@ const DayNightPillToggle: React.FC<DayNightPillToggleProps> = ({ mode, onChange 
         type="button"
         onClick={() => onChange('noite')}
         className={`font-mono-naut text-[10px] uppercase tracking-[0.08em] transition-colors cursor-pointer ${
-          isNight ? 'text-[#0b3a55] font-bold' : 'text-[#4f6e82] hover:text-[#0b3a55]'
+          isNight ? 'text-primary font-bold' : 'text-muted-foreground hover:text-primary'
         }`}
       >
         Noite
@@ -1602,17 +1602,17 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
       : DAY_SHAPE_COMBINATIONS.filter((item) => item.filterGroup === filter);
 
   return (
-    <section className="rounded-xs border border-[#d7d0c1] bg-[#ede9de]/35 p-5 sm:p-6">
+    <section className="rounded-none border border-border bg-secondary/35 p-5 sm:p-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-[#d7d0c1]">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
         <div>
           <div className="flex items-center gap-2 font-mono-naut text-[10px] uppercase tracking-[0.12em] text-[#9a7413] mb-1">
             <span>Manual do Marinheiro · Páginas 60–63</span>
           </div>
-          <h4 className="font-maritime text-2xl sm:text-3xl font-bold text-[#0b3a55] tracking-tight">
+          <h4 className="font-maritime text-2xl sm:text-3xl font-bold text-primary tracking-tight">
             Combinações de Balões e Significado (R.I.E.A.M.)
           </h4>
-          <p className="text-xs sm:text-sm text-[#4f6e82] mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             <GlossaryText
               text="Marcas diurnas regulamentares aplicadas nas respetivas embarcações (com equivalente noturno). Clique em qualquer termo sublinhado a pontilhado para consultar a definição no glossário."
               allTerms={allTerms}
@@ -1621,7 +1621,7 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
           </p>
         </div>
 
-        <span className="font-mono-naut text-[11px] text-[#4f6e82] whitespace-nowrap shrink-0">
+        <span className="font-mono-naut text-[11px] text-muted-foreground whitespace-nowrap shrink-0">
           {filteredCombinations.length} {filteredCombinations.length === 1 ? 'aplicação' : 'aplicações'}
         </span>
       </div>
@@ -1640,10 +1640,10 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
             key={tab.key}
             type="button"
             onClick={() => setFilter(tab.key)}
-            className={`rounded-xs px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium whitespace-nowrap shrink-0 border transition cursor-pointer ${
+            className={`rounded-none px-3.5 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.06em] font-medium whitespace-nowrap shrink-0 border transition cursor-pointer ${
               filter === tab.key
-                ? 'bg-[#0b3a55] text-[#faf7f0] border-[#0b3a55]'
-                : 'border-[#d7d0c1] bg-[#fcfbf8] text-[#4f6e82] hover:border-[#0b3a55] hover:bg-[#ede9de] hover:text-[#0b3a55]'
+                ? 'bg-primary text-[#fbf9f0] border-primary'
+                : 'border-border bg-card text-muted-foreground hover:border-primary hover:bg-secondary hover:text-primary'
             }`}
           >
             {tab.label}
@@ -1658,7 +1658,7 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
           return (
             <article
               key={item.id}
-              className="group relative flex flex-col justify-between rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55]"
+              className="group relative flex flex-col justify-between rounded-none border border-border bg-card p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-primary hover:shadow-[4px_4px_0_0_#0b3a55]"
             >
               <div>
                 {/* Top Metadata Row */}
@@ -1670,20 +1670,20 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
                     />
                     <span className="text-[#9a7413] font-semibold">{item.ruleRef}</span>
                   </div>
-                  <span className="font-mono-naut text-[10px] text-[#4f6e82] tabular-nums">
+                  <span className="font-mono-naut text-[10px] text-muted-foreground tabular-nums">
                     {item.number}
                   </span>
                 </div>
 
                 {/* Card Title in Editorial Fraunces Serif (plain text — no glossary links in titles) */}
-                <h5 className="font-maritime text-2xl font-bold text-[#0b3a55] tracking-tight leading-tight">
+                <h5 className="font-maritime text-2xl font-bold text-primary tracking-tight leading-tight">
                   {item.meaning}
                 </h5>
 
                 {/* Category -> Geometry Tag (identical to TermCard) */}
                 <div className="font-mono-naut text-[10px] uppercase tracking-[0.08em] mt-1.5 mb-2 flex items-center gap-1.5 flex-wrap">
                   <span
-                    className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-xs border"
+                    className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-none border"
                     style={{
                       backgroundColor: rieamStyle.soft,
                       color: rieamStyle.solid,
@@ -1693,8 +1693,8 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
                     <CategoryIcon category="R.I.E.A.M." className="w-3 h-3 shrink-0" />
                     <span>R.I.E.A.M.</span>
                   </span>
-                  <span aria-hidden="true" className="text-[#4f6e82]">→</span>
-                  <span className="text-[#4f6e82] font-medium">
+                  <span aria-hidden="true" className="text-muted-foreground">→</span>
+                  <span className="text-muted-foreground font-medium">
                     <GlossaryText
                       text={`${item.composition} · ${item.positionNote}`}
                       allTerms={allTerms}
@@ -1704,9 +1704,9 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
                 </div>
 
                 {/* Vessel Visual Stage + Dia/Noite Pill Toggle + Viewpoint Legend */}
-                <div className="my-3 rounded-xs border border-[#d7d0c1] bg-[#faf7f0] overflow-hidden">
-                  <div className="flex items-center justify-between gap-2 border-b border-[#d7d0c1]/80 bg-[#ede9de]/45 px-2.5 py-1.5">
-                    <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-[#4f6e82]">
+                <div className="my-3 rounded-none border border-border bg-muted overflow-hidden">
+                  <div className="flex items-center justify-between gap-2 border-b border-border/80 bg-secondary/45 px-2.5 py-1.5">
+                    <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-muted-foreground">
                       {mode === 'dia' ? 'Marcas Diurnas' : 'Luzes Noturnas'}
                     </span>
                     <DayNightPillToggle
@@ -1715,13 +1715,13 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
                     />
                   </div>
                   <CombinationVesselSVG kind={item.id} viewpoint={item.viewpoint} mode={mode} />
-                  <div className="border-t border-[#d7d0c1]/80 bg-[#ede9de]/45 px-2.5 py-1 text-center font-mono-naut text-[10px] text-[#4f6e82]">
+                  <div className="border-t border-border/80 bg-secondary/45 px-2.5 py-1 text-center font-mono-naut text-[10px] text-muted-foreground">
                     {item.viewpoint}
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-[#0b3a55]/85 leading-relaxed">
+                <p className="text-xs sm:text-sm text-foreground leading-relaxed">
                   <GlossaryText
                     text={item.description}
                     allTerms={allTerms}
@@ -1730,12 +1730,12 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
                 </p>
 
                 {/* Night Equivalent Callout (matches TermCard Exam Tip box styling) */}
-                <div className="mt-3 rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-[#0b3a55]">
+                <div className="mt-3 rounded-none bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-primary">
                   <div className="flex items-center gap-1.5 font-mono-naut font-semibold text-[#9a7413] text-[10px] uppercase tracking-[0.08em] mb-1">
                     <Moon className="w-3.5 h-3.5 text-[#9a7413] shrink-0" />
                     <span>À Noite (Luzes)</span>
                   </div>
-                  <p className="text-[12px] text-[#0b3a55]/90 leading-snug">
+                  <p className="text-[12px] text-foreground leading-snug">
                     <GlossaryText
                       text={item.nightLights}
                       allTerms={allTerms}
@@ -1746,7 +1746,7 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
               </div>
 
               {/* Glossary-Style Card Footer */}
-              <div className="mt-4 pt-3 border-t border-[#d7d0c1]/70 flex items-center justify-between text-xs text-[#4f6e82]">
+              <div className="mt-4 pt-3 border-t border-border/70 flex items-center justify-between text-xs text-muted-foreground">
                 <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-[#9a7413] font-medium">
                   {mode === 'dia' ? 'Sinal Diurno' : 'Sinal Noturno'}
                 </span>
@@ -1760,8 +1760,8 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
       </div>
 
       {/* FULL-WIDTH ILLUSTRATED SCHEMATIC: DREDGING WITH OBSTRUCTION (Regra 27 d · Vista de Ré / Popa) */}
-      <article className="mt-6 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#d7d0c1]">
+      <article className="mt-6 rounded-none border border-border bg-card p-5 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
           <div>
             <div className="flex items-center gap-1.5 font-mono-naut text-[10px] uppercase tracking-[0.1em] mb-1">
               <span
@@ -1770,20 +1770,20 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
               />
               <span className="text-[#9a7413] font-semibold">Esquema Especial · Regra 27 (d)</span>
             </div>
-            <h5 className="font-maritime text-2xl font-bold text-[#0b3a55] tracking-tight leading-tight">
+            <h5 className="font-maritime text-2xl font-bold text-primary tracking-tight leading-tight">
               Dragagem ou Operações Submarinas com Obstrução
             </h5>
           </div>
 
           {/* Unified Pill Toggle (Dia [Sun|Moon] Noite) */}
-          <div className="rounded-xs border border-[#d7d0c1] bg-[#faf7f0] px-3 py-1.5 self-start sm:self-auto shrink-0">
+          <div className="rounded-none border border-border bg-muted px-3 py-1.5 self-start sm:self-auto shrink-0">
             <DayNightPillToggle mode={dredgeMode} onChange={setDredgeMode} />
           </div>
         </div>
 
         <div className="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           {/* Detailed Naval Dredger Schematic (Vista de Ré / Popa) */}
-          <div className="lg:col-span-7 rounded-xs border border-[#0b3a55]/25 overflow-hidden bg-[#dceef9]">
+          <div className="lg:col-span-7 rounded-none border border-primary/25 overflow-hidden bg-[#dceef9]">
             <svg
               viewBox="0 0 760 370"
               className="w-full h-auto block select-none"
@@ -2242,18 +2242,18 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
                 />
               </g>
             </svg>
-            <div className="border-t border-[#d7d0c1] bg-[#ede9de]/55 px-3 py-1.5 text-center font-mono-naut text-[10px] text-[#4f6e82]">
+            <div className="border-t border-border bg-secondary/55 px-3 py-1.5 text-center font-mono-naut text-[10px] text-muted-foreground">
               Embarcação vista de ré (popa da draga · obstrução a Bombordo e canal livre a Estibordo)
             </div>
           </div>
 
           {/* Explanation Column matching Glossary Card style */}
-          <div className="lg:col-span-5 space-y-3 text-xs text-[#0b3a55]">
-            <div className="rounded-xs border border-[#b3402f]/35 bg-[#f3ded9]/45 p-3.5">
+          <div className="lg:col-span-5 space-y-3 text-xs text-primary">
+            <div className="rounded-none border border-[#b3402f]/35 bg-[#f3ded9]/45 p-3.5">
               <div className="font-mono-naut text-[10px] font-semibold uppercase tracking-[0.08em] text-[#b3402f] mb-1">
                 Lado da Obstrução · Proibido Passar
               </div>
-              <p className="text-xs sm:text-sm text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-xs sm:text-sm text-foreground leading-relaxed">
                 <GlossaryText
                   text="De dia exibe 2 balões esféricos pretos na vertical; à noite exibe 2 luzes vermelhas em linha vertical."
                   allTerms={allTerms}
@@ -2262,11 +2262,11 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
               </p>
             </div>
 
-            <div className="rounded-xs border border-[#1e7d4f]/35 bg-[#dcebe1]/55 p-3.5">
+            <div className="rounded-none border border-[#1e7d4f]/35 bg-[#dcebe1]/55 p-3.5">
               <div className="font-mono-naut text-[10px] font-semibold uppercase tracking-[0.08em] text-[#1e7d4f] mb-1">
                 Lado Livre · Passagem Segura
               </div>
-              <p className="text-xs sm:text-sm text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-xs sm:text-sm text-foreground leading-relaxed">
                 <GlossaryText
                   text="De dia exibe 2 balões bicónicos (losangos) na vertical; à noite exibe 2 luzes verdes em linha vertical."
                   allTerms={allTerms}
@@ -2275,12 +2275,12 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
               </p>
             </div>
 
-            <div className="rounded-xs bg-[#f0e8cf]/65 p-3.5 border border-[#9a7413]/30">
+            <div className="rounded-none bg-[#f0e8cf]/65 p-3.5 border border-[#9a7413]/30">
               <div className="flex items-center gap-1.5 font-mono-naut font-semibold text-[#9a7413] text-[10px] uppercase tracking-[0.08em] mb-1">
                 <Anchor className="w-3.5 h-3.5 shrink-0" />
                 <span>Importante para o Exame</span>
               </div>
-              <p className="text-[12px] text-[#0b3a55]/90 leading-relaxed">
+              <p className="text-[12px] text-foreground leading-relaxed">
                 <GlossaryText
                   text="Mesmo quando estiver fundeada a trabalhar, uma draga ou navio em operações submarinas com obstrução NÃO exibe luzes nem balão de fundeado — mantém apenas as marcas da Regra 27 (d)."
                   allTerms={allTerms}
@@ -2294,14 +2294,14 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
 
       {/* Supplementary Manual pp. 60–63 Exam Rules (Matching Glossary Card Style) */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="rounded-xs border border-[#9a7413]/30 bg-[#f0e8cf]/65 p-5 text-xs text-[#0b3a55]">
+        <div className="rounded-none border border-[#9a7413]/30 bg-[#f0e8cf]/65 p-5 text-xs text-primary">
           <div className="flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 text-[#9a7413] shrink-0 mt-0.5" />
             <div>
               <h6 className="font-mono-naut text-[10px] uppercase tracking-[0.08em] font-semibold text-[#9a7413]">
                 Atenção às Formas Parecidas no Exame
               </h6>
-              <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-[#0b3a55]/90">
+              <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-foreground">
                 <GlossaryText
                   text="Bicónico (losango) são 2 cones unidos pelas bases (Reboque > 200 m e centro de Capacidade de Manobra Reduzida). Ampulheta são 2 cones unidos pelos vértices (Faina da Pesca)."
                   allTerms={allTerms}
@@ -2312,11 +2312,11 @@ export const DayShapeCombinationsBlock: React.FC<DayShapeCombinationsBlockProps>
           </div>
         </div>
 
-        <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 text-xs text-[#0b3a55]">
-          <h6 className="font-mono-naut text-[10px] uppercase tracking-[0.08em] font-semibold text-[#0b3a55]">
+        <div className="rounded-none border border-border bg-card p-5 text-xs text-primary">
+          <h6 className="font-mono-naut text-[10px] uppercase tracking-[0.08em] font-semibold text-primary">
             Outras Regras das Páginas 60–63 (Mergulhadores e Pequenas Embarcações)
           </h6>
-          <ul className="mt-2 space-y-1.5 text-xs sm:text-sm text-[#4f6e82] leading-relaxed list-disc list-inside">
+          <ul className="mt-2 space-y-1.5 text-xs sm:text-sm text-muted-foreground leading-relaxed list-disc list-inside">
             <li>
               <GlossaryText
                 text="Operações de mergulho em embarcação de pequenas dimensões (Regra 27 e): pode exibir uma réplica rígida da bandeira Alfa (branca e azul, Código Internacional de Sinais) com ≥ 1 m de altura."

@@ -1,0 +1,413 @@
+/* Snapshot das fichas de estudo — Glossário do Marinheiro
+   Estilos equivalentes ao /estudo da aplicação (tema náutico). */
+
+:root {
+  --ink: #0b3a55;
+  --ink-soft: #3d647c;
+  --paper: #f7f2e6;
+  --paper-bg: #fbf9f0;
+  --sea: #cfdfe8;
+  --line: #d8d2c0;
+  --card: #fffdf6;
+  --red: #b3402f;
+  --green: #1e7d4f;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --serif: "Fraunces", Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper-bg);
+  color: #20201d;
+  font-family: var(--serif);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- cabeçalho ---------- */
+
+.hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+}
+
+.hdr-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hdr-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+.hdr-brand strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.hdr-brand em {
+  display: block;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
+
+.hdr-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+/* ---------- corpo ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  flex: 1;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.sub {
+  margin: 6px 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+}
+
+.counter {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 10px 14px;
+}
+
+.counter .n {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.counter .d {
+  color: var(--ink-soft);
+}
+
+/* ---------- chips de categoria ---------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.chip:hover {
+  filter: brightness(0.95);
+}
+
+/* ---------- carta flip ---------- */
+
+.persp {
+  margin-top: 24px;
+  perspective: 1400px;
+}
+
+.flip-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+  font-family: inherit;
+  text-align: left;
+}
+
+@media (min-width: 640px) {
+  .flip-inner {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+
+.flip-face.front {
+  background: var(--card);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+
+.flip-face.back {
+  background: var(--ink);
+  color: var(--paper-bg);
+  box-shadow: 6px 6px 0 0 rgba(11, 58, 85, 0.35);
+  transform: rotateY(180deg);
+}
+
+.ill {
+  flex: 1;
+  min-height: 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+}
+
+.ill svg {
+  width: 100%;
+  height: 100%;
+}
+
+.front-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.front-foot h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #20201d;
+}
+
+.front-foot h2.foreign,
+.back-body h2.foreign {
+  font-style: italic;
+}
+
+.badge {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 7px;
+}
+
+.back-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+}
+
+.back-meta {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  opacity: 0.7;
+}
+
+.back-body h2 {
+  margin: 8px 0 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.back-body .def {
+  margin: 16px 0;
+  font-size: 16.5px;
+  line-height: 1.7;
+}
+
+.back-body .back-meta:last-child {
+  margin-top: 12px;
+}
+
+/* ---------- controlos ---------- */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.ctrl-mid {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.btn.nav:hover {
+  background: var(--ink);
+  color: var(--paper-bg);
+}
+
+.btn.retry {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.btn.retry:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn.know {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.btn.know:hover,
+.btn.know.on {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn.ghost {
+  border-color: var(--line);
+  color: #20201d;
+}
+
+.btn.ghost:hover {
+  background: #e8e2d2;
+}
+
+@media (max-width: 639px) {
+  .btn span {
+    display: none;
+  }
+  .btn.nav span {
+    display: none;
+  }
+}
+
+/* ---------- progresso ---------- */
+
+.progress {
+  margin-top: 16px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.bar {
+  height: 6px;
+  width: 100%;
+  background: #e8e2d2;
+  display: flex;
+}
+
+.fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 0.3s ease;
+}

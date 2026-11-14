@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Compass,
   Home,
   BookOpen,
   GraduationCap,
@@ -11,9 +10,10 @@ import {
   Info,
   Mail,
   ChevronDown,
-  LogIn,
+  CircleUserRound,
   LogOut,
-  PlusCircle,
+  Compass,
+  School,
 } from 'lucide-react';
 import { User as FirebaseUser } from 'firebase/auth';
 import { PWAInstallButton } from './PWAInstallButton';
@@ -24,41 +24,44 @@ interface NavbarProps {
   onNavigate: (route: RouteId) => void;
   currentUser: FirebaseUser | null;
   onOpenAuth: () => void;
-  onOpenAddTerm: () => void;
   onSignOut: () => void;
-  termsCount: number;
   bookmarksCount: number;
 }
 
 const ESTUDO_SUBMENU: {
   id: RouteId;
   label: string;
-  description: string;
   icon: React.ComponentType<{ className?: string }>;
 }[] = [
   {
+    id: 'estudo',
+    label: 'Centro de Estudo',
+    icon: Compass,
+  },
+  {
     id: 'progresso',
     label: 'Progresso',
-    description: 'Desempenho DGRM & apontamentos',
     icon: TrendingUp,
   },
   {
     id: 'flashcards',
     label: 'Fichas de Estudo',
-    description: 'Memorização por cartões',
     icon: Layers,
   },
   {
     id: 'guias-visuais',
     label: 'Guias Visuais',
-    description: 'Esquemas 2D/3D, balões e bóias',
     icon: Eye,
   },
   {
     id: 'testes',
     label: 'Simulador de Exame',
-    description: 'Testes cronometrados DGRM',
     icon: CheckSquare,
+  },
+  {
+    id: 'escolas',
+    label: 'Escolas',
+    icon: School,
   },
 ];
 
@@ -67,20 +70,44 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   currentUser,
   onOpenAuth,
-  onOpenAddTerm,
   onSignOut,
-  termsCount,
   bookmarksCount,
 }) => {
-  const [isStudyHoverOpen, setIsStudyHoverOpen] = useState(false);
-  const [isMobileStudyOpen, setIsMobileStudyOpen] = useState(false);
+  const [studyOpen, setStudyOpen] = useState(false);
+  const studyGroupRef = useRef<HTMLDivElement>(null);
+  const openedByHoverRef = useRef(false);
 
   const isEstudoBranchActive =
     activeRoute === 'estudo' ||
     activeRoute === 'progresso' ||
     activeRoute === 'flashcards' ||
     activeRoute === 'guias-visuais' ||
-    activeRoute === 'testes';
+    activeRoute === 'testes' ||
+    activeRoute === 'escolas';
+
+  useEffect(() => {
+    if (!studyOpen) return;
+    const onDocClick = (e: MouseEvent | TouchEvent) => {
+      if (studyGroupRef.current && !studyGroupRef.current.contains(e.target as Node)) {
+        openedByHoverRef.current = false;
+        setStudyOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        openedByHoverRef.current = false;
+        setStudyOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    document.addEventListener('touchstart', onDocClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      document.removeEventListener('touchstart', onDocClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [studyOpen]);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -90,366 +117,273 @@ export const Navbar: React.FC<NavbarProps> = ({
       return;
     }
     e.preventDefault();
-    setIsStudyHoverOpen(false);
+    openedByHoverRef.current = false;
+    setStudyOpen(false);
     onNavigate(route);
   };
 
-  return (
-    <header className="sticky top-0 z-40 border-b border-[#d7d0c1] bg-[#faf7f0]/95 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
-          {/* Logo & Brand (links to /) */}
-          <a
-            href={ROUTES.home.path}
-            onClick={(e) => handleLinkClick(e, 'home')}
-            className="flex items-center gap-3 shrink-0 group"
-          >
-            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xs bg-[#0b3a55] border border-[#0b3a55] shadow-[2px_2px_0_0_#ca9e1c] group-hover:translate-x-px group-hover:translate-y-px transition-transform">
-              <Compass className="h-5 w-5 text-[#faf7f0]" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-maritime text-lg sm:text-xl font-bold tracking-tight text-[#0b3a55] leading-none whitespace-nowrap">
-                  Carta de Marinheiro
-                </h1>
-                <span className="hidden xl:inline-block font-mono-naut text-[10px] uppercase tracking-[0.12em] bg-[#ede9de] px-1.5 py-0.5 text-[#4f6e82] border border-[#d7d0c1]">
-                  DGRM PT
-                </span>
-              </div>
-              <p className="font-mono-naut text-[10px] uppercase tracking-[0.1em] text-[#4f6e82] truncate max-w-[170px] sm:max-w-none mt-1">
-                Glossário &amp; Caderno de Estudo
-              </p>
-            </div>
-          </a>
+  const handleEstudoButtonClick = () => {
+    if (studyOpen && openedByHoverRef.current) {
+      openedByHoverRef.current = false;
+      setStudyOpen(true);
+      return;
+    }
+    openedByHoverRef.current = false;
+    setStudyOpen((o) => !o);
+  };
 
-          {/* Desktop 1st-Level Navigation (2nd-level under Estudo opens on hover) */}
+  return (
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 sm:gap-4 px-4 sm:px-6">
+        {/* Brand lockup with clean 2-color quirky pocket-compass logo */}
+        <a
+          href={ROUTES.home.path}
+          onClick={(e) => handleLinkClick(e, 'home')}
+          aria-label="Carta de Marinheiro — Início"
+          className="group flex items-center gap-2.5 sm:gap-3 outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0"
+        >
+          <span
+            aria-hidden="true"
+            className="flex h-9 w-9 shrink-0 items-center justify-center bg-primary text-primary-foreground"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6 overflow-visible"
+              fill="none"
+            >
+              <g transform="rotate(-8 12 12.8)">
+                {/* Quirky pocket-compass crown loop */}
+                <circle cx="12" cy="2.6" r="1.45" stroke="currentColor" strokeWidth="1.65" />
+                <path d="M12 4.05v1.35" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+
+                {/* Clean dial circle */}
+                <circle cx="12" cy="13.2" r="7.7" stroke="currentColor" strokeWidth="1.85" />
+                <path d="M12 6.8v1.2" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" />
+
+                {/* Centro de Estudo style diagonal diamond needle with gentle hover wobble */}
+                <g className="origin-[12px_13.2px] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-[20deg]">
+                  <polygon
+                    points="15.6,9.6 13.3,14.5 10.7,11.9"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.2"
+                    strokeLinejoin="round"
+                  />
+                  <polygon
+                    points="8.4,16.8 10.7,11.9 13.3,14.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="12" cy="13.2" r="0.85" fill="#0b3a55" />
+                </g>
+              </g>
+            </svg>
+          </span>
+          <span className="hidden min-[520px]:block leading-tight">
+            <span className="block text-[15px] font-semibold tracking-tight text-foreground sm:text-[17px] whitespace-nowrap">
+              Carta de Marinheiro
+            </span>
+            <span className="font-mono-naut hidden md:block text-[10px] uppercase tracking-[0.14em] text-muted-foreground whitespace-nowrap">
+              Navegador de Recreio · Marinheiro
+            </span>
+          </span>
+        </a>
+
+        {/* Unified single-row navigation & personal area actions matching reference AppHeader */}
+        <div className="flex items-center gap-1 sm:gap-2">
           <nav
             aria-label="Navegação Principal"
-            className="hidden lg:flex items-center gap-1 border border-[#d7d0c1] bg-[#ede9de]/60 p-1 rounded-xs"
+            className="flex items-center gap-1 sm:gap-2"
           >
-            {/* 1. Início */}
-            <a
+            <NavItem
               href={ROUTES.home.path}
+              active={activeRoute === 'home'}
+              icon={<Home className="h-4 w-4 shrink-0" />}
+              label="Início"
               onClick={(e) => handleLinkClick(e, 'home')}
-              className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.1em] font-medium transition ${
-                activeRoute === 'home'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'text-[#0b3a55]/80 hover:text-[#0b3a55] hover:bg-[#eae6dc]'
-              }`}
-            >
-              <Home className="w-3.5 h-3.5 shrink-0" />
-              <span>Início</span>
-            </a>
+            />
 
-            {/* 2. Glossário */}
-            <a
+            <NavItem
               href={ROUTES.glossario.path}
+              active={activeRoute === 'glossario'}
+              icon={<BookOpen className="h-4 w-4 shrink-0" />}
+              label="Glossário"
               onClick={(e) => handleLinkClick(e, 'glossario')}
-              className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.1em] font-medium transition ${
-                activeRoute === 'glossario'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'text-[#0b3a55]/80 hover:text-[#0b3a55] hover:bg-[#eae6dc]'
-              }`}
-            >
-              <BookOpen className="w-3.5 h-3.5 shrink-0" />
-              <span>Glossário ({termsCount})</span>
-            </a>
+            />
 
-            {/* 3. Estudo (Hover Submenu for 2nd-level items) */}
+            {/* Estudo dropdown (mouse hover + click/touch, unified ref) */}
             <div
+              ref={studyGroupRef}
               className="relative"
-              onMouseEnter={() => setIsStudyHoverOpen(true)}
-              onMouseLeave={() => setIsStudyHoverOpen(false)}
-              onFocus={() => setIsStudyHoverOpen(true)}
-              onBlur={(e) => {
-                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-                  setIsStudyHoverOpen(false);
+              onPointerEnter={(e) => {
+                if (e.pointerType === 'mouse') {
+                  openedByHoverRef.current = true;
+                  setStudyOpen(true);
+                }
+              }}
+              onPointerLeave={(e) => {
+                if (e.pointerType === 'mouse') {
+                  openedByHoverRef.current = false;
+                  setStudyOpen(false);
                 }
               }}
             >
-              <a
-                href={ROUTES.estudo.path}
-                onClick={(e) => handleLinkClick(e, 'estudo')}
-                aria-expanded={isStudyHoverOpen}
-                className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.1em] font-medium transition ${
-                  isEstudoBranchActive
-                    ? 'bg-[#0b3a55] text-[#faf7f0]'
-                    : 'text-[#0b3a55]/80 hover:text-[#0b3a55] hover:bg-[#eae6dc]'
+              <button
+                type="button"
+                onClick={handleEstudoButtonClick}
+                aria-expanded={studyOpen}
+                aria-haspopup="menu"
+                aria-label="Estudo"
+                title="Estudo"
+                className={`font-mono-naut flex min-h-10 min-w-10 sm:min-h-11 sm:min-w-11 items-center justify-center gap-2 border px-2 text-[11px] font-medium uppercase tracking-[0.12em] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-3 lg:px-4 whitespace-nowrap shrink-0 cursor-pointer ${
+                  studyOpen || isEstudoBranchActive
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-transparent text-foreground hover:border-border hover:bg-secondary'
                 }`}
               >
-                <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                <span>Estudo</span>
+                <GraduationCap className="h-4 w-4 shrink-0" />
+                <span className="hidden lg:inline">Estudo</span>
                 <ChevronDown
-                  className={`w-3 h-3 shrink-0 transition-transform duration-150 ${
-                    isStudyHoverOpen ? 'rotate-180' : ''
+                  className={`h-3.5 w-3.5 transition-transform ${
+                    studyOpen ? 'rotate-180' : ''
                   }`}
                 />
-              </a>
+              </button>
 
-              {/* Hover Dropdown Panel (bridged with pt-2 so pointer never leaves container) */}
-              {isStudyHoverOpen && (
-                <div className="absolute left-0 top-full pt-2 w-72 z-50">
-                  <div className="rounded-xs border border-[#0b3a55] bg-[#fcfbf8] shadow-[4px_4px_0_0_#0b3a55] p-1.5">
-                    <div className="px-2.5 py-1.5 mb-1 border-b border-[#d7d0c1] flex items-center justify-between">
-                      <span className="font-mono-naut text-[10px] uppercase tracking-[0.12em] text-[#4f6e82]">
-                        Ferramentas de Estudo
-                      </span>
-                      <a
-                        href={ROUTES.estudo.path}
-                        onClick={(e) => handleLinkClick(e, 'estudo')}
-                        className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413] hover:underline"
-                      >
-                        Ver Hub →
-                      </a>
-                    </div>
-
-                    <div className="space-y-0.5">
-                      {ESTUDO_SUBMENU.map((item) => {
-                        const SubIcon = item.icon;
-                        const isItemActive = activeRoute === item.id;
-                        return (
-                          <a
-                            key={item.id}
-                            href={ROUTES[item.id].path}
-                            onClick={(e) => handleLinkClick(e, item.id)}
-                            className={`flex items-start gap-2.5 rounded-xs px-2.5 py-2 transition ${
-                              isItemActive
-                                ? 'bg-[#0b3a55] text-[#faf7f0]'
-                                : 'text-[#0b3a55] hover:bg-[#ede9de]'
-                            }`}
-                          >
-                            <SubIcon
-                              className={`w-4 h-4 shrink-0 mt-0.5 ${
-                                isItemActive ? 'text-[#ca9e1c]' : 'text-[#9a7413]'
-                              }`}
-                            />
-                            <div className="min-w-0">
-                              <div className="font-mono-naut text-[11px] uppercase tracking-[0.08em] font-semibold leading-tight">
-                                {item.label}
-                              </div>
-                              <div
-                                className={`text-[11px] mt-0.5 leading-snug ${
-                                  isItemActive ? 'text-[#faf7f0]/80' : 'text-[#4f6e82]'
-                                }`}
-                              >
-                                {item.description}
-                              </div>
-                            </div>
-                          </a>
-                        );
-                      })}
-                    </div>
+              {studyOpen && (
+                <div className="absolute right-0 top-full z-50 pt-1">
+                  <div
+                    role="menu"
+                    aria-label="Submenu Estudo"
+                    className="min-w-52 sm:min-w-56 border border-border bg-card shadow-[6px_6px_0_0_#0b3a55]"
+                  >
+                    {ESTUDO_SUBMENU.map((item) => {
+                      const SubIcon = item.icon;
+                      const isItemActive = activeRoute === item.id;
+                      return (
+                        <a
+                          key={item.id}
+                          role="menuitem"
+                          href={ROUTES[item.id].path}
+                          onClick={(e) => handleLinkClick(e, item.id)}
+                          className={[
+                            'font-mono-naut flex min-h-11 items-center gap-2.5 border-b border-border px-4 text-[11px] font-medium uppercase tracking-[0.12em] transition-colors outline-none last:border-b-0 focus-visible:ring-2 focus-visible:ring-ring whitespace-nowrap cursor-pointer',
+                            isItemActive
+                              ? 'bg-primary text-primary-foreground'
+                              : 'text-foreground hover:bg-secondary',
+                          ].join(' ')}
+                        >
+                          <SubIcon className="h-4 w-4 shrink-0" />
+                          <span>{item.label}</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               )}
             </div>
 
-            {/* 4. Sobre */}
-            <a
+            <NavItem
               href={ROUTES.sobre.path}
+              active={activeRoute === 'sobre'}
+              icon={<Info className="h-4 w-4 shrink-0" />}
+              label="Sobre"
               onClick={(e) => handleLinkClick(e, 'sobre')}
-              className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.1em] font-medium transition ${
-                activeRoute === 'sobre'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'text-[#0b3a55]/80 hover:text-[#0b3a55] hover:bg-[#eae6dc]'
-              }`}
-            >
-              <Info className="w-3.5 h-3.5 shrink-0" />
-              <span>Sobre</span>
-            </a>
+            />
 
-            {/* 5. Contacto */}
-            <a
+            <NavItem
               href={ROUTES.contacto.path}
+              active={activeRoute === 'contacto'}
+              icon={<Mail className="h-4 w-4 shrink-0" />}
+              label="Contacto"
               onClick={(e) => handleLinkClick(e, 'contacto')}
-              className={`flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.1em] font-medium transition ${
-                activeRoute === 'contacto'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'text-[#0b3a55]/80 hover:text-[#0b3a55] hover:bg-[#eae6dc]'
-              }`}
-            >
-              <Mail className="w-3.5 h-3.5 shrink-0" />
-              <span>Contacto</span>
-            </a>
+            />
           </nav>
 
-          {/* Actions: Add Term, PWA, User */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Add Term button */}
-            <button
-              onClick={onOpenAddTerm}
-              className="hidden sm:flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-[#0b3a55] hover:border-[#0b3a55] hover:bg-[#ede9de] transition cursor-pointer"
-              title="Sugerir novo termo náutico"
-            >
-              <PlusCircle className="w-3.5 h-3.5 text-[#9a7413]" />
-              <span className="hidden xl:inline">Novo Termo</span>
-              <span className="xl:hidden">Termo</span>
-            </button>
+          <PWAInstallButton />
 
-            {/* PWA Install Button */}
-            <PWAInstallButton />
-
-            {/* Authentication Button / User Profile */}
-            {currentUser ? (
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={onOpenAuth}
-                  className="flex items-center gap-2 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] px-2.5 py-1 text-xs text-[#0b3a55] hover:border-[#0b3a55] transition cursor-pointer"
-                  title="Meu Perfil e Estatísticas"
-                >
-                  {currentUser.photoURL ? (
-                    <img
-                      src={currentUser.photoURL}
-                      alt={currentUser.displayName || 'Utilizador'}
-                      className="h-6 w-6 rounded-xs border border-[#d7d0c1] object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-xs bg-[#0b3a55] font-mono-naut text-[10px] font-bold text-[#ca9e1c]">
-                      {currentUser.displayName ? currentUser.displayName[0] : 'M'}
-                    </div>
-                  )}
-                  <span className="hidden sm:inline font-mono-naut text-[11px] font-medium max-w-[90px] truncate">
-                    {currentUser.displayName?.split(' ')[0] || 'Marinheiro'}
-                  </span>
-                  {bookmarksCount > 0 && (
-                    <span className="rounded-xs bg-[#f0e8cf] px-1.5 py-0.5 font-mono-naut text-[10px] font-bold text-[#9a7413] border border-[#9a7413]/30">
-                      ★ {bookmarksCount}
-                    </span>
-                  )}
-                </button>
-                <button
-                  onClick={onSignOut}
-                  className="rounded-xs border border-transparent p-1.5 text-[#4f6e82] hover:text-[#b3402e] hover:border-[#b3402e]/30 hover:bg-[#f3ded9]/50 transition cursor-pointer"
-                  title="Terminar sessão"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
+          {/* Top-right Personal Area icon button (distinct brass accent color) */}
+          {currentUser ? (
+            <div className="flex items-center gap-1 shrink-0">
               <button
+                type="button"
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 whitespace-nowrap shrink-0 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-[#0b3a55] hover:bg-[#ede9de] hover:border-[#0b3a55] transition cursor-pointer"
+                aria-label="Área Pessoal — Perfil e Estatísticas"
+                title={`${currentUser.displayName || 'Minha Conta'} · Área Pessoal`}
+                className="flex min-h-10 min-w-10 sm:min-h-11 sm:min-w-11 items-center justify-center gap-1.5 border border-[#9a7413]/55 bg-[#f0e8cf] px-2 sm:px-2.5 text-[#7a5809] transition-colors hover:border-[#9a7413] hover:bg-[#ca9e1c]/40 outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
               >
-                <LogIn className="w-3.5 h-3.5 text-[#9a7413]" />
-                <span>Entrar</span>
+                {currentUser.photoURL ? (
+                  <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName || 'Utilizador'}
+                    className="h-6 w-6 border border-[#9a7413]/40 object-cover"
+                  />
+                ) : (
+                  <CircleUserRound className="h-5 w-5 text-[#7a5809]" strokeWidth={1.9} />
+                )}
+                {bookmarksCount > 0 && (
+                  <span className="hidden sm:inline font-mono-naut text-[10px] font-bold text-[#0b3a55]">
+                    ★ {bookmarksCount}
+                  </span>
+                )}
               </button>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile 1st-level Bar + Toggleable Estudo Submenu */}
-        <div className="lg:hidden border-t border-[#d7d0c1]/70">
-          <div className="flex overflow-x-auto pb-2 pt-1.5 gap-1.5 scrollbar-none">
-            <a
-              href={ROUTES.home.path}
-              onClick={(e) => handleLinkClick(e, 'home')}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium shrink-0 transition ${
-                activeRoute === 'home'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#0b3a55] hover:bg-[#ede9de]'
-              }`}
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span>Início</span>
-            </a>
-
-            <a
-              href={ROUTES.glossario.path}
-              onClick={(e) => handleLinkClick(e, 'glossario')}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium shrink-0 transition ${
-                activeRoute === 'glossario'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#0b3a55] hover:bg-[#ede9de]'
-              }`}
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>Glossário</span>
-            </a>
-
+              <button
+                type="button"
+                onClick={onSignOut}
+                aria-label="Terminar sessão"
+                title="Terminar sessão"
+                className="flex min-h-10 min-w-10 sm:min-h-11 sm:min-w-11 items-center justify-center border border-transparent text-muted-foreground hover:border-destructive/40 hover:bg-[#f3ded9]/60 hover:text-destructive transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
             <button
               type="button"
-              onClick={() => setIsMobileStudyOpen((prev) => !prev)}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium shrink-0 transition cursor-pointer ${
-                isEstudoBranchActive
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#0b3a55] hover:bg-[#ede9de]'
-              }`}
+              onClick={onOpenAuth}
+              aria-label="Área Pessoal — Entrar ou Registar"
+              title="Área Pessoal · Entrar ou Registar"
+              className="flex min-h-10 min-w-10 sm:min-h-11 sm:min-w-11 shrink-0 items-center justify-center border border-[#9a7413]/55 bg-[#f0e8cf] text-[#7a5809] transition-colors hover:border-[#9a7413] hover:bg-[#ca9e1c] hover:text-[#0b3a55] outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>Estudo</span>
-              <ChevronDown
-                className={`w-3 h-3 transition-transform ${
-                  isMobileStudyOpen || isEstudoBranchActive ? 'rotate-180' : ''
-                }`}
-              />
+              <CircleUserRound className="h-5 w-5" strokeWidth={1.9} />
             </button>
-
-            <a
-              href={ROUTES.sobre.path}
-              onClick={(e) => handleLinkClick(e, 'sobre')}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium shrink-0 transition ${
-                activeRoute === 'sobre'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#0b3a55] hover:bg-[#ede9de]'
-              }`}
-            >
-              <Info className="w-3.5 h-3.5" />
-              <span>Sobre</span>
-            </a>
-
-            <a
-              href={ROUTES.contacto.path}
-              onClick={(e) => handleLinkClick(e, 'contacto')}
-              className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-3 py-1.5 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium shrink-0 transition ${
-                activeRoute === 'contacto'
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'border border-[#d7d0c1] bg-[#fcfbf8] text-[#0b3a55] hover:bg-[#ede9de]'
-              }`}
-            >
-              <Mail className="w-3.5 h-3.5" />
-              <span>Contacto</span>
-            </a>
-          </div>
-
-          {/* Mobile 2nd-level Estudo strip */}
-          {(isMobileStudyOpen || isEstudoBranchActive) && (
-            <div className="flex overflow-x-auto pb-2.5 pt-1 gap-1.5 scrollbar-none border-t border-[#d7d0c1]/50">
-              <a
-                href={ROUTES.estudo.path}
-                onClick={(e) => handleLinkClick(e, 'estudo')}
-                className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-[0.08em] font-medium shrink-0 transition ${
-                  activeRoute === 'estudo'
-                    ? 'bg-[#9a7413] text-[#faf7f0]'
-                    : 'bg-[#ede9de]/70 text-[#0b3a55] border border-[#d7d0c1]'
-                }`}
-              >
-                <Compass className="w-3 h-3" />
-                <span>Visão Geral</span>
-              </a>
-
-              {ESTUDO_SUBMENU.map((item) => {
-                const SubIcon = item.icon;
-                const isItemActive = activeRoute === item.id;
-                return (
-                  <a
-                    key={item.id}
-                    href={ROUTES[item.id].path}
-                    onClick={(e) => handleLinkClick(e, item.id)}
-                    className={`flex items-center gap-1.5 whitespace-nowrap rounded-xs px-2.5 py-1 font-mono-naut text-[10px] uppercase tracking-[0.08em] font-medium shrink-0 transition ${
-                      isItemActive
-                        ? 'bg-[#9a7413] text-[#faf7f0]'
-                        : 'bg-[#ede9de]/70 text-[#0b3a55] border border-[#d7d0c1]'
-                    }`}
-                  >
-                    <SubIcon className="w-3 h-3" />
-                    <span>{item.label}</span>
-                  </a>
-                );
-              })}
-            </div>
           )}
         </div>
       </div>
     </header>
   );
 };
+
+function NavItem({
+  href,
+  active,
+  icon,
+  label,
+  onClick,
+}: {
+  href: string;
+  active: boolean;
+  icon: React.ReactNode;
+  label: string;
+  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}) {
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className={[
+        'font-mono-naut flex min-h-10 min-w-10 sm:min-h-11 sm:min-w-11 items-center justify-center gap-2 border px-2 text-[11px] font-medium uppercase tracking-[0.12em] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-3 lg:px-4 whitespace-nowrap shrink-0',
+        active
+          ? 'border-primary bg-primary text-primary-foreground'
+          : 'border-transparent text-foreground hover:border-border hover:bg-secondary',
+      ].join(' ')}
+    >
+      {icon}
+      <span className="hidden lg:inline">{label}</span>
+    </a>
+  );
+}

@@ -6,6 +6,7 @@ export type RouteId =
   | 'flashcards'
   | 'guias-visuais'
   | 'testes'
+  | 'escolas'
   | 'sobre'
   | 'contacto';
 
@@ -77,6 +78,15 @@ export const ROUTES: Record<RouteId, RouteMeta> = {
     pageTitle: 'Simulador de Exame DGRM | Carta de Marinheiro',
     description:
       'Realize simuladores cronometrados de preparação para o exame de Carta de Marinheiro com validação pelos critérios oficiais da DGRM.',
+    parentId: 'estudo',
+  },
+  escolas: {
+    id: 'escolas',
+    path: '/estudo/escolas',
+    label: 'Escolas',
+    pageTitle: 'Escolas de Navegação | Carta de Marinheiro',
+    description:
+      'Diretório de escolas de navegação de recreio e centros de formação credenciados pela DGRM para a Carta de Marinheiro.',
     parentId: 'estudo',
   },
   sobre: {

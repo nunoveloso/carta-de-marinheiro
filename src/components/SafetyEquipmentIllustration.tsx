@@ -41,10 +41,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
   // ------------------------------------------------------------------
   if (termId === 'balsa-salvacao') {
     return (
-      <div className={`rounded-xs border border-[#d7d0c1] bg-[#faf7f0] ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
-        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-[#d7d0c1] mb-4' : 'mb-2'}`}>
-          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#0b3a55] flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-xs bg-[#b3402f]" />
+      <div className={`rounded-none border border-border bg-muted ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
+        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-border mb-4' : 'mb-2'}`}>
+          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-primary flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-none bg-[#b3402f]" />
             {isModal ? 'Esquema: Balsa de Salvação (Manual p. 2)' : 'Contentor no Convés & Balsa Insuflada'}
           </span>
           <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413] font-medium">
@@ -54,7 +54,7 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
 
         <div className={isModal ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : ''}>
           {/* Left / Card SVG: Canister strapped on deck with firing painter line */}
-          <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-2.5 flex flex-col items-center">
+          <div className="rounded-none border border-border bg-card p-2.5 flex flex-col items-center">
             <svg viewBox="0 0 300 175" className={`w-full h-auto ${isModal ? 'max-h-44' : 'max-h-32'}`} role="img" aria-label="Contentor da balsa de salvação preso ao convés com cabo de disparo">
               <defs>
                 <linearGradient id={canisterGrad} x1="0%" y1="0%" x2="0%" y2="100%">
@@ -97,7 +97,7 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
               <text x="246" y="150" textAnchor="middle" fill="#4f6e82" fontSize="8.5" fontFamily="'IBM Plex Mono', monospace">Fixo a bordo</text>
             </svg>
             {isModal && (
-              <p className="mt-1.5 text-[11px] text-[#4f6e82] text-center">
+              <p className="mt-1.5 text-[11px] text-muted-foreground text-center">
                 Acondicionada no convés com cabo de disparo fixado à embarcação.
               </p>
             )}
@@ -105,7 +105,7 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
 
           {/* Right SVG (modal only): Deployed inflatable orange liferaft */}
           {isModal && (
-            <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-2.5 flex flex-col items-center">
+            <div className="rounded-none border border-border bg-card p-2.5 flex flex-col items-center">
               <svg viewBox="0 0 300 175" className="w-full h-auto max-h-44" role="img" aria-label="Balsa insuflada no mar com toldo de proteção">
                 <defs>
                   <linearGradient id={seaGrad} x1="0%" y1="0%" x2="0%" y2="100%">
@@ -151,10 +151,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
   // ------------------------------------------------------------------
   if (termId === 'coletes-salvacao') {
     return (
-      <div className={`rounded-xs border border-[#d7d0c1] bg-[#faf7f0] ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
-        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-[#d7d0c1] mb-4' : 'mb-2'}`}>
-          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#0b3a55] flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-xs bg-[#ea580c]" />
+      <div className={`rounded-none border border-border bg-muted ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
+        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-border mb-4' : 'mb-2'}`}>
+          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-primary flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-none bg-[#ea580c]" />
             {isModal ? 'Esquema: Colete de Salvação SOLAS (Manual p. 2)' : 'Colete Homologado · Fitas & Apito'}
           </span>
           <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413] font-medium">
@@ -162,7 +162,7 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-3">
+        <div className="flex flex-col sm:flex-row items-center gap-4 rounded-none border border-border bg-card p-3">
           <svg
             viewBox="0 0 220 200"
             className={`${isModal ? 'w-48 h-44' : 'w-28 h-26'} shrink-0`}
@@ -222,10 +222,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
           </svg>
 
           <div className="flex-1 text-xs space-y-1.5">
-            <p className="font-bold text-[#0b3a55]">Requisitos Essenciais (DGRM)</p>
-            <ul className="space-y-1 text-[11px] text-[#4f6e82] leading-snug">
-              <li>• Arrumados em local de <strong className="text-[#0b3a55]">fácil e rápido acesso</strong> (nunca trancados).</li>
-              <li>• Tamanho adequado ao peso; <strong className="text-[#0b3a55]">crianças com colete próprio</strong>.</li>
+            <p className="font-bold text-primary">Requisitos Essenciais (DGRM)</p>
+            <ul className="space-y-1 text-[11px] text-muted-foreground leading-snug">
+              <li>• Arrumados em local de <strong className="text-primary">fácil e rápido acesso</strong> (nunca trancados).</li>
+              <li>• Tamanho adequado ao peso; <strong className="text-primary">crianças com colete próprio</strong>.</li>
               {isModal && (
                 <li>• Cor de alta visibilidade (laranja), fitas retrorrefletoras, apito e gola de sustentação da cabeça.</li>
               )}
@@ -270,9 +270,9 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
 
   if (termId === 'boias-salvacao') {
     return (
-      <div className={`rounded-xs border border-[#d7d0c1] bg-[#faf7f0] ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
-        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-[#d7d0c1] mb-4' : 'mb-2'}`}>
-          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#0b3a55] flex items-center gap-1.5">
+      <div className={`rounded-none border border-border bg-muted ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
+        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-border mb-4' : 'mb-2'}`}>
+          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-primary flex items-center gap-1.5">
             <LifeBuoy className="w-3.5 h-3.5 text-[#ea580c]" />
             {isModal ? 'Ilustração: Boia de Salvação (Manual p. 3)' : 'Lançamento Imediato · Grinalda & Fitas'}
           </span>
@@ -281,10 +281,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-3">
+        <div className="flex flex-col sm:flex-row items-center gap-4 rounded-none border border-border bg-card p-3">
           <svg
             viewBox="0 0 180 180"
-            className={`${isModal ? 'w-44 h-44' : 'w-26 h-26'} shrink-0 rounded-xs border border-[#0b3a55]/15`}
+            className={`${isModal ? 'w-44 h-44' : 'w-26 h-26'} shrink-0 rounded-none border border-primary/15`}
             role="img"
             aria-label="Boia de salvação circular cor de laranja com faixas refletoras brancas e grinalda"
           >
@@ -305,12 +305,12 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
           </svg>
 
           <div className="flex-1 text-xs space-y-1.5">
-            <p className="font-bold text-[#0b3a55]">Pronta para Lançamento Imediato</p>
-            <p className="text-[11px] text-[#4f6e82] leading-relaxed">
+            <p className="font-bold text-primary">Pronta para Lançamento Imediato</p>
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
               Colocada em suporte aberto nos bordos ou popa (nunca amarrada fixamente ao barco) para lançamento imediato ao náufrago.
             </p>
             {isModal && (
-              <div className="mt-2 flex items-start gap-1.5 text-[11px] text-[#9a7413] bg-[#f0e8cf]/65 p-2 rounded-xs border border-[#ca9e1c]/40">
+              <div className="mt-2 flex items-start gap-1.5 text-[11px] text-[#9a7413] bg-[#f0e8cf]/65 p-2 rounded-none border border-[#ca9e1c]/40">
                 <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                 <span>Equipada com grinalda perimetral para o náufrago se agarrar e 4 faixas retrorrefletoras.</span>
               </div>
@@ -323,10 +323,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
 
   if (termId === 'boia-com-luz') {
     return (
-      <div className={`rounded-xs border border-[#d7d0c1] bg-[#faf7f0] ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
-        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-[#d7d0c1] mb-4' : 'mb-2'}`}>
-          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#0b3a55] flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-xs bg-[#ca9e1c]" />
+      <div className={`rounded-none border border-border bg-muted ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
+        <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-border mb-4' : 'mb-2'}`}>
+          <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-primary flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-none bg-[#ca9e1c]" />
             {isModal ? 'Ilustração: Boia com Luz Automática (Manual p. 3)' : 'Sinalização Noturna Automática'}
           </span>
           <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#9a7413] font-medium">
@@ -334,10 +334,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-3">
+        <div className="flex flex-col sm:flex-row items-center gap-4 rounded-none border border-border bg-card p-3">
           <svg
             viewBox="0 0 280 170"
-            className={`${isModal ? 'w-64 h-40' : 'w-36 h-24'} shrink-0 rounded-xs border border-[#0b3a55]/20`}
+            className={`${isModal ? 'w-64 h-40' : 'w-36 h-24'} shrink-0 rounded-none border border-primary/20`}
             role="img"
             aria-label="Boia de salvação ligada a facho luminoso de acendimento automático na água"
           >
@@ -389,8 +389,8 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
           </svg>
 
           <div className="flex-1 text-xs space-y-1.5">
-            <p className="font-bold text-[#0b3a55]">Localização Noturna de Náufrago</p>
-            <p className="text-[11px] text-[#4f6e82] leading-relaxed">
+            <p className="font-bold text-primary">Localização Noturna de Náufrago</p>
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
               Quando lançada à água, o aparelho luminoso invertido liga automaticamente (por gravidade/contacto com a água), sinalizando a posição durante a noite.
             </p>
           </div>
@@ -403,9 +403,9 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
   // 5. BOIA DE SALVAÇÃO COM RETENIDA (p. 3)
   // ------------------------------------------------------------------
   return (
-    <div className={`rounded-xs border border-[#d7d0c1] bg-[#faf7f0] ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
-      <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-[#d7d0c1] mb-4' : 'mb-2'}`}>
-        <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-[#0b3a55] flex items-center gap-1.5">
+    <div className={`rounded-none border border-border bg-muted ${isModal ? 'p-5 my-4' : 'p-3 mt-3'}`}>
+      <div className={`flex items-center justify-between gap-2 ${isModal ? 'pb-3 border-b border-border mb-4' : 'mb-2'}`}>
+        <span className="font-mono-naut text-[10px] uppercase tracking-wider font-semibold text-primary flex items-center gap-1.5">
           <Compass className="w-3.5 h-3.5 text-[#1e7d4f]" />
           {isModal ? 'Ilustração: Boia com Cabo de Retenida (Manual p. 3)' : 'Recuperação Segura por Cabo Flutuante'}
         </span>
@@ -414,10 +414,10 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
         </span>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-3">
+      <div className="flex flex-col sm:flex-row items-center gap-4 rounded-none border border-border bg-card p-3">
         <svg
           viewBox="0 0 280 160"
-          className={`${isModal ? 'w-64 h-36' : 'w-36 h-22'} shrink-0 rounded-xs border border-[#0b3a55]/15`}
+          className={`${isModal ? 'w-64 h-36' : 'w-36 h-22'} shrink-0 rounded-none border border-primary/15`}
           role="img"
           aria-label="Boia de salvação ligada a embarcação através de cabo de retenida flutuante"
         >
@@ -460,8 +460,8 @@ export const SafetyEquipmentIllustration: React.FC<SafetyEquipmentIllustrationPr
         </svg>
 
         <div className="flex-1 text-xs space-y-1.5">
-          <p className="font-bold text-[#0b3a55]">Ligação Direta ao Náufrago</p>
-          <p className="text-[11px] text-[#4f6e82] leading-relaxed">
+          <p className="font-bold text-primary">Ligação Direta ao Náufrago</p>
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
             O cabo leve de retenida (normalmente flutuante) permite alar a boia com o náufrago para bordo ou trazê-la de volta caso o lançamento falhe o alvo.
           </p>
         </div>

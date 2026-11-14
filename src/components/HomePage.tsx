@@ -26,238 +26,153 @@ export const HomePage: React.FC<HomePageProps> = ({
   bookmarksCount,
 }) => {
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, route: RouteId) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     onNavigate(route);
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Placeholder Hero */}
-      <section className="relative rounded-xs border border-[#d7d0c1] bg-[#ede9de]/45 p-6 sm:p-10">
-        <div className="max-w-3xl">
-          <div className="flex flex-wrap items-center gap-2 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-[#4f6e82] mb-3">
-            <Compass className="w-4 h-4 text-[#9a7413]" />
-            <span>DGRM Portugal</span>
-            <span aria-hidden="true" className="text-[#d7d0c1]">·</span>
-            <span>Página Inicial (Placeholder)</span>
-          </div>
-
-          <h2 className="font-maritime text-3xl sm:text-5xl font-bold text-[#0b3a55] tracking-tight leading-tight">
-            Carta de Marinheiro
-          </h2>
-
-          <p className="mt-3 text-sm sm:text-base text-[#4f6e82] leading-relaxed">
-            Bem-vindo ao caderno digital e glossário náutico de preparação para a <strong className="text-[#0b3a55]">Carta de Marinheiro</strong>. Esta página inicial encontra-se em estrutura base (<span className="font-mono-naut text-xs">placeholder</span>) e serve como ponto de entrada para todas as áreas da aplicação.
+    <div>
+      {/* Editorial Hero matching reference Home */}
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+          <p className="font-mono-naut text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            Manual do Marinheiro 2021 · DGRM Portugal · Página Inicial (Placeholder)
+          </p>
+          <h1 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-primary sm:text-4xl">
+            Carta de Marinheiro — Glossário técnico, estudo e preparação para exame.
+          </h1>
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+            Esta página inicial encontra-se em estrutura base (<span className="font-mono-naut text-xs">placeholder</span>) e organiza o acesso ao glossário, fichas de estudo, guias visuais, progresso e simulador oficial.
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-3">
             <a
               href={ROUTES.glossario.path}
               onClick={(e) => handleLinkClick(e, 'glossario')}
-              className="inline-flex items-center gap-2 rounded-xs bg-[#0b3a55] px-5 py-2.5 font-mono-naut text-xs uppercase tracking-[0.08em] font-medium text-[#faf7f0] hover:bg-[#082b3f] transition"
+              className="font-mono-naut inline-flex min-h-11 items-center gap-2 border border-primary bg-primary px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-primary-foreground transition-colors hover:bg-[#082b3f]"
             >
-              <BookOpen className="w-4 h-4 text-[#ca9e1c]" />
+              <BookOpen className="h-4 w-4 text-[#ca9e1c]" />
               <span>Explorar Glossário ({termsCount})</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="h-3.5 w-3.5" />
             </a>
 
             <a
               href={ROUTES.estudo.path}
               onClick={(e) => handleLinkClick(e, 'estudo')}
-              className="inline-flex items-center gap-2 rounded-xs border border-[#0b3a55] bg-[#fcfbf8] px-5 py-2.5 font-mono-naut text-xs uppercase tracking-[0.08em] font-medium text-[#0b3a55] hover:bg-[#ede9de] transition"
+              className="font-mono-naut inline-flex min-h-11 items-center gap-2 border border-border bg-card px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-foreground transition-colors hover:border-primary hover:bg-secondary"
             >
-              <GraduationCap className="w-4 h-4 text-[#9a7413]" />
+              <GraduationCap className="h-4 w-4 text-[#9a7413]" />
               <span>Centro de Estudo</span>
             </a>
           </div>
 
-          <div className="mt-6 pt-5 border-t border-[#d7d0c1] flex flex-wrap gap-6 font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
-            <span className="flex items-center gap-1.5">
-              <Anchor className="w-3.5 h-3.5 text-[#9a7413]" />
-              <span><strong className="text-[#0b3a55]">{termsCount}</strong> Termos Oficiais</span>
+          <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-border pt-4 font-mono-naut text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <Anchor className="h-3.5 w-3.5 text-[#9a7413]" />
+              <span><strong className="text-foreground">{termsCount}</strong> Termos Oficiais</span>
             </span>
-            <span>·</span>
-            <span><strong className="text-[#0b3a55]">{bookmarksCount}</strong> Favoritos Guardados</span>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
+            <span><strong className="text-foreground">{bookmarksCount}</strong> Favoritos Guardados</span>
+            <span aria-hidden="true">·</span>
             <span>Modo Offline PWA Ativo</span>
           </div>
         </div>
       </section>
 
-      {/* Primary Sections Grid */}
-      <section>
-        <div className="flex items-center justify-between border-b border-[#d7d0c1] pb-2.5 mb-5">
-          <h3 className="font-maritime text-xl sm:text-2xl font-bold text-[#0b3a55]">
+      {/* Sections Grid */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <div className="mb-5 flex items-center justify-between border-b border-border pb-2.5">
+          <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             Secções da Aplicação
           </h3>
-          <span className="font-mono-naut text-[11px] uppercase tracking-wider text-[#4f6e82]">
+          <span className="font-mono-naut text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             Mapa de Navegação
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {/* Glossário */}
-          <a
+        <div className="grid grid-cols-1 gap-4 pb-8 md:grid-cols-2 lg:grid-cols-3">
+          <SectionCard
             href={ROUTES.glossario.path}
+            pathLabel="/glossario"
+            title="Glossário Náutico"
+            description="Pesquisa instantânea por A-Z, categorias DGRM, subcategorias, notas pessoais e pronúncia em áudio."
+            cta="Abrir Glossário"
+            icon={<BookOpen className="h-4 w-4 text-[#9a7413]" />}
             onClick={(e) => handleLinkClick(e, 'glossario')}
-            className="group rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
-                  <BookOpen className="w-4 h-4 text-[#9a7413]" />
-                </div>
-                <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82]">
-                  /glossario
-                </span>
-              </div>
-              <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">Glossário Náutico</h4>
-              <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-                Pesquisa instantânea por A-Z, categorias DGRM, subcategorias, notas pessoais e pronúncia em áudio.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-[#d7d0c1] flex items-center justify-between font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55]">
-              <span>Abrir Glossário</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </a>
+          />
 
-          {/* Estudo - Guias Visuais */}
-          <a
+          <SectionCard
             href={ROUTES['guias-visuais'].path}
+            pathLabel="/estudo/guias-visuais"
+            title="Guias Visuais"
+            description="Modelo 3D e 2D da embarcação, balões e luzes R.I.E.A.M., balizagem IALA, bandeiras CIS e segurança."
+            cta="Ver Guias"
+            icon={<Eye className="h-4 w-4 text-[#9a7413]" />}
             onClick={(e) => handleLinkClick(e, 'guias-visuais')}
-            className="group rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
-                  <Eye className="w-4 h-4 text-[#9a7413]" />
-                </div>
-                <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82]">
-                  /estudo/guias-visuais
-                </span>
-              </div>
-              <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">Guias Visuais</h4>
-              <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-                Modelo 3D e 2D da embarcação, balões e luzes R.I.E.A.M., balizagem IALA, bandeiras CIS e segurança.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-[#d7d0c1] flex items-center justify-between font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55]">
-              <span>Ver Guias</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </a>
+          />
 
-          {/* Estudo - Flashcards */}
-          <a
+          <SectionCard
             href={ROUTES.flashcards.path}
+            pathLabel="/estudo/flashcards"
+            title="Fichas de Estudo"
+            description="Treine a memorização dos conceitos essenciais com cartões interativos por matéria e favoritos."
+            cta="Praticar Fichas"
+            icon={<Layers className="h-4 w-4 text-[#9a7413]" />}
             onClick={(e) => handleLinkClick(e, 'flashcards')}
-            className="group rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
-                  <Layers className="w-4 h-4 text-[#9a7413]" />
-                </div>
-                <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82]">
-                  /estudo/flashcards
-                </span>
-              </div>
-              <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">Fichas de Estudo</h4>
-              <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-                Treine a memorização dos conceitos essenciais com cartões interativos por matéria e favoritos.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-[#d7d0c1] flex items-center justify-between font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55]">
-              <span>Praticar Fichas</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </a>
+          />
 
-          {/* Estudo - Progresso */}
-          <a
+          <SectionCard
             href={ROUTES.progresso.path}
+            pathLabel="/estudo/progresso"
+            title="Progresso & Notas"
+            description="Gráficos de cobertura por categoria DGRM, limiares de exame e caderno de apontamentos pessoais."
+            cta="Ver Progresso"
+            icon={<TrendingUp className="h-4 w-4 text-[#9a7413]" />}
             onClick={(e) => handleLinkClick(e, 'progresso')}
-            className="group rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
-                  <TrendingUp className="w-4 h-4 text-[#9a7413]" />
-                </div>
-                <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82]">
-                  /estudo/progresso
-                </span>
-              </div>
-              <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">Progresso & Notas</h4>
-              <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-                Gráficos de cobertura por categoria DGRM, limiares de exame e caderno de apontamentos pessoais.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-[#d7d0c1] flex items-center justify-between font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55]">
-              <span>Ver Progresso</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </a>
+          />
 
-          {/* Estudo - Simulador */}
-          <a
+          <SectionCard
             href={ROUTES.testes.path}
+            pathLabel="/estudo/testes"
+            title="Simulador de Exame"
+            description="Testes práticos com ponderação DGRM para avaliar a preparação antes da prova oficial."
+            cta="Iniciar Teste"
+            icon={<CheckSquare className="h-4 w-4 text-[#9a7413]" />}
             onClick={(e) => handleLinkClick(e, 'testes')}
-            className="group rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] transition flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
-                  <CheckSquare className="w-4 h-4 text-[#9a7413]" />
-                </div>
-                <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82]">
-                  /estudo/testes
-                </span>
-              </div>
-              <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">Simulador de Exame</h4>
-              <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
-                Testes práticos com ponderação DGRM para avaliar a preparação antes da prova oficial.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-[#d7d0c1] flex items-center justify-between font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55]">
-              <span>Iniciar Teste</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </a>
+          />
 
-          {/* Sobre & Contacto */}
-          <div className="rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 flex flex-col justify-between">
+          <div className="flex flex-col justify-between border border-border bg-card p-5">
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xs bg-[#ede9de] border border-[#d7d0c1] text-[#0b3a55]">
-                  <Info className="w-4 h-4 text-[#9a7413]" />
+              <div className="mb-3 flex items-center justify-between">
+                <div className="flex h-9 w-9 items-center justify-center border border-border bg-secondary text-foreground">
+                  <Compass className="h-4 w-4 text-[#9a7413]" />
                 </div>
-                <span className="font-mono-naut text-[10px] uppercase tracking-wider text-[#4f6e82]">
+                <span className="font-mono-naut text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                   /sobre · /contacto
                 </span>
               </div>
-              <h4 className="font-maritime text-lg font-bold text-[#0b3a55]">Sobre & Contacto</h4>
-              <p className="mt-1.5 text-xs text-[#4f6e82] leading-relaxed">
+              <h4 className="text-lg font-semibold text-foreground">Sobre &amp; Contacto</h4>
+              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                 Informação sobre o enquadramento do projeto e formulário direto para envio de sugestões ou dúvidas.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-[#d7d0c1] flex items-center gap-4 font-mono-naut text-[11px] uppercase tracking-wider text-[#0b3a55]">
+            <div className="mt-4 flex items-center gap-4 border-t border-border pt-3 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-foreground">
               <a
                 href={ROUTES.sobre.path}
                 onClick={(e) => handleLinkClick(e, 'sobre')}
-                className="inline-flex items-center gap-1 hover:text-[#9a7413] transition"
+                className="inline-flex items-center gap-1.5 hover:text-[#9a7413] transition-colors"
               >
-                <Info className="w-3.5 h-3.5" />
+                <Info className="h-3.5 w-3.5" />
                 <span>Sobre</span>
               </a>
-              <span className="text-[#d7d0c1]">|</span>
+              <span className="text-border">|</span>
               <a
                 href={ROUTES.contacto.path}
                 onClick={(e) => handleLinkClick(e, 'contacto')}
-                className="inline-flex items-center gap-1 hover:text-[#9a7413] transition"
+                className="inline-flex items-center gap-1.5 hover:text-[#9a7413] transition-colors"
               >
-                <Mail className="w-3.5 h-3.5" />
+                <Mail className="h-3.5 w-3.5" />
                 <span>Contacto</span>
               </a>
             </div>
@@ -267,3 +182,46 @@ export const HomePage: React.FC<HomePageProps> = ({
     </div>
   );
 };
+
+function SectionCard({
+  href,
+  pathLabel,
+  title,
+  description,
+  cta,
+  icon,
+  onClick,
+}: {
+  href: string;
+  pathLabel: string;
+  title: string;
+  description: string;
+  cta: string;
+  icon: React.ReactNode;
+  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}) {
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      className="group flex flex-col justify-between border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-[6px_6px_0_0_#0b3a55]"
+    >
+      <div>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex h-9 w-9 items-center justify-center border border-border bg-secondary text-foreground">
+            {icon}
+          </div>
+          <span className="font-mono-naut text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            {pathLabel}
+          </span>
+        </div>
+        <h4 className="text-lg font-semibold text-foreground">{title}</h4>
+        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{description}</p>
+      </div>
+      <div className="mt-4 flex items-center justify-between border-t border-border pt-3 font-mono-naut text-[11px] uppercase tracking-[0.12em] text-foreground">
+        <span>{cta}</span>
+        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+      </div>
+    </a>
+  );
+}

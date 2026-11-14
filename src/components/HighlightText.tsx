@@ -63,7 +63,7 @@ export const HighlightText: React.FC<HighlightTextProps> = ({
             return (
               <mark
                 key={index}
-                className="bg-[#e3b505]/40 text-[#0b3a55] font-semibold px-0.5 rounded-xs"
+                className="bg-[#e3b505]/40 text-primary font-semibold px-0.5 rounded-none"
               >
                 {part}
               </mark>

@@ -35,7 +35,7 @@ const IMPORTANCE_CONFIG: Record<
   },
   complementar: {
     label: 'Complementar',
-    textClass: 'text-[#4f6e82] font-medium',
+    textClass: 'text-muted-foreground font-medium',
   },
 };
 
@@ -78,7 +78,7 @@ export const TermCard: React.FC<TermCardProps> = ({
   return (
     <article
       onClick={() => onSelectTerm(term)}
-      className="group relative flex flex-col justify-between rounded-xs border border-[#d7d0c1] bg-[#fcfbf8] p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-[#0b3a55] hover:shadow-[4px_4px_0_0_#0b3a55] cursor-pointer"
+      className="group relative flex flex-col justify-between border border-border bg-card p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-primary hover:shadow-[6px_6px_0_0_#0b3a55] cursor-pointer"
     >
       <div>
         {/* Top Metadata & Action Buttons */}
@@ -96,10 +96,10 @@ export const TermCard: React.FC<TermCardProps> = ({
             {/* Audio Button */}
             <button
               onClick={handleSpeak}
-              className={`rounded-xs p-1.5 transition cursor-pointer ${
+              className={`rounded-none p-1.5 transition cursor-pointer ${
                 isSpeaking
-                  ? 'bg-[#0b3a55] text-[#faf7f0]'
-                  : 'text-[#4f6e82] hover:text-[#0b3a55] hover:bg-[#ede9de]'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-primary hover:bg-secondary'
               }`}
               title={isSpeaking ? 'Parar leitura' : 'Ouvir pronúncia do termo'}
               aria-label="Ouvir termo"
@@ -110,10 +110,10 @@ export const TermCard: React.FC<TermCardProps> = ({
             {/* Bookmark Star Button */}
             <button
               onClick={handleBookmarkClick}
-              className={`rounded-xs p-1.5 transition cursor-pointer ${
+              className={`rounded-none p-1.5 transition cursor-pointer ${
                 isBookmarked
                   ? 'text-[#ca9e1c]'
-                  : 'text-[#4f6e82]/40 hover:text-[#ca9e1c] hover:bg-[#ede9de]'
+                  : 'text-muted-foreground/45 hover:text-[#ca9e1c] hover:bg-secondary'
               }`}
               title={isBookmarked ? 'Remover dos favoritos' : 'Guardar nos favoritos'}
               aria-label="Guardar nos favoritos"
@@ -124,14 +124,14 @@ export const TermCard: React.FC<TermCardProps> = ({
         </div>
 
         {/* Term Title in Editorial Fraunces Serif */}
-        <h3 className="font-maritime text-2xl font-bold text-[#0b3a55] tracking-tight group-hover:text-[#082b3f] transition-colors leading-tight">
+        <h3 className="font-maritime text-2xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors leading-tight">
           <HighlightText text={term.term} query={highlightQuery} />
         </h3>
 
         {/* Category -> SubCategory tag below term */}
         <div className="font-mono-naut text-[10px] uppercase tracking-[0.08em] mt-1.5 mb-1 flex items-center gap-1.5 flex-wrap">
           <span
-            className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-xs border"
+            className="inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded-none border"
             style={{
               backgroundColor: catStyle.soft,
               color: catStyle.solid,
@@ -141,19 +141,19 @@ export const TermCard: React.FC<TermCardProps> = ({
             <CategoryIcon category={term.category} className="w-3 h-3 shrink-0" />
             <span>{term.category}</span>
           </span>
-          <span aria-hidden="true" className="text-[#4f6e82]">→</span>
-          <span className="text-[#4f6e82] font-medium">{term.subCategory || term.subcategory || 'Geral'}</span>
+          <span aria-hidden="true" className="text-muted-foreground">→</span>
+          <span className="text-muted-foreground font-medium">{term.subCategory || term.subcategory || 'Geral'}</span>
         </div>
 
         {/* Synonyms / Abbreviations */}
         {term.synonyms && term.synonyms.length > 0 && (
-          <p className="mt-1 text-xs text-[#4f6e82] italic">
+          <p className="mt-1 text-xs text-muted-foreground italic">
             Outras designações: <HighlightText text={term.synonyms.join(', ')} query={highlightQuery} />
           </p>
         )}
 
         {/* Definition excerpt */}
-        <p className="mt-2.5 text-xs sm:text-sm text-[#0b3a55]/85 line-clamp-3 leading-relaxed">
+        <p className="mt-2.5 text-xs sm:text-sm text-foreground/85 line-clamp-3 leading-relaxed">
           {highlightQuery ? (
             <HighlightText text={term.definition} query={highlightQuery} />
           ) : (
@@ -204,12 +204,12 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Importante para o Exame Section */}
         {term.examTip && (
-          <div className="mt-3 rounded-xs bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-[#0b3a55]">
+          <div className="mt-3 rounded-none bg-[#f0e8cf]/65 p-3 border border-[#9a7413]/30 text-xs text-foreground">
             <div className="flex items-center gap-1.5 font-mono-naut font-semibold text-[#9a7413] text-[10px] uppercase tracking-[0.08em] mb-1">
               <AlertCircle className="w-3.5 h-3.5 text-[#9a7413] shrink-0" />
               <span>Importante para o Exame</span>
             </div>
-            <p className="text-[12px] text-[#0b3a55]/90 leading-snug line-clamp-2">
+            <p className="text-[12px] text-foreground/90 leading-snug line-clamp-2">
               <HighlightText text={term.examTip} query={highlightQuery} />
             </p>
           </div>
@@ -217,8 +217,8 @@ export const TermCard: React.FC<TermCardProps> = ({
 
         {/* Termos Relacionados Section */}
         {term.relatedTerms && term.relatedTerms.length > 0 && (
-          <div className="mt-3 pt-2.5 border-t border-[#d7d0c1]/70 flex items-center gap-1.5 flex-wrap text-xs">
-            <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-[#4f6e82]">Relacionados:</span>
+          <div className="mt-3 pt-2.5 border-t border-border/80 flex items-center gap-1.5 flex-wrap text-xs">
+            <span className="font-mono-naut text-[10px] uppercase tracking-[0.06em] text-muted-foreground">Relacionados:</span>
             {term.relatedTerms.slice(0, 4).map((relId) => {
               const relTerm = allTerms?.find((t) => t.id === relId);
               const label = relTerm ? relTerm.term : relId.replace(/-/g, ' ');
@@ -229,7 +229,7 @@ export const TermCard: React.FC<TermCardProps> = ({
                     e.stopPropagation();
                     if (relTerm) onSelectTerm(relTerm);
                   }}
-                  className="rounded-xs bg-[#ede9de] border border-[#d7d0c1] px-2 py-0.5 font-mono-naut text-[10px] font-medium text-[#0b3a55] hover:bg-[#0b3a55] hover:text-[#faf7f0] hover:border-[#0b3a55] transition cursor-pointer"
+                  className="rounded-none bg-secondary border border-border px-2 py-0.5 font-mono-naut text-[10px] font-medium text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary transition cursor-pointer"
                   title="Ver termo relacionado"
                 >
                   {label}
@@ -237,14 +237,14 @@ export const TermCard: React.FC<TermCardProps> = ({
               );
             })}
             {term.relatedTerms.length > 4 && (
-              <span className="font-mono-naut text-[10px] text-[#4f6e82]">+{term.relatedTerms.length - 4}</span>
+              <span className="font-mono-naut text-[10px] text-muted-foreground">+{term.relatedTerms.length - 4}</span>
             )}
           </div>
         )}
       </div>
 
       {/* Footer Area */}
-      <div className="mt-4 pt-3 border-t border-[#d7d0c1]/70 flex items-center justify-between text-xs text-[#4f6e82]">
+      <div className="mt-4 pt-3 border-t border-border/80 flex items-center justify-between text-xs text-muted-foreground">
         <div className="flex items-center gap-3">
           {term.examTip && (
             <span className="inline-flex items-center gap-1 font-mono-naut font-medium text-[#9a7413] text-[10px] uppercase tracking-[0.06em]">
@@ -261,9 +261,9 @@ export const TermCard: React.FC<TermCardProps> = ({
           )}
         </div>
 
-        <div className="flex items-center gap-1 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-[#0b3a55] group-hover:translate-x-0.5 transition-transform">
+        <div className="flex items-center gap-1 font-mono-naut text-[11px] uppercase tracking-[0.08em] font-medium text-primary group-hover:translate-x-0.5 transition-transform">
           <span>Ver carta</span>
-          <ChevronRight className="w-3.5 h-3.5 text-[#0b3a55]" />
+          <ChevronRight className="w-3.5 h-3.5 text-primary" />
         </div>
       </div>
     </article>
